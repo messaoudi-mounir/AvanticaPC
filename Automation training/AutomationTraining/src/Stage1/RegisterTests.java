@@ -1,12 +1,11 @@
 package Stage1;
 
-import static org.testng.Assert.assertEquals;
 
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -17,7 +16,7 @@ import org.testng.annotations.Test;
 public class RegisterTests{
 	private WebDriver driver;
 	private String baseUrl;
-	private WebElement element;
+
 	
 
 	//Setting up the firefox driver and URL to work with.
@@ -32,18 +31,78 @@ public class RegisterTests{
 	public void goToRegisterPage(){
 		driver.get(baseUrl + "/default.aspx");
 		clickElement(By.id("ctl00_LoginView_RegisterLink"));
-		    	    
+		Assert.assertTrue(isElementPresent(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_FirstName")));		    	    
 	}
 	
+	@Test
+	public void emptySubmitErrors(){
+		goToRegisterPage();
+		clickElement(By.id("ctl00_Main_CreateUserWizardControl___CustomNav0_StepNextButtonButton")); //click Submit
+		verifyErrorLabelsPresent();
+	}
 	
+	@Test
+	public void verifyDuplicateUserError(){
+		goToRegisterPage();
+		
+		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_FirstNameRequired")).sendKeys("FirstName");
+		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_LastNameRequired")).sendKeys("LastName");
+		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_EmailRequired")).sendKeys("alejandro.quesada@avantica.com");
+		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_UserNameRequired")).sendKeys("aquesada");//already exists
+		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_PasswordRequired")).sendKeys("passw0rd#");
+		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_ConfirmPasswordRequired")).sendKeys("passw0rd#");
+		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_QuestionRequired")).sendKeys("question?");
+		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_AnswerRequired")).sendKeys("yes");
+		
+		clickElement(By.id("ctl00_Main_CreateUserWizardControl___CustomNav0_StepNextButtonButton"));
+		
+		verifyUserAvailable();
+	}
+	
+	@Test
+	public void verifyPasswordAndConfirm(){
+		goToRegisterPage();
+		
+		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_FirstNameRequired")).sendKeys("FirstName");
+		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_LastNameRequired")).sendKeys("LastName");
+		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_EmailRequired")).sendKeys("alejandro.quesada@avantica.com");
+		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_UserNameRequired")).sendKeys("aquesada");//already exists
+		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_PasswordRequired")).sendKeys("passw0rd#");
+		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_ConfirmPasswordRequired")).sendKeys("passw0rd!");
+		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_QuestionRequired")).sendKeys("question?");
+		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_AnswerRequired")).sendKeys("yes");
+		
+		clickElement(By.id("ctl00_Main_CreateUserWizardControl___CustomNav0_StepNextButtonButton"));
+		
+		verifyPassAndConfirm();
+	}
+	
+	public void verifyPassAndConfirm(){
+		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_PasswordCompare")).isDisplayed());
+	}
+	
+	public void verifyUserAvailable(){
+		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_InfoLabel")).isDisplayed());
+	}
+	
+	public void verifyErrorLabelsPresent(){
+		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_FirstNameRequired")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_LastNameRequired")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_EmailRequired")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_UserNameRequired")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_PasswordRequired")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_ConfirmPasswordRequired")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_QuestionRequired")).isDisplayed());
+		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_AnswerRequired")).isDisplayed());
+	}
 	
 	public void clickElement(By by){	
-		waitElementById(by);
+		waitElementBy(by);
 		driver.findElement(by).click();
-		Assert.assertTrue(isElementPresent(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_FirstName")));
+		
 	}
 	
-	public void waitElementById (By by){
+	public void waitElementBy (By by){
 		WebDriverWait wait = new WebDriverWait(driver, 15);		
 		wait.until(ExpectedConditions.visibilityOfElementLocated(by));
 		wait.until(ExpectedConditions.elementToBeClickable(by));		
