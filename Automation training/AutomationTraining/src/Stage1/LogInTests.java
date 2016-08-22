@@ -11,6 +11,8 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
 public class LogInTests {
@@ -19,14 +21,22 @@ public class LogInTests {
 	private String baseUrl;
 	private StringBuffer verificationErrors = new StringBuffer();
 
+	@BeforeClass
+	public void className (){
+		System.out.println("Executing class: LogInTests");
+	}
 	//Setting up the firefox driver and URL to work with.
-	@BeforeClass(alwaysRun = true)
+	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
 		driver = new FirefoxDriver();
 	    baseUrl = "http://192.168.0.103:86/";
-	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);	    
 	}
-
+	@BeforeTest
+	public void startExecution (){
+		System.out.println("Starting Execution...");
+	}
+	
 	   /* Excecutes the test, follows the workflow
 	    * 1-Adding the Login path to t he baseUrl
 	    * 2-Clicking element Login Link
@@ -56,8 +66,7 @@ public class LogInTests {
 	    driver.findElement(By.id("ctl00_Main_LoginConrol_Password")).sendKeys("Ljnd1709#");
 	    driver.findElement(By.id("ctl00_Main_LoginConrol_LoginButton")).click();
 	    assertEquals(driver.findElement(By.id("ctl00_LoginView_MemberLoginStatus")).getText(), "Logout");
-	  }
-	  
+	  } 
 	  /* Excecutes the test, follows the workflow
 	   * 1-Adding the Login path to the baseUrl
 	   * 2-Enters a valid user name
@@ -75,7 +84,6 @@ public class LogInTests {
 	    driver.findElement(By.id("ctl00_Main_LoginConrol_LoginButton")).click();
 	    assertEquals(driver.findElement(By.xpath("//table[@id='ctl00_Main_LoginConrol']/tbody/tr/td/table/tbody/tr[4]/td")).getText(), "Your login attempt was not successful. Please try again.");
 	  }
-
 	  //Shuts down the Firefox driver
 	  @AfterClass(alwaysRun = true)
 	  public void tearDown() throws Exception {

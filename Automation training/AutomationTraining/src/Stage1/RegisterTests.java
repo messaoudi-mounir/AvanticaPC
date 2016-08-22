@@ -5,12 +5,12 @@ import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.BeforeClass;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
 public class RegisterTests{
@@ -18,13 +18,17 @@ public class RegisterTests{
 	private String baseUrl;
 
 	
-
+	@BeforeClass
+	public void className (){
+		System.out.println("Executing class: LogInTests");
+	}
 	//Setting up the firefox driver and URL to work with.
-	@BeforeClass(alwaysRun = true)
+	@BeforeMethod(alwaysRun = true)
 	public void setUp() throws Exception {
 		driver = new FirefoxDriver();
 	    baseUrl = "http://192.168.0.103:86/";
-	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);	
+		System.out.println("Creating Driver...");	    
 	}
 	
 	@Test
