@@ -1,0 +1,22 @@
+<suite name="AllLogin">
+    <test name="LoginTests">
+        <classes>
+            <class name=”src.Stage1.LoginTests” />
+            <class name=”src.Stage1” >
+            <method></method>
+        </classes>
+    </test>
+    
+    <test name="RegisterTests">
+    	<classes>
+    		<class name="src.Stage1." />
+    	</classes>
+    </test>
+</suite>
+
+<class name="dispatcherApp.tests.runCreation.createRuns.driverDropdown.DriverDropdownTest">
+     <methods>
+           <exclude name="zoomer_dis1256_verifyDriverDisplaysTheirCurrentRating" />
+           <exclude name="zoomer_dis2570_verifyDriverDisplaysTheirVehicle" />
+         </methods>
+    </class>

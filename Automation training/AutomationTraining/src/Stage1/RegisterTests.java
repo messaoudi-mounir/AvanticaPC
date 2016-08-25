@@ -1,6 +1,8 @@
 package Stage1;
 
 
+import static org.testng.Assert.fail;
+
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.By;
@@ -9,6 +11,9 @@ import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
@@ -16,11 +21,12 @@ import org.testng.annotations.Test;
 public class RegisterTests{
 	private WebDriver driver;
 	private String baseUrl;
+	private StringBuffer verificationErrors = new StringBuffer();
 
 	
 	@BeforeClass
 	public void className (){
-		System.out.println("Executing class: LogInTests");
+		System.out.println("Executing class: RegisterTests");
 	}
 	//Setting up the firefox driver and URL to work with.
 	@BeforeMethod(alwaysRun = true)
@@ -80,6 +86,26 @@ public class RegisterTests{
 		
 		verifyPassAndConfirm();
 	}
+	
+	 @AfterMethod(alwaysRun = true)
+	  public void tearDown() throws Exception {
+		  System.out.println("Deleating driver...");
+		  driver.quit();
+		  String verificationErrorString = verificationErrors.toString();
+		  if (!"".equals(verificationErrorString)) {
+			  fail(verificationErrorString);
+		  }
+	  }
+	  
+	  @AfterTest
+	  public void afterTestMethod(){
+		  System.out.println("Completing Execution...");
+	  }
+	  
+	  @AfterClass
+	  public void afterClassMethod(){
+		  System.out.println("Completing execution class: RegisterTests");
+	  }
 	
 	public void verifyPassAndConfirm(){
 		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_PasswordCompare")).isDisplayed());

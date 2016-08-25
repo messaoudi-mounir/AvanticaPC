@@ -1,0 +1,84 @@
+=========================================
+#056 2015LA-000019-01 - Performance CGP
+=========================================
+
+
+
+Detalle de llamado a servicio
+-------------------------------
+>> URL?
+
+ip o nombre? con puerto 16000
+scgp-app con puerto 18000
+172.26.97.2 con puerto 19000
+
+>> Ejemplo de llamado al servicio
+
+Nos deben ADA, solo hay txt
+ADA es un tercero que autoriza 
+Se ocupa para DTR y CDD como paso previo
+
+PARA TFT
+CodigoEntidad 152 es BCR, siempre es ese
+Valores de NumeroTransaccion  son relevantes?... Puede ser un consecutivo de 7 digitos
+IdOrigen es una cedula del dueño de un origen, puede ser la misma 
+Valores de NombreOrigen son relevantes? (No vienen en datos de prueba)
+Valores de CuentaDebitar se validan?
+Valores de Monto se validan contra saldo? Si, hay que cargarle el saldo como una precondicion, seguramente automatizarla
+Valores de MonedaDestino, cuales puede ser? que significan? 01 colones 02 dolares, 70% colones 30% dolares
+DEscripcion si es importante, 
+Valores de NombreDestino son relevantes? Cuales puden ser? Cualquier cosa
+Valores de CuentaAcreditar son relevantes? Se validan? Se pueden usar los datos de prueba enviados?   si inicia con 1 es colones, otro es dolares (8)
+Valores de Servicio, cuales pueden ser? que significan? 21 tft, lo tomo de cada archivo
+Valores de Canal, cuales pueden ser? que significan? 001 Banco BCR, 265 BCR comrcial, 003 CGP Plataforma, 267 Krystal
+Tag de Resumen es requerido, se valida?
+
+
+Cual se usa para Credito Directo???
+
+>> Detalle de posibles respuestas del server
+
+>> Necesidad de usuarios?
+
+>> Otros detalles tecnicos
+Las 3 descripciones del Dummy corresponden a “100 Exitosas”, “101 Rechazadas” y “102 Inestables”. 90-8-2 % para distribucion
+
+
+
+Detalle de flujos de trabajo finales
+-------------------------------------
+- PENDIENTE Analisis de casos de prueba propuestos (PROSOFT)
+
+
+Datos de prueba
+----------------
+Enviado por Jose Reyes via correo (guardado en PDF)
+
+
+Acceso a servidor de pruebas
+-----------------------------
+PENDIENTE Habilitar Dummy del SICC por temas de inestabilidad que se conversaron (Ronald BCR)
+PENDIENTE Aumentar recursos en ambiente de pruebas (Ronald BCR)
+
+Acceso a VM para poder ver el servicio
+---------------------------------------
+
+
+Detalle de nivel de transacciones
+------------------------------------
+- Picos cuando se suben archivos de pagos sinpe, ya sea TFT o Credito directo
+
+ESCENARIO 1
+- 350 empresas generando transacciones en lotes pequeños, cada empresa enviando 1 transaccion cada 4segs (15 x min)
+---- 15 transacc x 350 empresas = 5250 transacc por minuto y sostenerlo entre 15 y 30 mins
+
+Estos valores son diarios
+
+
+ESCENARIO 2
+- Empresa sube archivos de 400 transacciones  x archivo, 20 empresas lo hacen al mismo tiempo
+----- 400 transacc x 20 empresas = 8000 transacc por minuto durante 15 a 30 mins
+
+division por transaccion en partes iguales 
+
+El crecimiento esta confirmado en 20% por año

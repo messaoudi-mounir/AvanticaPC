@@ -1,0 +1,1249 @@
+ /// <summary>
+        ///     Realiza la trasferencia al sinpe TFT
+        /// </summary>
+        /// <returns>Resultado de la operación</returns>
+        public IMensaje<IEnumerable<ITransaccionSinpe>> TransferenciaSinpeDebitoCuentaTFT(IRastro oDatosRastro,
+            IEnumerable<ITransaccionSinpe> oTransaccionSinpe, IAdministracion oAuditoria)
+        {
+
+            // Obtiene los valores de configuración utilizados para la trama del SICC
+            short codigoMonedaColones =
+                short.Parse(ConfigurationManager.AppSettings[BcrConstantes.ServiciosWindows.CODIGOTIPOMONEDACOLONES]);
+            short codigoMonedaDolares =
+                short.Parse(ConfigurationManager.AppSettings[BcrConstantes.ServiciosWindows.CODIGOTIPOMONEDADOLARES]);
+
+            var canalSICC = string.Empty;
+            var oficinaSICC = string.Empty;
+            var reporteSICC = string.Empty;
+
+            CrearTrama.CargarDatosCanalRef(oAuditoria.Canal, ref canalSICC, ref oficinaSICC, ref reporteSICC, string.Empty);
+
+            // Almacena un indicador para saber si ya fue enviada la petición a CGP
+            bool indicadorEnvioCGP = false;
+            // Almacena el mensaje de respuesta resuelto por el contenedor
+            var respuesta = BcrGlobalUnity.oContenedor.Resolve<IMensaje<IEnumerable<ITransaccionSinpe>>>();
+
+            try
+            {
+                // Agregamos la referencia al Web Service
+                using (var servicio = new TFT_WSClient())
+                {
+                    // Si el objeto de la transacción no es nulo
+                    if (oTransaccionSinpe != null)
+                    {
+                        //Creamos un objeto de tipo rastro
+                        var oRastro = new CL_Rastro();
+                        oRastro.Canalk__BackingField = int.Parse(canalSICC);
+                        //Identificación del canal que ejecuta la petición, este debe ser registrado previamente en el CGP. (entero)  TIENE QUE ESTAR REGISTRADO EN CGP (MARLON ARIAS) LOS CAUSALES Y LAS COMISIONES SE DEBEN TAMBIEN REGISTRAR EN CGP. EN CGP MANEJA CANAL, SERVICIO Y CAUSAS POR SERVICIO CANAL, ESTO LO MANEJA POR EL CONCEPTO.
+                        oRastro.IPk__BackingField = oDatosRastro.IP;
+                        //Dirección IP física desde donde se registra la petición. (string de 8 a 17 caracteres)  ES LA IP DEL CLIENTE, VALIDA FORMATO.
+                        oRastro.Usuariok__BackingField = oDatosRastro.Usuario;
+                        //Login de usuario que realiza la petición. (string de 1 a 50 caracteres) USUARIO DE CLIENTE.
+
+                        //Creamos un objeto array de tipo transacción
+                        var oTransaccionProcesar = new CL_TransaccionIntegracion[oTransaccionSinpe.Count()];
+                        int contadorRegistro = 0;
+
+                        // Recorre los datos del listado de transacciones SINPE
+                        foreach (ITransaccionSinpe oTransaccion in oTransaccionSinpe)
+                        {
+                            //Creamos un objeto de tipo transacción
+                            var oTransaccionIntegracion = new CL_TransaccionIntegracion();
+
+                            //DATOS DE LA CUENTA ORIGEN
+
+                            //Creamos un objeto de tipo origen
+                            var oCuentaOrigen = new CL_Cliente();
+                            //Cuenta Cliente Origen según el estándar SINPE. (string de 17 posiciones numéricas)
+                            oCuentaOrigen.CC = oTransaccion.CuentaOrigen.NumeroCuenta;
+                            // Identificación del cliente según el formato SICC.  SI SE ENVIA LA CEDULA SINPE ORIGEN CGP 
+                            // UTILIZA ESTA PARA IR AL BCCR, CASO CONTRARIO AGARRA LA SICC Y LA CONVIERTE EN SINPE UTILIZANDO 
+                            // LA ESTRUCTURA BSCCS. LA SICC SE DEBE ENVIAR OBLIGATORIAMENTE PARA HACER USO DEL REPACL5070
+                            oCuentaOrigen.Identificacion = oTransaccion.CuentaOrigen.Usuario.Identificacion;
+                            oCuentaOrigen.Nombre = oTransaccion.CuentaOrigen.Usuario.Nombre;
+                            //Nombre del cliente. (string de 5 a 100 caracteres)
+                            //Asignamos el origen
+                            oTransaccionIntegracion.Origen = oCuentaOrigen;
+
+                            //DATOS DE LA CUENTA DESTINO
+
+                            //Creamos un objeto de tipo destino
+                            var oCuentaDestino = new CL_Cliente();
+                            oCuentaDestino.CC = oTransaccion.CuentaDestino.NumeroCuenta;
+                            //Cuenta Cliente Destino según el estándar SINPE. (string de 17 posiciones numéricas)
+                            oCuentaDestino.Identificacion = oTransaccion.CuentaDestino.Usuario.Identificacion;
+                            //Identificación del cliente según el formato SINPE. (string de 5 a 20 caracteres)
+                            oCuentaDestino.Nombre = oTransaccion.CuentaDestino.Usuario.Nombre;
+                            //Nombre del cliente. (string de 5 a 100 caracteres)
+
+                            //Asignamos el destino
+                            oTransaccionIntegracion.Destino = oCuentaDestino;
+
+                            //oDatos.CodigoMoneda = Moneda.Colones.ToString();
+
+                            //DATOS DE LA TRANSACCIÓN
+
+                            oTransaccionIntegracion.CedulaSINPE = oTransaccion.CedulaSINPE;
+                            //Cédula SINPE pero no sé de quien. (string no sé de que tamaño) ESTA ES LA CEDULA QUE DEBE ENVIAR EL CANAL DE LA CUENTA ORIGEN, NO ES OBLIGATORIA, 
+                            // NO ES OBLIGATORIA PERO SI NO SE ENVÍA SE UTILZIARÍA LA SICC PARA CALCULAR LA CEDULA SINPE.
+                            oTransaccionIntegracion.CentroCosto = int.Parse(oficinaSICC);
+                            //Código del centro de costo asociado a la  transacción. Esto facilita la consulta de la información. Por ejemplo, en un banco, el Centro de Costo puede ser una codificación de las sucursales. Entonces, en CGP puede sacar listados de los pagos que gestionó determinado centro de costo. En otras entidades gubernamentales, el Centro de Costo puede ser un Departamento, Unidad, etc, o bien, un único Código constante para todos los pagos. En este último caso, el filtro por Centro de Costo no tendría mucho sentido. Según codificación CGP. (entero).  OFICINA ORIGEN QUE VA EN EL REPACL5070, LO ENVIA EL CANAL.
+                            oTransaccionIntegracion.CodigoConcepto = oTransaccion.CodigoConcepto;
+
+                            //Código del concepto de la transacción según codificación CGP, esta puede referirse a: Pago de proveedores, pago planilla, cobro de tarjeta, etc. (entero).  SON LOS CONCEPTOS QUE SE UTILIZAN A NIVEL DE CGP PARA LOS TIPOS DE TRANSACCIONES.  TENGO QUE TENERLO CONFIGURADO A NIVEL DE CGP.
+                            if (oTransaccion.CodigoMoneda == codigoMonedaColones)
+                                // Asigna la moneda colones
+                                oTransaccionIntegracion.CodigoMoneda = Moneda.Colones;
+                            else if (oTransaccion.CodigoMoneda == codigoMonedaDolares)
+                                // Asigna la moneda dólares
+                                oTransaccionIntegracion.CodigoMoneda = Moneda.Dolares;
+
+                            //Código de la moneda de la transacción según codificación SINPE. (Tipo de dato: Enumerador {Colones, Dolares, Euros})
+                            oTransaccionIntegracion.CodigoReferencia = oTransaccion.CodigoReferencia;
+                            //Identificador asignado a la transacción  que permite identificarla de forma única en el sistema SINPE. (string de 25 posiciones numéricas)  ESTE ES EL CÓDIGO DE REFERENCIA SINPE, LO CALCULA CGP Y ME LO DEVUELVE.
+                            oTransaccionIntegracion.Descripcion = oTransaccion.Descripcion;
+                            //Descripción de la transacción. (string mayor a 15 caracteres y menor a 255): PARA USAR EL SIMULADOR Y QUE NO VAYA A SINPE SE DEBE ENVIAR R:XX DÓNDE XX ES EL CÓDIGO DE RECHAZO QUE QUEREMOS USAR. EL QUE TIENE EL SIMULADOR ES EL WS QUE HIZO PROSOFT PARA COMUNICARSE CON EL WS DE SINPE, ESTE ES EL OTRO WS QUE UTILIZA EL CGP.
+                            oTransaccionIntegracion.EntidadOrigen = oTransaccion.EntidadOrigen;
+                            //Código de la entidad que origina la transacción según codificación SINPE, solo para el caso de que existan entidades representadas, de otro modo se puede omitir este valor.  (entero)
+                            oTransaccionIntegracion.Monto = oTransaccion.Monto;
+                            //Monto de la transacción en la moneda especificada.  (Tipo de dato: Decimal. Valor máximo “79228162514264337593543950335”, separador de decimales (.) sin superar las 29 posiciones numéricas.)
+                            oTransaccionIntegracion.MontoComisionCliente = oTransaccion.MontoComisionCliente;
+                            //Monto de la comisión de la transacción (Decimal. Valor máximo “79228162514264337593543950335”, separador de decimales (.) sin superar las 29 posiciones numéricas)  NO SE DEBE ENVIAR, PORQUE CGP YA LO TIENE PARAMETRIZADO POR CANAL.
+                            oTransaccionIntegracion.MontoComisionRepresentada = oTransaccion.MontoComisionRepresentada;
+                            //ES PARA QUE CGP REPRESENTE A OTRAS ENTIDADES A TRAVES DEL BCR.  NO SE UTILIZA.
+                            oTransaccionIntegracion.NodoIntegracion = oTransaccion.NodoIntegracion;
+                            //Identificación del punto de integración a utilizar para la realización de la transacción, este debe estar previamente registrado en el CGP. (entero)  ES LA RUTA DE INTEGRACIÓN HACIA LOS LLAMADOS A LOS SISTEMAS INTERNOS DEL BANCO, EN NUESTRO CASO EL WS DEL REPACL5070.
+                            oTransaccionIntegracion.NumeroDocumento = oTransaccion.NumeroDocumento;
+                            //Referencia de la transacción en el sistema interno. (entero)  ES EL NÚMERO DE DOCUMENTO QUE DEBE ENVIAR EL CANAL, ES EL MISMO QUE SE LE ENVIA AL 5070, SI LO ENVÍO CGP LO RESPETA, SI NO, CGP ME GENERA UN CÓDIGO Y ME LO DEVUELVE.
+                            oTransaccionIntegracion.Servicio = oTransaccion.Servicio;
+                            //Resumen de pago – cobro que  aparece en el estado de cuenta. Esto permite que el destinatario de la transacción pueda identificar rápidamente el motivo de esta. En el caso de cobros es un valor que se valida contra la orden de domiciliación en la entidad destino. (string de 1 a 20 caracteres)  SOLO PARA CUANDO ES DTR, PARA EL CASO DE TFT NO TIENE SENTIDO, ES EL SERVICIO QUE VOY A UTILIZAR.  NO OCUPO DECIR AL CLIENTE POR CUAL SERVICIO ESTOY HACIENDO LA TRANSACCIÓN, CUANDO ES TFT.
+
+                            // Asigna los valores del tipo de operación y tipo de persona si hay intercambio
+                            if (oTransaccion.TipoOperacion != 0)
+                            {
+                                // Asigna los valores requeridos para el registro del tipo de operación
+                                oTransaccionIntegracion.tipoOperacion = oTransaccion.TipoOperacion;
+                                oTransaccionIntegracion.tipoPersona = oTransaccion.TipoPersona;
+                            }
+
+                            //Ingresamos la transacción en el arreglo de transacciones
+                            oTransaccionProcesar[contadorRegistro] = oTransaccionIntegracion;
+                            //Aumenta el contador del arreglo
+                            contadorRegistro += contadorRegistro;
+
+                            // Indica que se está por ir a CGP
+                            indicadorEnvioCGP = true;
+                            
+                            // Registra trazabilidad de entrada
+                            RegistroAuditoriaTrazabilidadCompleto(oAuditoria, oTransaccionIntegracion, null, null, null,
+                                BcrEnumerados.BcrAcciones.PROCESOCGP,
+                                BcrEnumerados.BcrModulos.TRANSFERENCIAS_CREDITO_SINPE,
+                                "Envío transferencia TFT a CGP.");
+                            
+                            // Se realiza el envío directo de la transacción
+                            CL_RespuestaTransaccion[] respuestaServicio = servicio.EnvioDirectoDebitoCuenta(oRastro, oTransaccionProcesar);
+
+                            // Registra trazabilidad de entrada
+                            RegistroAuditoriaTrazabilidadCompleto(oAuditoria, oTransaccionIntegracion,
+                                (respuestaServicio != null && respuestaServicio.Length > 0
+                                    ? (object)respuestaServicio[0] : (object)respuestaServicio),
+                                (respuestaServicio != null && respuestaServicio.Length > 0
+                                    ? respuestaServicio[0]._TramaEntrada : string.Empty),
+                                (respuestaServicio != null && respuestaServicio.Length > 0
+                                    ? respuestaServicio[0]._TramaSalida : string.Empty), 
+                                BcrEnumerados.BcrAcciones.PROCESOCGP,
+                                BcrEnumerados.BcrModulos.TRANSFERENCIAS_CREDITO_SINPE,
+                                "Respuesta transferencia TFT de CGP.");
+
+                            // Procesa la respuesta del mensaje retornado
+                            respuesta = ProcesarRespuestaTFT(respuestaServicio);
+                        }
+                    }
+                }
+
+                // Retorna el resultado
+                return respuesta;
+            }
+            // Excepción por tiempo de conexión vencida
+            catch (TimeoutException timeException)
+            {
+                // Registra la trazabilidad de error
+                respuesta.DescripcionMensaje = RegistroAuditoriaError(oAuditoria,
+                    BcrEnumerados.BcrExcepcionesServicios.ERRORTIMEOUTSERVICIO, BcrEnumerados.BcrModulos.TRANSFERENCIAS_CREDITO_SINPE, 
+                    timeException, MethodBase.GetCurrentMethod().Name);
+
+                // Asigna el código de mensaje
+                respuesta.CodigoMensaje = indicadorEnvioCGP ? (int)BcrEnumerados.BcrExcepcionesServicios.ERRORTIMEOUTSERVICIO : (int)BcrEnumerados.BcrExcepcionesServicios.ERRORGENERAL;
+
+                if (respuesta.DescripcionMensaje == null)
+                    respuesta.DescripcionMensaje = BcrConstantes.Mensajes.MENSAJEGENERICO;
+
+                return respuesta;
+            }
+            // Excepción por fallo en la lógica del servicio
+            catch (FaultException faultExceptionError)
+            {
+                // Registra la trazabilidad de error
+                respuesta.DescripcionMensaje = RegistroAuditoriaError(oAuditoria,
+                    BcrEnumerados.BcrExcepcionesServicios.ERRORFALLOINTERNOSERVICIO, BcrEnumerados.BcrModulos.TRANSFERENCIAS_CREDITO_SINPE, 
+                    faultExceptionError, MethodBase.GetCurrentMethod().Name);
+
+                // Asigna el código de mensaje
+                respuesta.CodigoMensaje = indicadorEnvioCGP ? (int)BcrEnumerados.BcrExcepcionesServicios.ERRORFALLOINTERNOSERVICIO : (int)BcrEnumerados.BcrExcepcionesServicios.ERRORGENERAL;
+
+                if (respuesta.DescripcionMensaje == null)
+                    respuesta.DescripcionMensaje = BcrConstantes.Mensajes.MENSAJEGENERICO;
+
+                return respuesta;
+            }
+            catch (CommunicationException communicationException)
+            {
+                // Registra la trazabilidad de error
+                respuesta.DescripcionMensaje = RegistroAuditoriaError(oAuditoria,
+                    BcrEnumerados.BcrExcepcionesServicios.ERRORCOMUNICACIONSERVICIO, BcrEnumerados.BcrModulos.TRANSFERENCIAS_CREDITO_SINPE, 
+                    communicationException, MethodBase.GetCurrentMethod().Name);
+
+                // Asigna el código de mensaje
+                respuesta.CodigoMensaje = indicadorEnvioCGP ? (int)BcrEnumerados.BcrExcepcionesServicios.ERRORCOMUNICACIONSERVICIO : (int)BcrEnumerados.BcrExcepcionesServicios.ERRORGENERAL;
+
+                if (respuesta.DescripcionMensaje == null)
+                    respuesta.DescripcionMensaje = BcrConstantes.Mensajes.MENSAJEGENERICO;
+
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                // Registra la trazabilidad de error
+                respuesta.DescripcionMensaje = RegistroAuditoriaError(oAuditoria,
+                    indicadorEnvioCGP ? BcrEnumerados.BcrExcepcionesServicios.ERRORPOSTERIORSERVICIO : BcrEnumerados.BcrExcepcionesServicios.ERRORGENERAL,
+                    BcrEnumerados.BcrModulos.TRANSFERENCIAS_CREDITO_SINPE, ex, MethodBase.GetCurrentMethod().Name);
+
+                // Asigna el código de mensaje
+                respuesta.CodigoMensaje = indicadorEnvioCGP ? (int)BcrEnumerados.BcrExcepcionesServicios.ERRORPOSTERIORSERVICIO : (int)BcrEnumerados.BcrExcepcionesServicios.ERRORGENERAL;
+
+                if (respuesta.DescripcionMensaje == null)
+                    respuesta.DescripcionMensaje = BcrConstantes.Mensajes.MENSAJEGENERICO;
+
+                return respuesta;
+            }
+        }
+
+        /// <summary>
+        ///     Realiza la trasferencia al sinpe DTR
+        /// </summary>
+        /// <returns>Resultado de la operación</returns>
+        /// <summary>
+        ///     Realiza la trasferencia al sinpe CDD
+        /// </summary>
+        /// <returns>Resultado de la operación</returns>
+        /// <summary>
+        ///     Realiza la trasferencia al sinpe DTR
+        /// </summary>
+        /// <returns>Resultado de la operación</returns>
+        public IMensaje<IEnumerable<ITransaccionSinpe>> TransferenciaDebitoSinpeLineaDTR(IRastro oDatosRastro,
+            IEnumerable<ITransaccionSinpe> oTransaccionSinpe, IAdministracion oAuditoria)
+        {
+            // Obtiene los valores de configuración utilizados para la trama del SICC
+            short codigoMonedaColones =
+                short.Parse(ConfigurationManager.AppSettings[BcrConstantes.ServiciosWindows.CODIGOTIPOMONEDACOLONES]);
+            short codigoMonedaDolares =
+                short.Parse(ConfigurationManager.AppSettings[BcrConstantes.ServiciosWindows.CODIGOTIPOMONEDADOLARES]);
+
+            var canalSICC = string.Empty;
+            var oficinaSICC = string.Empty;
+            var reporteSICC = string.Empty;
+
+            CrearTrama.CargarDatosCanalRef(oAuditoria.Canal, ref canalSICC, ref oficinaSICC, ref reporteSICC, string.Empty);
+
+            // Almacena un indicador para saber si ya fue enviada la petición a CGP
+            bool indicadorEnvioCGP = false;
+            // Almacena el mensaje de respuesta resuelto por el contenedor
+            var respuesta = BcrGlobalUnity.oContenedor.Resolve<IMensaje<IEnumerable<ITransaccionSinpe>>>();
+
+            try
+            {
+                // Agregamos la referencia al Web Service
+                using (var servicio = new DTR_WSClient())
+                {
+                    // Si el objeto de la transacción no es nulo
+                    if (oTransaccionSinpe != null)
+                    {
+                        //Creamos un objeto de tipo rastro
+                        var oRastro = new BcrWcfTransferenciaSinpeDTR.CL_Rastro();
+                        oRastro.Canalk__BackingField = int.Parse(canalSICC);
+                        //Identificación del canal que ejecuta la petición, este debe ser registrado previamente en el CGP. (entero)  TIENE QUE ESTAR REGISTRADO EN CGP (MARLON ARIAS) LOS CAUSALES Y LAS COMISIONES SE DEBEN TAMBIEN REGISTRAR EN CGP. EN CGP MANEJA CANAL, SERVICIO Y CAUSAS POR SERVICIO CANAL, ESTO LO MANEJA POR EL CONCEPTO.
+                        oRastro.IPk__BackingField = oDatosRastro.IP;
+                        //Dirección IP física desde donde se registra la petición. (string de 8 a 17 caracteres)  ES LA IP DEL CLIENTE, VALIDA FORMATO.
+                        oRastro.Usuariok__BackingField = oDatosRastro.Usuario;
+                        //Login de usuario que realiza la petición. (string de 1 a 50 caracteres) USUARIO DE CLIENTE.
+
+                        //Creamos un objeto array de tipo transacción
+                        var oTransaccionProcesar =
+                            new BcrWcfTransferenciaSinpeDTR.CL_TransaccionIntegracion[oTransaccionSinpe.Count()];
+                        int contadorRegistro = 0;
+
+                        // Recorre los datos del listado de transacciones SINPE
+                        foreach (ITransaccionSinpe oTransaccion in oTransaccionSinpe)
+                        {
+                            //Creamos un objeto de tipo transacción
+                            var oTransaccionIntegracion = new BcrWcfTransferenciaSinpeDTR.CL_TransaccionIntegracion();
+
+                            //DATOS DE LA CUENTA ORIGEN
+
+                            //Creamos un objeto de tipo origen
+                            var oCuentaOrigen = new BcrWcfTransferenciaSinpeDTR.CL_Cliente();
+                            //Cuenta Cliente Origen según el estándar SINPE. (string de 17 posiciones numéricas)
+                            oCuentaOrigen.CC = oTransaccion.CuentaOrigen.NumeroCuenta;
+                            // Identificación del cliente según el formato SICC.  SI SE ENVIA LA CEDULA SINPE ORIGEN CGP 
+                            // UTILIZA ESTA PARA IR AL BCCR, CASO CONTRARIO AGARRA LA SICC Y LA CONVIERTE EN SINPE UTILIZANDO 
+                            // LA ESTRUCTURA BSCCS. LA SICC SE DEBE ENVIAR OBLIGATORIAMENTE PARA HACER USO DEL REPACL5070
+                            oCuentaOrigen.Identificacion = oTransaccion.CuentaOrigen.Usuario.Identificacion;
+                            oCuentaOrigen.Nombre = oTransaccion.CuentaOrigen.Usuario.Nombre;
+                            //Nombre del cliente. (string de 5 a 100 caracteres)
+                            //Asignamos el origen
+                            oTransaccionIntegracion.Origen = oCuentaOrigen;
+
+                            //DATOS DE LA CUENTA DESTINO
+
+                            //Creamos un objeto de tipo destino
+                            var oCuentaDestino = new BcrWcfTransferenciaSinpeDTR.CL_Cliente();
+                            oCuentaDestino.CC = oTransaccion.CuentaDestino.NumeroCuenta;
+                            //Cuenta Cliente Destino según el estándar SINPE. (string de 17 posiciones numéricas)
+                            oCuentaDestino.Identificacion = oTransaccion.CuentaDestino.Usuario.Identificacion;
+                            //Identificación del cliente según el formato SINPE. (string de 5 a 20 caracteres)
+                            oCuentaDestino.Nombre = oTransaccion.CuentaDestino.Usuario.Nombre;
+                            //Nombre del cliente. (string de 5 a 100 caracteres)
+
+                            //Asignamos el destino
+                            oTransaccionIntegracion.Destino = oCuentaDestino;
+
+                            //Cédula SINPE pero no sé de quien. (string no sé de que tamaño) ESTA ES LA CEDULA QUE DEBE ENVIAR EL CANAL DE LA CUENTA ORIGEN, NO ES OBLIGATORIA, NO ES OBLIGATORIA PERO SI NO SE ENVÍA SE UTILZIARÍA LA SICC PARA CALCULAR LA CEDULA SINPE.
+                            oTransaccionIntegracion.CedulaSINPE = oTransaccion.CedulaSINPE;
+
+                            //Código del centro de costo asociado a la  transacción. Esto facilita la consulta de la información. Por ejemplo, en un banco, el Centro de Costo puede ser una codificación de las sucursales. Entonces, en CGP puede sacar listados de los pagos que gestionó determinado centro de costo. En otras entidades gubernamentales, el Centro de Costo puede ser un Departamento, Unidad, etc, o bien, un único Código constante para todos los pagos. En este último caso, el filtro por Centro de Costo no tendría mucho sentido. Según codificación CGP. (entero).  OFICINA ORIGEN QUE VA EN EL REPACL5070, LO ENVIA EL CANAL.
+                            oTransaccionIntegracion.CentroCosto = int.Parse(oficinaSICC);
+                            //Código del concepto de la transacción según codificación CGP, esta puede referirse a: Pago de proveedores, pago planilla, cobro de tarjeta, etc. (entero).  SON LOS CONCEPTOS QUE SE UTILIZAN A NIVEL DE CGP PARA LOS TIPOS DE TRANSACCIONES.  TENGO QUE TENERLO CONFIGURADO A NIVEL DE CGP.
+                            oTransaccionIntegracion.CodigoConcepto = oTransaccion.CodigoConcepto;
+                            //Código de la moneda de la transacción según codificación SINPE. (Tipo de dato: Enumerador {Colones, Dolares, Euros})
+                            if (oTransaccion.CodigoMoneda == codigoMonedaColones)
+                                // Asigna la moneda colones
+                                oTransaccionIntegracion.CodigoMoneda = BcrWcfTransferenciaSinpeDTR.Moneda.Colones;
+                            else if (oTransaccion.CodigoMoneda == codigoMonedaDolares)
+                                // Asigna la moneda dólares
+                                oTransaccionIntegracion.CodigoMoneda = BcrWcfTransferenciaSinpeDTR.Moneda.Dolares;
+                            //oTransaccionIntegracion.CodigoMoneda = Convert.ToInt32(ddlMonedas.SelectedValue) == 1 ? Moneda.Colones : (Convert.ToInt32(ddlMonedas.SelectedValue) == 2 ? Moneda.Dolares : Moneda.Euros);
+                            //Identificador asignado a la transacción  que permite identificarla de forma única en el sistema SINPE. (string de 25 posiciones numéricas)  ESTE ES EL CÓDIGO DE REFERENCIA SINPE, LO CALCULA CGP Y ME LO DEVUELVE.
+                            oTransaccionIntegracion.CodigoReferencia = oTransaccion.CodigoReferencia;
+                            //Descripción de la transacción. (string mayor a 15 caracteres y menor a 255): PARA USAR EL SIMULADOR Y QUE NO VAYA A SINPE SE DEBE ENVIAR R:XX DÓNDE XX ES EL CÓDIGO DE RECHAZO QUE QUEREMOS USAR. EL QUE TIENE EL SIMULADOR ES EL WS QUE HIZO PROSOFT PARA COMUNICARSE CON EL WS DE SINPE, ESTE ES EL OTRO WS QUE UTILIZA EL CGP.
+                            oTransaccionIntegracion.Descripcion = oTransaccion.Descripcion;
+
+                            //Código de la entidad que origina la transacción según codificación SINPE, solo para el caso de que existan entidades representadas, de otro modo se puede omitir este valor.  (entero)
+                            oTransaccionIntegracion.EntidadOrigen = oTransaccion.EntidadOrigen;
+                            //Monto de la transacción en la moneda especificada.  (Tipo de dato: Decimal. Valor máximo “79228162514264337593543950335”, separador de decimales (.) sin superar las 29 posiciones numéricas.)
+                            oTransaccionIntegracion.Monto = oTransaccion.Monto;
+                            //Monto de la comisión de la transacción (Decimal. Valor máximo “79228162514264337593543950335”, separador de decimales (.) sin superar las 29 posiciones numéricas)  NO SE DEBE ENVIAR, PORQUE CGP YA LO TIENE PARAMETRIZADO POR CANAL.
+                            oTransaccionIntegracion.MontoComisionCliente = oTransaccion.MontoComisionCliente;
+                            //ES PARA QUE CGP REPRESENTE A OTRAS ENTIDADES A TRAVES DEL BCR.  NO SE UTILIZA.
+                            oTransaccionIntegracion.MontoComisionRepresentada = oTransaccion.MontoComisionRepresentada;
+                            //Identificación del punto de integración a utilizar para la realización de la transacción, este debe estar previamente registrado en el CGP. (entero)  ES LA RUTA DE INTEGRACIÓN HACIA LOS LLAMADOS A LOS SISTEMAS INTERNOS DEL BANCO, EN NUESTRO CASO EL WS DEL REPACL5070.
+                            oTransaccionIntegracion.NodoIntegracion = oTransaccion.NodoIntegracion;
+                            //Referencia de la transacción en el sistema interno. (entero)  ES EL NÚMERO DE DOCUMENTO QUE DEBE ENVIAR EL CANAL, ES EL MISMO QUE SE LE ENVIA AL 5070, SI LO ENVÍO CGP LO RESPETA, SI NO, CGP ME GENERA UN CÓDIGO Y ME LO DEVUELVE.
+                            oTransaccionIntegracion.NumeroDocumento = oTransaccion.NumeroDocumento;
+                            //Resumen de pago – cobro que  aparece en el estado de cuenta. Esto permite que el destinatario de la transacción pueda identificar rápidamente el motivo de esta. En el caso de cobros es un valor que se valida contra la orden de domiciliación en la entidad destino.
+                            //Tipo de dato: Alfanumérico de 1 a 20 caracteres.
+                            oTransaccionIntegracion.Servicio = oTransaccion.Servicio;
+
+                            //Ingresamos la transacción en el arreglo de transacciones
+                            oTransaccionProcesar[contadorRegistro] = oTransaccionIntegracion;
+                            //Aumenta el contador del arreglo
+                            contadorRegistro += contadorRegistro;
+
+                            // Indica que se está por ir a CGP
+                            indicadorEnvioCGP = true;
+
+                            // Registra trazabilidad de entrada
+                            RegistroAuditoriaTrazabilidadCompleto(oAuditoria, oTransaccionIntegracion, null, null, null,
+                                BcrEnumerados.BcrAcciones.PROCESOCGP,
+                                BcrEnumerados.BcrModulos.TRANSFERENCIAS_CREDITO_SINPE,
+                                "Envío transferencia DTR a CGP.");
+
+                            // Se realiza el envío directo de la transacción
+                            BcrWcfTransferenciaSinpeDTR.CL_RespuestaTransaccion[] respuestaServicio = servicio.EnvioDirectoCreditoCuenta(oRastro, oTransaccionProcesar);
+
+                            // Registra trazabilidad de entrada
+                            RegistroAuditoriaTrazabilidadCompleto(oAuditoria, oTransaccionIntegracion,
+                                (respuestaServicio != null && respuestaServicio.Length > 0 ?
+                                    (object)respuestaServicio[0] : (object)respuestaServicio),
+                                (respuestaServicio != null && respuestaServicio.Length > 0 ?
+                                    respuestaServicio[0]._TramaEntrada : string.Empty),
+                                (respuestaServicio != null && respuestaServicio.Length > 0 ?
+                                    respuestaServicio[0]._TramaSalida : string.Empty),
+                                BcrEnumerados.BcrAcciones.PROCESOCGP,
+                                BcrEnumerados.BcrModulos.TRANSFERENCIAS_CREDITO_SINPE,
+                                "Respuesta transferencia DTR de CGP.");
+
+                            // Procesa la respuesta del mensaje retornado
+                            respuesta = ProcesarRespuestaDTR(respuestaServicio);
+                        }
+                    }
+                }
+
+                // Retorna el resultado
+                return respuesta;
+            }
+            // Excepción por tiempo de conexión vencida
+            catch (TimeoutException timeException)
+            {
+                if (oAuditoria != null)
+                {
+                    oAuditoria.CodigoError = (int)BcrEnumerados.BcrMensajes.SERVICIO;
+                    oAuditoria.Excepcion = timeException;
+                    oAuditoria.Modulo = MethodBase.GetCurrentMethod().ReflectedType.Name;
+                    oAuditoria.Operacion = MethodBase.GetCurrentMethod().Name;
+                    respuesta.DescripcionMensaje = BcrErrorApi.RegistrarError(oAuditoria);
+                }
+
+                // Asigna el código de mensaje
+                respuesta.CodigoMensaje = indicadorEnvioCGP ? (int)BcrEnumerados.BcrExcepcionesServicios.ERRORTIMEOUTSERVICIO : (int)BcrEnumerados.BcrExcepcionesServicios.ERRORGENERAL;
+
+                if (respuesta.DescripcionMensaje == null)
+                    respuesta.DescripcionMensaje = BcrConstantes.Mensajes.MENSAJEGENERICO;
+
+                return respuesta;
+            }
+            // Excepción por fallo en la lógica del servicio
+            catch (FaultException faultExceptionError)
+            {
+                if (oAuditoria != null)
+                {
+                    oAuditoria.CodigoError = (int)BcrEnumerados.BcrMensajes.SERVICIO;
+                    oAuditoria.Excepcion = faultExceptionError;
+                    oAuditoria.Modulo = MethodBase.GetCurrentMethod().ReflectedType.Name;
+                    oAuditoria.Operacion = MethodBase.GetCurrentMethod().Name;
+                    respuesta.DescripcionMensaje = BcrErrorApi.RegistrarError(oAuditoria);
+                }
+
+                // Asigna el código de mensaje
+                respuesta.CodigoMensaje = indicadorEnvioCGP ? (int)BcrEnumerados.BcrExcepcionesServicios.ERRORFALLOINTERNOSERVICIO : (int)BcrEnumerados.BcrExcepcionesServicios.ERRORGENERAL;
+
+                if (respuesta.DescripcionMensaje == null)
+                    respuesta.DescripcionMensaje = BcrConstantes.Mensajes.MENSAJEGENERICO;
+
+                return respuesta;
+            }
+            catch (CommunicationException communicationException)
+            {
+                if (oAuditoria != null)
+                {
+                    oAuditoria.CodigoError = (int)BcrEnumerados.BcrMensajes.SERVICIO;
+                    oAuditoria.Excepcion = communicationException;
+                    oAuditoria.Modulo = MethodBase.GetCurrentMethod().ReflectedType.Name;
+                    oAuditoria.Operacion = MethodBase.GetCurrentMethod().Name;
+                    respuesta.DescripcionMensaje = BcrErrorApi.RegistrarError(oAuditoria);
+                }
+
+                // Asigna el código de mensaje
+                respuesta.CodigoMensaje = indicadorEnvioCGP ? (int)BcrEnumerados.BcrExcepcionesServicios.ERRORCOMUNICACIONSERVICIO : (int)BcrEnumerados.BcrExcepcionesServicios.ERRORGENERAL;
+
+                if (respuesta.DescripcionMensaje == null)
+                    respuesta.DescripcionMensaje = BcrConstantes.Mensajes.MENSAJEGENERICO;
+
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                if (oAuditoria != null)
+                {
+                    oAuditoria.CodigoError = (int)BcrEnumerados.BcrMensajes.SERVICIO;
+                    oAuditoria.Excepcion = ex;
+                    oAuditoria.Modulo = MethodBase.GetCurrentMethod().ReflectedType.Name;
+                    oAuditoria.Operacion = MethodBase.GetCurrentMethod().Name;
+                    respuesta.DescripcionMensaje = BcrErrorApi.RegistrarError(oAuditoria);
+                }
+
+                // Asigna el código de mensaje
+                respuesta.CodigoMensaje = indicadorEnvioCGP ? (int)BcrEnumerados.BcrExcepcionesServicios.ERRORPOSTERIORSERVICIO : (int)BcrEnumerados.BcrExcepcionesServicios.ERRORGENERAL;
+
+                if (respuesta.DescripcionMensaje == null)
+                {
+                    respuesta.DescripcionMensaje = BcrConstantes.Mensajes.MENSAJEGENERICO;
+                }
+
+                return respuesta;
+            }
+        }
+
+        /// <summary>
+        ///     Realiza la trasferencia al sinpe CDD
+        /// </summary>
+        /// <returns>Resultado de la operación</returns>
+        public IMensaje<IEnumerable<ITransaccionSinpe>> TransferenciaDebitoSinpeCDD(IRastro oDatosRastro,
+            IEnumerable<ITransaccionSinpe> oTransaccionSinpe, IAdministracion oAuditoria)
+        {
+            // Obtiene los valores de configuración utilizados para la trama del SICC
+            short codigoMonedaColones =
+                short.Parse(ConfigurationManager.AppSettings[BcrConstantes.ServiciosWindows.CODIGOTIPOMONEDACOLONES]);
+            short codigoMonedaDolares =
+                short.Parse(ConfigurationManager.AppSettings[BcrConstantes.ServiciosWindows.CODIGOTIPOMONEDADOLARES]);
+
+            var canalSICC = string.Empty;
+            var oficinaSICC = string.Empty;
+            var reporteSICC = string.Empty;
+
+            CrearTrama.CargarDatosCanalRef(oAuditoria.Canal, ref canalSICC, ref oficinaSICC, ref reporteSICC, string.Empty);
+
+            // Almacena un indicador para saber si ya fue enviada la petición a CGP
+            bool indicadorEnvioCGP = false;
+            // Almacena el mensaje de respuesta resuelto por el contenedor
+            var respuesta = BcrGlobalUnity.oContenedor.Resolve<IMensaje<IEnumerable<ITransaccionSinpe>>>();
+
+            try
+            {
+                // Agregamos la referencia al Web Service
+                using (var servicio = new CDD_WSClient())
+                {
+                    // Si el objeto de la transacción no es nulo
+                    if (oTransaccionSinpe != null)
+                    {
+                        //Creamos un objeto de tipo rastro
+                        var oRastro = new BcrWcfTransferenciaSinpeCDD.CL_Rastro();
+                        oRastro.Canalk__BackingField = int.Parse(canalSICC);
+                        //Identificación del canal que ejecuta la petición, este debe ser registrado previamente en el CGP. (entero)  TIENE QUE ESTAR REGISTRADO EN CGP (MARLON ARIAS) LOS CAUSALES Y LAS COMISIONES SE DEBEN TAMBIEN REGISTRAR EN CGP. EN CGP MANEJA CANAL, SERVICIO Y CAUSAS POR SERVICIO CANAL, ESTO LO MANEJA POR EL CONCEPTO.
+                        oRastro.IPk__BackingField = oDatosRastro.IP;
+                        //Dirección IP física desde donde se registra la petición. (string de 8 a 17 caracteres)  ES LA IP DEL CLIENTE, VALIDA FORMATO.
+                        oRastro.Usuariok__BackingField = oDatosRastro.Usuario;
+                        //Login de usuario que realiza la petición. (string de 1 a 50 caracteres) USUARIO DE CLIENTE.
+
+                        //Creamos un objeto array de tipo transacción
+                        var oTransaccionProcesar =
+                            new BcrWcfTransferenciaSinpeCDD.CL_TransaccionIntegracion[oTransaccionSinpe.Count()];
+                        int contadorRegistro = 0;
+
+                        // Recorre los datos del listado de transacciones SINPE
+                        foreach (ITransaccionSinpe oTransaccion in oTransaccionSinpe)
+                        {
+                            //Creamos un objeto de tipo transacción
+                            var oTransaccionIntegracion = new BcrWcfTransferenciaSinpeCDD.CL_TransaccionIntegracion();
+
+                            //DATOS DE LA CUENTA ORIGEN
+
+                            //Creamos un objeto de tipo origen
+                            var oCuentaOrigen = new BcrWcfTransferenciaSinpeCDD.CL_Cliente();
+                            //Cuenta Cliente Origen según el estándar SINPE. (string de 17 posiciones numéricas)
+                            oCuentaOrigen.CC = oTransaccion.CuentaOrigen.NumeroCuenta;
+                            // Identificación del cliente según el formato SICC.  SI SE ENVIA LA CEDULA SINPE ORIGEN CGP 
+                            // UTILIZA ESTA PARA IR AL BCCR, CASO CONTRARIO AGARRA LA SICC Y LA CONVIERTE EN SINPE UTILIZANDO 
+                            // LA ESTRUCTURA BSCCS. LA SICC SE DEBE ENVIAR OBLIGATORIAMENTE PARA HACER USO DEL REPACL5070
+                            oCuentaOrigen.Identificacion = oTransaccion.CuentaOrigen.Usuario.Identificacion;
+                            oCuentaOrigen.Nombre = oTransaccion.CuentaOrigen.Usuario.Nombre;
+                            //Nombre del cliente. (string de 5 a 100 caracteres)
+                            //Asignamos el origen
+                            oTransaccionIntegracion.Origen = oCuentaOrigen;
+
+                            //DATOS DE LA CUENTA DESTINO
+
+                            //Creamos un objeto de tipo destino
+                            var oCuentaDestino = new BcrWcfTransferenciaSinpeCDD.CL_Cliente();
+                            oCuentaDestino.CC = oTransaccion.CuentaDestino.NumeroCuenta;
+                            //Cuenta Cliente Destino según el estándar SINPE. (string de 17 posiciones numéricas)
+                            oCuentaDestino.Identificacion = oTransaccion.CuentaDestino.Usuario.Identificacion;
+                            //Identificación del cliente según el formato SINPE. (string de 5 a 20 caracteres)
+                            oCuentaDestino.Nombre = oTransaccion.CuentaDestino.Usuario.Nombre;
+                            //Nombre del cliente. (string de 5 a 100 caracteres)
+
+                            //Asignamos el destino
+                            oTransaccionIntegracion.Destino = oCuentaDestino;
+
+                            //Cédula SINPE pero no sé de quien. (string no sé de que tamaño) ESTA ES LA CEDULA QUE DEBE ENVIAR EL CANAL DE LA CUENTA ORIGEN, NO ES OBLIGATORIA, NO ES OBLIGATORIA PERO SI NO SE ENVÍA SE UTILZIARÍA LA SICC PARA CALCULAR LA CEDULA SINPE.
+                            oTransaccionIntegracion.CedulaSINPE = oTransaccion.CedulaSINPE;
+
+                            //Código del centro de costo asociado a la  transacción. Esto facilita la consulta de la información. Por ejemplo, en un banco, el Centro de Costo puede ser una codificación de las sucursales. Entonces, en CGP puede sacar listados de los pagos que gestionó determinado centro de costo. En otras entidades gubernamentales, el Centro de Costo puede ser un Departamento, Unidad, etc, o bien, un único Código constante para todos los pagos. En este último caso, el filtro por Centro de Costo no tendría mucho sentido. Según codificación CGP. (entero).  OFICINA ORIGEN QUE VA EN EL REPACL5070, LO ENVIA EL CANAL.
+                            oTransaccionIntegracion.CentroCosto = int.Parse(oficinaSICC);
+                            //Código del concepto de la transacción según codificación CGP, esta puede referirse a: Pago de proveedores, pago planilla, cobro de tarjeta, etc. (entero).  SON LOS CONCEPTOS QUE SE UTILIZAN A NIVEL DE CGP PARA LOS TIPOS DE TRANSACCIONES.  TENGO QUE TENERLO CONFIGURADO A NIVEL DE CGP.
+                            oTransaccionIntegracion.CodigoConcepto = oTransaccion.CodigoConcepto;
+                            //Código de la moneda de la transacción según codificación SINPE. (Tipo de dato: Enumerador {Colones, Dolares, Euros})
+                            if (oTransaccion.CodigoMoneda == codigoMonedaColones)
+                                // Asigna la moneda colones
+                                oTransaccionIntegracion.CodigoMoneda = BcrWcfTransferenciaSinpeCDD.Moneda.Colones;
+                            else if (oTransaccion.CodigoMoneda == codigoMonedaDolares)
+                                // Asigna la moneda dólares
+                                oTransaccionIntegracion.CodigoMoneda = BcrWcfTransferenciaSinpeCDD.Moneda.Dolares;
+                            //oTransaccionIntegracion.CodigoMoneda = Convert.ToInt32(ddlMonedas.SelectedValue) == 1 ? Moneda.Colones : (Convert.ToInt32(ddlMonedas.SelectedValue) == 2 ? Moneda.Dolares : Moneda.Euros);
+                            //Identificador asignado a la transacción  que permite identificarla de forma única en el sistema SINPE. (string de 25 posiciones numéricas)  ESTE ES EL CÓDIGO DE REFERENCIA SINPE, LO CALCULA CGP Y ME LO DEVUELVE.
+                            oTransaccionIntegracion.CodigoReferencia = oTransaccion.CodigoReferencia;
+                            //Descripción de la transacción. (string mayor a 15 caracteres y menor a 255): PARA USAR EL SIMULADOR Y QUE NO VAYA A SINPE SE DEBE ENVIAR R:XX DÓNDE XX ES EL CÓDIGO DE RECHAZO QUE QUEREMOS USAR. EL QUE TIENE EL SIMULADOR ES EL WS QUE HIZO PROSOFT PARA COMUNICARSE CON EL WS DE SINPE, ESTE ES EL OTRO WS QUE UTILIZA EL CGP.
+                            oTransaccionIntegracion.Descripcion = oTransaccion.Descripcion;
+
+                            //Código de la entidad que origina la transacción según codificación SINPE, solo para el caso de que existan entidades representadas, de otro modo se puede omitir este valor.  (entero)
+                            oTransaccionIntegracion.EntidadOrigen = oTransaccion.EntidadOrigen;
+                            //Monto de la transacción en la moneda especificada.  (Tipo de dato: Decimal. Valor máximo “79228162514264337593543950335”, separador de decimales (.) sin superar las 29 posiciones numéricas.)
+                            oTransaccionIntegracion.Monto = oTransaccion.Monto;
+                            //Monto de la comisión de la transacción (Decimal. Valor máximo “79228162514264337593543950335”, separador de decimales (.) sin superar las 29 posiciones numéricas)  NO SE DEBE ENVIAR, PORQUE CGP YA LO TIENE PARAMETRIZADO POR CANAL.
+                            oTransaccionIntegracion.MontoComisionCliente = oTransaccion.MontoComisionCliente;
+                            //ES PARA QUE CGP REPRESENTE A OTRAS ENTIDADES A TRAVES DEL BCR.  NO SE UTILIZA.
+                            oTransaccionIntegracion.MontoComisionRepresentada = oTransaccion.MontoComisionRepresentada;
+                            //Identificación del punto de integración a utilizar para la realización de la transacción, este debe estar previamente registrado en el CGP. (entero)  ES LA RUTA DE INTEGRACIÓN HACIA LOS LLAMADOS A LOS SISTEMAS INTERNOS DEL BANCO, EN NUESTRO CASO EL WS DEL REPACL5070.
+                            oTransaccionIntegracion.NodoIntegracion = oTransaccion.NodoIntegracion;
+                            //Referencia de la transacción en el sistema interno. (entero)  ES EL NÚMERO DE DOCUMENTO QUE DEBE ENVIAR EL CANAL, ES EL MISMO QUE SE LE ENVIA AL 5070, SI LO ENVÍO CGP LO RESPETA, SI NO, CGP ME GENERA UN CÓDIGO Y ME LO DEVUELVE.
+                            oTransaccionIntegracion.NumeroDocumento = oTransaccion.NumeroDocumento;
+                            //Resumen de pago – cobro que  aparece en el estado de cuenta. Esto permite que el destinatario de la transacción pueda identificar rápidamente el motivo de esta. En el caso de cobros es un valor que se valida contra la orden de domiciliación en la entidad destino.
+                            //Tipo de dato: Alfanumérico de 1 a 20 caracteres.
+                            oTransaccionIntegracion.Servicio = oTransaccion.Servicio;
+
+                            //Ingresamos la transacción en el arreglo de transacciones
+                            oTransaccionProcesar[contadorRegistro] = oTransaccionIntegracion;
+                            //Aumenta el contador del arreglo
+                            contadorRegistro += contadorRegistro;
+
+                            // Indica que se está por ir a CGP
+                            indicadorEnvioCGP = true;
+
+                            // Registra trazabilidad de entrada
+                            RegistroAuditoriaTrazabilidadCompleto(oAuditoria, oTransaccionIntegracion, null, null, null,
+                                BcrEnumerados.BcrAcciones.PROCESOCGP,
+                                BcrEnumerados.BcrModulos.TRANSFERENCIAS_CREDITO_SINPE,
+                                "Envío transferencia CDD a CGP.");
+
+                            // Se realiza el envío directo de la transacción
+                            BcrWcfTransferenciaSinpeCDD.CL_RespuestaTransaccion[] respuestaServicio = servicio.RegistrarCreditoCuenta(oTransaccionProcesar, oRastro, 0);
+
+                            // Registra trazabilidad de entrada
+                            RegistroAuditoriaTrazabilidadCompleto(oAuditoria, oTransaccionIntegracion,
+                                (respuestaServicio != null && respuestaServicio.Length > 0 ? 
+                                    (object)respuestaServicio[0] : (object)respuestaServicio),
+                                (respuestaServicio != null && respuestaServicio.Length > 0 ?
+                                    respuestaServicio[0]._TramaEntrada : string.Empty),
+                                (respuestaServicio != null && respuestaServicio.Length > 0 ?
+                                    respuestaServicio[0]._TramaSalida : string.Empty),
+                                BcrEnumerados.BcrAcciones.PROCESOCGP,
+                                 BcrEnumerados.BcrModulos.TRANSFERENCIAS_CREDITO_SINPE,
+                                "Respuesta transferencia CDD de CGP.");
+                            
+                            // Procesa la respuesta del mensaje retornado
+                            respuesta = ProcesarRespuestaCDD(respuestaServicio);
+                        }
+                    }
+                }
+
+                // Retorna el resultado
+                return respuesta;
+            }
+            // Excepción por tiempo de conexión vencida
+            catch (TimeoutException timeException)
+            {
+                if (oAuditoria != null)
+                {
+                    oAuditoria.CodigoError = (int)BcrEnumerados.BcrMensajes.SERVICIO;
+                    oAuditoria.Excepcion = timeException;
+                    oAuditoria.Modulo = MethodBase.GetCurrentMethod().ReflectedType.Name;
+                    oAuditoria.Operacion = MethodBase.GetCurrentMethod().Name;
+                    respuesta.DescripcionMensaje = BcrErrorApi.RegistrarError(oAuditoria);
+                }
+
+                // Asigna el código de mensaje
+                respuesta.CodigoMensaje = indicadorEnvioCGP ? (int)BcrEnumerados.BcrExcepcionesServicios.ERRORTIMEOUTSERVICIO : (int)BcrEnumerados.BcrExcepcionesServicios.ERRORGENERAL;
+
+                if (respuesta.DescripcionMensaje == null)
+                    respuesta.DescripcionMensaje = BcrConstantes.Mensajes.MENSAJEGENERICO;
+
+                return respuesta;
+            }
+            // Excepción por fallo en la lógica del servicio
+            catch (FaultException faultExceptionError)
+            {
+                if (oAuditoria != null)
+                {
+                    oAuditoria.CodigoError = (int)BcrEnumerados.BcrMensajes.SERVICIO;
+                    oAuditoria.Excepcion = faultExceptionError;
+                    oAuditoria.Modulo = MethodBase.GetCurrentMethod().ReflectedType.Name;
+                    oAuditoria.Operacion = MethodBase.GetCurrentMethod().Name;
+                    respuesta.DescripcionMensaje = BcrErrorApi.RegistrarError(oAuditoria);
+                }
+
+                // Asigna el código de mensaje
+                respuesta.CodigoMensaje = indicadorEnvioCGP ? (int)BcrEnumerados.BcrExcepcionesServicios.ERRORFALLOINTERNOSERVICIO : (int)BcrEnumerados.BcrExcepcionesServicios.ERRORGENERAL;
+
+                if (respuesta.DescripcionMensaje == null)
+                    respuesta.DescripcionMensaje = BcrConstantes.Mensajes.MENSAJEGENERICO;
+
+                return respuesta;
+            }
+            catch (CommunicationException communicationException)
+            {
+                if (oAuditoria != null)
+                {
+                    oAuditoria.CodigoError = (int)BcrEnumerados.BcrMensajes.SERVICIO;
+                    oAuditoria.Excepcion = communicationException;
+                    oAuditoria.Modulo = MethodBase.GetCurrentMethod().ReflectedType.Name;
+                    oAuditoria.Operacion = MethodBase.GetCurrentMethod().Name;
+                    respuesta.DescripcionMensaje = BcrErrorApi.RegistrarError(oAuditoria);
+                }
+
+                // Asigna el código de mensaje
+                respuesta.CodigoMensaje = indicadorEnvioCGP ? (int)BcrEnumerados.BcrExcepcionesServicios.ERRORCOMUNICACIONSERVICIO : (int)BcrEnumerados.BcrExcepcionesServicios.ERRORGENERAL;
+
+                if (respuesta.DescripcionMensaje == null)
+                    respuesta.DescripcionMensaje = BcrConstantes.Mensajes.MENSAJEGENERICO;
+
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                if (oAuditoria != null)
+                {
+                    oAuditoria.CodigoError = (int)BcrEnumerados.BcrMensajes.SERVICIO;
+                    oAuditoria.Excepcion = ex;
+                    oAuditoria.Modulo = MethodBase.GetCurrentMethod().ReflectedType.Name;
+                    oAuditoria.Operacion = MethodBase.GetCurrentMethod().Name;
+                    respuesta.DescripcionMensaje = BcrErrorApi.RegistrarError(oAuditoria);
+                }
+
+                // Asigna el código de mensaje
+                respuesta.CodigoMensaje = indicadorEnvioCGP ? (int)BcrEnumerados.BcrExcepcionesServicios.ERRORPOSTERIORSERVICIO : (int)BcrEnumerados.BcrExcepcionesServicios.ERRORGENERAL;
+
+                if (respuesta.DescripcionMensaje == null)
+                {
+                    respuesta.DescripcionMensaje = BcrConstantes.Mensajes.MENSAJEGENERICO;
+                }
+
+                return respuesta;
+            }
+        }
+
+        /// <summary>
+        ///     Realiza la trasferencia al sinpe CCD
+        /// </summary>
+        /// <returns>Resultado de la operación</returns>
+        public IMensaje<IEnumerable<ITransaccionSinpe>> TransferenciaSinpeDebitoCuentaCCD(IRastro oDatosRastro,
+            IEnumerable<ITransaccionSinpe> oTransaccionSinpe, IAdministracion oAuditoria)
+        {
+            // Obtiene los valores de configuración utilizados para la trama del SICC
+            short codigoMonedaColones =
+                short.Parse(ConfigurationManager.AppSettings[BcrConstantes.ServiciosWindows.CODIGOTIPOMONEDACOLONES]);
+            short codigoMonedaDolares =
+                short.Parse(ConfigurationManager.AppSettings[BcrConstantes.ServiciosWindows.CODIGOTIPOMONEDADOLARES]);
+
+            var canalSICC = string.Empty;
+            var oficinaSICC = string.Empty;
+            var reporteSICC = string.Empty;
+
+            CrearTrama.CargarDatosCanalRef(oAuditoria.Canal, ref canalSICC, ref oficinaSICC, ref reporteSICC, string.Empty);
+
+            // Almacena un indicador para saber si ya fue enviada la petición a CGP
+            bool indicadorEnvioCGP = false;
+            // Almacena el mensaje de respuesta resuelto por el contenedor
+            var respuesta = BcrGlobalUnity.oContenedor.Resolve<IMensaje<IEnumerable<ITransaccionSinpe>>>();
+
+            //TODO: Validación temporal para la oficina de Kristal porque falta la conta para CGP
+            if (oficinaSICC.Equals(BcrConstantes.ParametrosPerifericos.DatosCanalKristal.OficinaSicc))
+                oficinaSICC = BcrConstantes.ParametrosPerifericos.DatosCanalComercial.OficinaSicc;
+            try
+            {
+                // Agregamos la referencia al Web Service
+                using (var servicio = new CCD_WSClient())
+                {
+                    // Si el objeto de la transacción no es nulo
+                    if (oTransaccionSinpe != null)
+                    {
+                        //Creamos un objeto de tipo rastro
+                        var oRastro = new BcrWcfTransferenciaSinpeCCD.CL_Rastro();
+                        oRastro.Canalk__BackingField = int.Parse(canalSICC);
+                        //Identificación del canal que ejecuta la petición, este debe ser registrado previamente en el CGP. (entero)  TIENE QUE ESTAR REGISTRADO EN CGP (MARLON ARIAS) LOS CAUSALES Y LAS COMISIONES SE DEBEN TAMBIEN REGISTRAR EN CGP. EN CGP MANEJA CANAL, SERVICIO Y CAUSAS POR SERVICIO CANAL, ESTO LO MANEJA POR EL CONCEPTO.
+                        oRastro.IPk__BackingField = oDatosRastro.IP;
+                        //Dirección IP física desde donde se registra la petición. (string de 8 a 17 caracteres)  ES LA IP DEL CLIENTE, VALIDA FORMATO.
+                        oRastro.Usuariok__BackingField = oDatosRastro.Usuario;
+                        //Login de usuario que realiza la petición. (string de 1 a 50 caracteres) USUARIO DE CLIENTE.
+
+                        //Creamos un objeto array de tipo transacción
+                        var oTransaccionProcesar =
+                            new BcrWcfTransferenciaSinpeCCD.CL_TransaccionIntegracion[oTransaccionSinpe.Count()];
+                        int contadorRegistro = 0;
+
+                        // Recorre los datos del listado de transacciones SINPE
+                        foreach (ITransaccionSinpe oTransaccion in oTransaccionSinpe)
+                        {
+                            //Creamos un objeto de tipo transacción
+                            var oTransaccionIntegracion = new BcrWcfTransferenciaSinpeCCD.CL_TransaccionIntegracion();
+
+                            //DATOS DE LA CUENTA ORIGEN
+
+                            //Creamos un objeto de tipo origen
+                            var oCuentaOrigen = new BcrWcfTransferenciaSinpeCCD.CL_Cliente();
+                            //Cuenta Cliente Origen según el estándar SINPE. (string de 17 posiciones numéricas)
+                            oCuentaOrigen.CC = oTransaccion.CuentaOrigen.NumeroCuenta;
+                            // Identificación del cliente según el formato SICC.  SI SE ENVIA LA CEDULA SINPE ORIGEN CGP 
+                            // UTILIZA ESTA PARA IR AL BCCR, CASO CONTRARIO AGARRA LA SICC Y LA CONVIERTE EN SINPE UTILIZANDO 
+                            // LA ESTRUCTURA BSCCS. LA SICC SE DEBE ENVIAR OBLIGATORIAMENTE PARA HACER USO DEL REPACL5070
+                            oCuentaOrigen.Identificacion = oTransaccion.CuentaOrigen.Usuario.Identificacion;
+                            oCuentaOrigen.Nombre = oTransaccion.CuentaOrigen.Usuario.Nombre;
+                            //Nombre del cliente. (string de 5 a 100 caracteres)
+                            //Asignamos el origen
+                            oTransaccionIntegracion.Origen = oCuentaOrigen;
+
+                            //DATOS DE LA CUENTA DESTINO
+
+                            //Creamos un objeto de tipo destino
+                            var oCuentaDestino = new BcrWcfTransferenciaSinpeCCD.CL_Cliente();
+                            oCuentaDestino.CC = oTransaccion.CuentaDestino.NumeroCuenta;
+                            //Cuenta Cliente Destino según el estándar SINPE. (string de 17 posiciones numéricas)
+                            oCuentaDestino.Identificacion = oTransaccion.CuentaDestino.Usuario.Identificacion;
+                            //Identificación del cliente según el formato SINPE. (string de 5 a 20 caracteres)
+                            oCuentaDestino.Nombre = oTransaccion.CuentaDestino.Usuario.Nombre;
+                            //Nombre del cliente. (string de 5 a 100 caracteres)
+
+                            //Asignamos el destino
+                            oTransaccionIntegracion.Destino = oCuentaDestino;
+
+                            //oDatos.CodigoMoneda = Moneda.Colones.ToString();
+
+                            //DATOS DE LA TRANSACCIÓN
+
+                            oTransaccionIntegracion.CedulaSINPE = oTransaccion.CedulaSINPE;
+                            //Cédula SINPE pero no sé de quien. (string no sé de que tamaño) ESTA ES LA CEDULA QUE DEBE ENVIAR EL CANAL DE LA CUENTA ORIGEN, NO ES OBLIGATORIA, NO ES OBLIGATORIA PERO SI NO SE ENVÍA SE UTILZIARÍA LA SICC PARA CALCULAR LA CEDULA SINPE.
+                            oTransaccionIntegracion.CentroCosto = int.Parse(oficinaSICC);
+                            //Código del centro de costo asociado a la  transacción. Esto facilita la consulta de la información. Por ejemplo, en un banco, el Centro de Costo puede ser una codificación de las sucursales. Entonces, en CGP puede sacar listados de los pagos que gestionó determinado centro de costo. En otras entidades gubernamentales, el Centro de Costo puede ser un Departamento, Unidad, etc, o bien, un único Código constante para todos los pagos. En este último caso, el filtro por Centro de Costo no tendría mucho sentido. Según codificación CGP. (entero).  OFICINA ORIGEN QUE VA EN EL REPACL5070, LO ENVIA EL CANAL.
+                            oTransaccionIntegracion.CodigoConcepto = oTransaccion.CodigoConcepto;
+
+                            //Código del concepto de la transacción según codificación CGP, esta puede referirse a: Pago de proveedores, pago planilla, cobro de tarjeta, etc. (entero).  SON LOS CONCEPTOS QUE SE UTILIZAN A NIVEL DE CGP PARA LOS TIPOS DE TRANSACCIONES.  TENGO QUE TENERLO CONFIGURADO A NIVEL DE CGP.
+                            if (oTransaccion.CodigoMoneda == codigoMonedaColones)
+                                // Asigna la moneda colones
+                                oTransaccionIntegracion.CodigoMoneda = BcrWcfTransferenciaSinpeCCD.Moneda.Colones;
+                            else if (oTransaccion.CodigoMoneda == codigoMonedaDolares)
+                                // Asigna la moneda dólares
+                                oTransaccionIntegracion.CodigoMoneda = BcrWcfTransferenciaSinpeCCD.Moneda.Dolares;
+
+                            //Código de la moneda de la transacción según codificación SINPE. (Tipo de dato: Enumerador {Colones, Dolares, Euros})
+                            oTransaccionIntegracion.CodigoReferencia = oTransaccion.CodigoReferencia;
+                            //Identificador asignado a la transacción  que permite identificarla de forma única en el sistema SINPE. (string de 25 posiciones numéricas)  ESTE ES EL CÓDIGO DE REFERENCIA SINPE, LO CALCULA CGP Y ME LO DEVUELVE.
+                            oTransaccionIntegracion.Descripcion = oTransaccion.Descripcion;
+                            //Descripción de la transacción. (string mayor a 15 caracteres y menor a 255): PARA USAR EL SIMULADOR Y QUE NO VAYA A SINPE SE DEBE ENVIAR R:XX DÓNDE XX ES EL CÓDIGO DE RECHAZO QUE QUEREMOS USAR. EL QUE TIENE EL SIMULADOR ES EL WS QUE HIZO PROSOFT PARA COMUNICARSE CON EL WS DE SINPE, ESTE ES EL OTRO WS QUE UTILIZA EL CGP.
+                            oTransaccionIntegracion.EntidadOrigen = oTransaccion.EntidadOrigen;
+                            //Código de la entidad que origina la transacción según codificación SINPE, solo para el caso de que existan entidades representadas, de otro modo se puede omitir este valor.  (entero)
+                            oTransaccionIntegracion.Monto = oTransaccion.Monto;
+                            //Monto de la transacción en la moneda especificada.  (Tipo de dato: Decimal. Valor máximo “79228162514264337593543950335”, separador de decimales (.) sin superar las 29 posiciones numéricas.)
+                            oTransaccionIntegracion.MontoComisionCliente = oTransaccion.MontoComisionCliente;
+                            //Monto de la comisión de la transacción (Decimal. Valor máximo “79228162514264337593543950335”, separador de decimales (.) sin superar las 29 posiciones numéricas)  NO SE DEBE ENVIAR, PORQUE CGP YA LO TIENE PARAMETRIZADO POR CANAL.
+                            oTransaccionIntegracion.MontoComisionRepresentada = oTransaccion.MontoComisionRepresentada;
+                            //ES PARA QUE CGP REPRESENTE A OTRAS ENTIDADES A TRAVES DEL BCR.  NO SE UTILIZA.
+                            oTransaccionIntegracion.NodoIntegracion = oTransaccion.NodoIntegracion;
+                            //Identificación del punto de integración a utilizar para la realización de la transacción, este debe estar previamente registrado en el CGP. (entero)  ES LA RUTA DE INTEGRACIÓN HACIA LOS LLAMADOS A LOS SISTEMAS INTERNOS DEL BANCO, EN NUESTRO CASO EL WS DEL REPACL5070.
+                            oTransaccionIntegracion.NumeroDocumento = oTransaccion.NumeroDocumento;
+                            //Referencia de la transacción en el sistema interno. (entero)  ES EL NÚMERO DE DOCUMENTO QUE DEBE ENVIAR EL CANAL, ES EL MISMO QUE SE LE ENVIA AL 5070, SI LO ENVÍO CGP LO RESPETA, SI NO, CGP ME GENERA UN CÓDIGO Y ME LO DEVUELVE.
+                            oTransaccionIntegracion.Servicio = oTransaccion.Servicio;
+                            //Resumen de pago – cobro que  aparece en el estado de cuenta. Esto permite que el destinatario de la transacción pueda identificar rápidamente el motivo de esta. En el caso de cobros es un valor que se valida contra la orden de domiciliación en la entidad destino. (string de 1 a 20 caracteres)  SOLO PARA CUANDO ES DTR, PARA EL CASO DE TFT NO TIENE SENTIDO, ES EL SERVICIO QUE VOY A UTILIZAR.  NO OCUPO DECIR AL CLIENTE POR CUAL SERVICIO ESTOY HACIENDO LA TRANSACCIÓN, CUANDO ES TFT.
+
+                            // Asigna los valores del tipo de operación y tipo de persona si hay intercambio
+                            if (oTransaccion.TipoOperacion != 0)
+                            {
+                                // Asigna los valores requeridos para el registro del tipo de operación
+                                oTransaccionIntegracion.tipoOperacion = oTransaccion.TipoOperacion;
+                                oTransaccionIntegracion.tipoPersona = oTransaccion.TipoPersona;
+                            }
+
+                            //Ingresamos la transacción en el arreglo de transacciones
+                            oTransaccionProcesar[contadorRegistro] = oTransaccionIntegracion;
+                            //Aumenta el contador del arreglo
+                            contadorRegistro += contadorRegistro;
+                            
+                            // Indica que se está por ir a CGP
+                            indicadorEnvioCGP = true;
+                            
+                            // Registra trazabilidad de entrada
+                            RegistroAuditoriaTrazabilidadCompleto(oAuditoria, oTransaccionIntegracion, null, null, null,
+                                BcrEnumerados.BcrAcciones.PROCESOCGP,
+                                BcrEnumerados.BcrModulos.TRANSFERENCIAS_CREDITO_SINPE,
+                                "Envío transferencia CCD a CGP.");
+
+                            // Se realiza el envío directo de la transacción
+                            BcrWcfTransferenciaSinpeCCD.CL_RespuestaTransaccion[] respuestaServicio = servicio.RegistrarDebitoCuenta(oTransaccionProcesar, oRastro);
+
+                            // Registra trazabilidad de entrada
+                            RegistroAuditoriaTrazabilidadCompleto(oAuditoria, oTransaccionIntegracion,
+                                (respuestaServicio != null && respuestaServicio.Length > 0
+                                    ? (object)respuestaServicio[0]
+                                    : (object)respuestaServicio),
+                                (respuestaServicio != null && respuestaServicio.Length > 0
+                                    ? respuestaServicio[0]._TramaEntrada
+                                    : string.Empty),
+                                (respuestaServicio != null && respuestaServicio.Length > 0
+                                    ? respuestaServicio[0]._TramaSalida
+                                    : string.Empty), BcrEnumerados.BcrAcciones.PROCESOCGP,
+                                BcrEnumerados.BcrModulos.TRANSFERENCIAS_CREDITO_SINPE,
+                                "Respuesta transferencia CCD de CGP.");
+
+                            // Procesa la respuesta del mensaje retornado
+                            respuesta = ProcesarRespuestaCCD(respuestaServicio);
+                        }
+                    }
+                }
+
+                // Retorna el resultado
+                return respuesta;
+            }
+            // Excepción por tiempo de conexión vencida
+            catch (TimeoutException timeException)
+            {
+                if (oAuditoria != null)
+                {
+                    oAuditoria.CodigoError = (int)BcrEnumerados.BcrMensajes.SERVICIO;
+                    oAuditoria.Excepcion = timeException;
+                    oAuditoria.Modulo = MethodBase.GetCurrentMethod().ReflectedType.Name;
+                    oAuditoria.Operacion = MethodBase.GetCurrentMethod().Name;
+                    respuesta.DescripcionMensaje = BcrErrorApi.RegistrarError(oAuditoria);
+                }
+
+                // Asigna el código de mensaje
+                respuesta.CodigoMensaje = indicadorEnvioCGP ? (int)BcrEnumerados.BcrExcepcionesServicios.ERRORTIMEOUTSERVICIO : (int)BcrEnumerados.BcrExcepcionesServicios.ERRORGENERAL;
+
+                if (respuesta.DescripcionMensaje == null)
+                    respuesta.DescripcionMensaje = BcrConstantes.Mensajes.MENSAJEGENERICO;
+
+                return respuesta;
+            }
+            // Excepción por fallo en la lógica del servicio
+            catch (FaultException faultExceptionError)
+            {
+                if (oAuditoria != null)
+                {
+                    oAuditoria.CodigoError = (int)BcrEnumerados.BcrMensajes.LOGICA;
+                    oAuditoria.Excepcion = faultExceptionError;
+                    oAuditoria.Modulo = MethodBase.GetCurrentMethod().ReflectedType.Name;
+                    oAuditoria.Operacion = MethodBase.GetCurrentMethod().Name;
+                    respuesta.DescripcionMensaje = BcrErrorApi.RegistrarError(oAuditoria);
+                }
+
+                // Asigna el código de mensaje
+                respuesta.CodigoMensaje = indicadorEnvioCGP ? (int)BcrEnumerados.BcrExcepcionesServicios.ERRORFALLOINTERNOSERVICIO : (int)BcrEnumerados.BcrExcepcionesServicios.ERRORGENERAL;
+
+                if (respuesta.DescripcionMensaje == null)
+                    respuesta.DescripcionMensaje = BcrConstantes.Mensajes.MENSAJEGENERICO;
+
+                return respuesta;
+            }
+            catch (CommunicationException communicationException)
+            {
+                if (oAuditoria != null)
+                {
+                    oAuditoria.CodigoError = (int)BcrEnumerados.BcrMensajes.SERVICIO;
+                    oAuditoria.Excepcion = communicationException;
+                    oAuditoria.Modulo = MethodBase.GetCurrentMethod().ReflectedType.Name;
+                    oAuditoria.Operacion = MethodBase.GetCurrentMethod().Name;
+                    respuesta.DescripcionMensaje = BcrErrorApi.RegistrarError(oAuditoria);
+                }
+
+                // Asigna el código de mensaje
+                respuesta.CodigoMensaje = indicadorEnvioCGP ? (int)BcrEnumerados.BcrExcepcionesServicios.ERRORCOMUNICACIONSERVICIO : (int)BcrEnumerados.BcrExcepcionesServicios.ERRORGENERAL;
+
+                if (respuesta.DescripcionMensaje == null)
+                    respuesta.DescripcionMensaje = BcrConstantes.Mensajes.MENSAJEGENERICO;
+
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                if (oAuditoria != null)
+                {
+                    oAuditoria.CodigoError = (int)BcrEnumerados.BcrMensajes.SERVICIO;
+                    oAuditoria.Excepcion = ex;
+                    oAuditoria.Modulo = MethodBase.GetCurrentMethod().ReflectedType.Name;
+                    oAuditoria.Operacion = MethodBase.GetCurrentMethod().Name;
+                    respuesta.DescripcionMensaje = BcrErrorApi.RegistrarError(oAuditoria);
+                }
+
+                // Asigna el código de mensaje
+                respuesta.CodigoMensaje = indicadorEnvioCGP ? (int)BcrEnumerados.BcrExcepcionesServicios.ERRORPOSTERIORSERVICIO : (int)BcrEnumerados.BcrExcepcionesServicios.ERRORGENERAL;
+
+                if (respuesta.DescripcionMensaje == null)
+                {
+                    respuesta.DescripcionMensaje = BcrConstantes.Mensajes.MENSAJEGENERICO;
+                }
+
+                return respuesta;
+            }
+        }
+         /// <summary>
+        ///     Método que procesa la trama de respuesta retornada por el SICC al ejecutar el reporte
+        /// </summary>
+        /// <param name="tramaEntradaSicc">Trama enviada al SICC</param>
+        /// <param name="tramaRespuestaSicc">Trama retornada por el SICC como respuesta</param>
+        /// <param name="respuesta">Objeto con la respuesta obtenida</param>
+        private IMensaje<IEnumerable<ITransaccionSinpe>> ProcesarRespuestaTFT(CL_RespuestaTransaccion[] respuestaServicio)
+        {
+            // Almacena la respuesta obtenida
+            var respuesta = BcrGlobalUnity.oContenedor.Resolve<IMensaje<IEnumerable<ITransaccionSinpe>>>();
+            // Almacena el objeto retornado
+            var objetoRetornado = new List<ITransaccionSinpe>();
+
+            try
+            {
+                // Si la respuesta trae resultados
+                if (respuestaServicio != null && respuestaServicio.Count() > 0)
+                {
+                    // Agregamos la referencia al Web Service
+                    using (var servicio = new General_WSClient())
+                    {
+                        // Almacena los objetos de transacciones SINPE
+                        ITransaccionSinpe oTransaccionSINPE = new BcrTransaccionSinpe();
+
+                        // Recorre los elementos de la respuesta
+                        foreach (CL_RespuestaTransaccion resultado in respuestaServicio)
+                        {
+                            // Asigna la información de respuesta del SICC
+                            oTransaccionSINPE.TramaEntrada = resultado._TramaEntrada;
+                            oTransaccionSINPE.TramaSalida = resultado._TramaSalida;
+                            oTransaccionSINPE.CodigoRespuesta = resultado._MotivoRechazo.ToString();
+                            oTransaccionSINPE.DescripcionRespuesta = resultado._Resultado
+                                ? Mensajes.Mensajes.TransaccionProcesadaExito
+                                : servicio.ObtenerMotivoRechazo(
+                                    resultado._MotivoRechazo);
+
+                            // Procesa la trama de respuesta del Xml
+                            ProcesarTramaRespuestaCGP(ref oTransaccionSINPE);
+
+                            // Agrega el objeto a la lista
+                            objetoRetornado.Add(oTransaccionSINPE);
+                        }
+
+                        // Asigna el objeto a retornar
+                        respuesta.ObjetoRetornado = objetoRetornado;
+
+                        // Asigna el resultado del procesamiento de la trama de salida                
+                        respuesta.CodigoMensaje = BcrConstantes.RespuestaCanal.CODIGOEXITO;
+                    }
+                }
+                else
+                {
+                    // Asigna el resultado del procesamiento de la trama de salida                
+                    respuesta.CodigoMensaje = (int)BcrEnumerados.BcrExcepcionesServicios.ERRORPOSTERIORSERVICIO;
+                    respuesta.DescripcionMensaje = Mensajes.Mensajes.EjecucionTFTSINPESinResultados;
+                }
+
+                // Retorna la respuesta
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                // Asigna el mensaje inconsistente y el código de error interno
+                respuesta.DescripcionMensaje = ex.Message;
+                respuesta.CodigoMensaje = (int)BcrEnumerados.BcrExcepcionesServicios.ERRORPOSTERIORSERVICIO;
+
+                // Retorna la respuesta
+                return respuesta;
+            }
+        }
+
+        /// <summary>
+        ///     Método que procesa la trama de respuesta retornada por el SICC al ejecutar el reporte
+        /// </summary>
+        /// <param name="tramaEntradaSicc">Trama enviada al SICC</param>
+        /// <param name="tramaRespuestaSicc">Trama retornada por el SICC como respuesta</param>
+        /// <param name="respuesta">Objeto con la respuesta obtenida</param>
+        private IMensaje<IEnumerable<ITransaccionSinpe>> ProcesarRespuestaCCD(
+            BcrWcfTransferenciaSinpeCCD.CL_RespuestaTransaccion[] respuestaServicio)
+        {
+            // Almacena la respuesta obtenida
+            var respuesta = BcrGlobalUnity.oContenedor.Resolve<IMensaje<IEnumerable<ITransaccionSinpe>>>();
+            // Almacena el objeto retornado
+            var objetoRetornado = new List<ITransaccionSinpe>();
+
+            try
+            {
+                // Si la respuesta trae resultados
+                if (respuestaServicio != null && respuestaServicio.Count() > 0)
+                {
+                    // Agregamos la referencia al Web Service
+                    using (var servicio = new General_WSClient())
+                    {
+                        // Almacena los objetos de transacciones SINPE
+                        ITransaccionSinpe oTransaccionSINPE = new BcrTransaccionSinpe();
+
+                        // Recorre los elementos de la respuesta
+                        foreach (BcrWcfTransferenciaSinpeCCD.CL_RespuestaTransaccion resultado in respuestaServicio)
+                        {
+                            // Asigna la información de respuesta del SICC
+                            oTransaccionSINPE.TramaEntrada = resultado._TramaEntrada;
+                            oTransaccionSINPE.TramaSalida = resultado._TramaSalida;
+                            oTransaccionSINPE.CodigoRespuesta = resultado._MotivoRechazo.ToString();
+                            oTransaccionSINPE.DescripcionRespuesta = resultado._Resultado
+                                ? Mensajes.Mensajes.TransaccionProcesadaExito
+                                : servicio.ObtenerMotivoRechazo(
+                                    resultado._MotivoRechazo);
+                            // Procesa la trama de respuesta del Xml
+                            ProcesarTramaRespuestaCGP(ref oTransaccionSINPE);
+
+                            // Agrega el objeto a la lista
+                            objetoRetornado.Add(oTransaccionSINPE);
+                        }
+
+                        // Asigna el objeto a retornar
+                        respuesta.ObjetoRetornado = objetoRetornado;
+
+                        // Asigna el resultado del procesamiento de la trama de salida                
+                        respuesta.CodigoMensaje = BcrConstantes.RespuestaCanal.CODIGOEXITO;
+                    }
+                }
+                else
+                {
+                    // Asigna el resultado del procesamiento de la trama de salida                
+                    respuesta.CodigoMensaje = (int)BcrEnumerados.BcrExcepcionesServicios.ERRORPOSTERIORSERVICIO;
+                    respuesta.DescripcionMensaje = Mensajes.Mensajes.EjecucionTFTSINPESinResultados;
+                }
+
+                // Retorna la respuesta
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                // Asigna el mensaje inconsistente y el código de error intenrno
+                respuesta.DescripcionMensaje = ex.Message;
+                respuesta.CodigoMensaje = (int)BcrEnumerados.BcrExcepcionesServicios.ERRORPOSTERIORSERVICIO;
+
+                // Retorna la respuesta
+                return respuesta;
+            }
+        }
+
+        /// <summary>
+        ///     Método que procesa la trama de respuesta retornada por el SICC al ejecutar el reporte
+        /// </summary>
+        /// <param name="tramaEntradaSicc">Trama enviada al SICC</param>
+        /// <param name="tramaRespuestaSicc">Trama retornada por el SICC como respuesta</param>
+        /// <param name="respuesta">Objeto con la respuesta obtenida</param>
+        private IMensaje<IEnumerable<ITransaccionSinpe>> ProcesarRespuestaDTR(
+            BcrWcfTransferenciaSinpeDTR.CL_RespuestaTransaccion[] respuestaServicio)
+        {
+            // Almacena la respuesta obtenida
+            var respuesta = BcrGlobalUnity.oContenedor.Resolve<IMensaje<IEnumerable<ITransaccionSinpe>>>();
+            // Almacena el objeto retornado
+            var objetoRetornado = new List<ITransaccionSinpe>();
+
+            try
+            {
+                // Si la respuesta trae resultados
+                if (respuestaServicio != null && respuestaServicio.Count() > 0)
+                {
+                    // Agregamos la referencia al Web Service
+                    using (var servicio = new General_WSClient())
+                    {
+                        // Almacena los objetos de transacciones SINPE
+                        ITransaccionSinpe oTransaccionSINPE = new BcrTransaccionSinpe();
+
+                        // Recorre los elementos de la respuesta
+                        foreach (BcrWcfTransferenciaSinpeDTR.CL_RespuestaTransaccion resultado in respuestaServicio)
+                        {
+                            // Asigna la información de respuesta del SICC
+                            oTransaccionSINPE.TramaEntrada = resultado._TramaEntrada;
+                            oTransaccionSINPE.TramaSalida = resultado._TramaSalida;
+                            oTransaccionSINPE.CodigoRespuesta = resultado._MotivoRechazo.ToString();
+                            oTransaccionSINPE.DescripcionRespuesta = resultado._Resultado
+                                ? Mensajes.Mensajes.TransaccionProcesadaExito
+                                : servicio.ObtenerMotivoRechazo(
+                                    resultado._MotivoRechazo);
+
+                            // Procesa la trama de respuesta del Xml
+                            ProcesarTramaRespuestaCGP(ref oTransaccionSINPE);
+
+                            // Agrega el objeto a la lista
+                            objetoRetornado.Add(oTransaccionSINPE);
+                        }
+
+                        // Asigna el objeto a retornar
+                        respuesta.ObjetoRetornado = objetoRetornado;
+
+                        // Asigna el resultado del procesamiento de la trama de salida                
+                        respuesta.CodigoMensaje = BcrConstantes.RespuestaCanal.CODIGOEXITO;
+                    }
+                }
+                else
+                {
+                    // Asigna el resultado del procesamiento de la trama de salida                
+                    respuesta.CodigoMensaje = (int)BcrEnumerados.BcrExcepcionesServicios.ERRORPOSTERIORSERVICIO;
+                    respuesta.DescripcionMensaje = Mensajes.Mensajes.EjecucionTFTSINPESinResultados;
+                }
+
+                // Retorna la respuesta
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                // Asigna el mensaje inconsistente y el código de error interno
+                respuesta.DescripcionMensaje = ex.Message;
+                respuesta.CodigoMensaje = (int)BcrEnumerados.BcrExcepcionesServicios.ERRORPOSTERIORSERVICIO;
+
+                // Retorna la respuesta
+                return respuesta;
+            }
+        }
+
+        /// <summary>
+        ///     Método que procesa la trama de respuesta retornada por el SICC al ejecutar el reporte
+        /// </summary>
+        /// <param name="tramaEntradaSicc">Trama enviada al SICC</param>
+        /// <param name="tramaRespuestaSicc">Trama retornada por el SICC como respuesta</param>
+        /// <param name="respuesta">Objeto con la respuesta obtenida</param>
+        private IMensaje<IEnumerable<ITransaccionSinpe>> ProcesarRespuestaCDD(
+            BcrWcfTransferenciaSinpeCDD.CL_RespuestaTransaccion[] respuestaServicio)
+        {
+            // Almacena la respuesta obtenida
+            var respuesta = BcrGlobalUnity.oContenedor.Resolve<IMensaje<IEnumerable<ITransaccionSinpe>>>();
+            // Almacena el objeto retornado
+            var objetoRetornado = new List<ITransaccionSinpe>();
+
+            try
+            {
+                // Si la respuesta trae resultados
+                if (respuestaServicio != null && respuestaServicio.Count() > 0)
+                {
+                    // Agregamos la referencia al Web Service
+                    using (var servicio = new General_WSClient())
+                    {
+                        // Almacena los objetos de transacciones SINPE
+                        ITransaccionSinpe oTransaccionSINPE = new BcrTransaccionSinpe();
+
+                        // Recorre los elementos de la respuesta
+                        foreach (BcrWcfTransferenciaSinpeCDD.CL_RespuestaTransaccion resultado in respuestaServicio)
+                        {
+                            // Asigna la información de respuesta del SICC
+                            oTransaccionSINPE.TramaEntrada = resultado._TramaEntrada;
+                            oTransaccionSINPE.TramaSalida = resultado._TramaSalida;
+                            oTransaccionSINPE.CodigoRespuesta = resultado._MotivoRechazo.ToString();
+                            oTransaccionSINPE.DescripcionRespuesta = resultado._Resultado
+                                ? Mensajes.Mensajes.TransaccionProcesadaExito
+                                : servicio.ObtenerMotivoRechazo(
+                                    resultado._MotivoRechazo);
+
+                            //En este caso no se procesa la trama de respuesta ya que el servicio no retorna ninguna trama
+                            // Procesa la trama de respuesta del Xml
+                            //ProcesarTramaRespuestaCGP(ref oTransaccionSINPE);
+
+                            // Agrega el objeto a la lista
+                            objetoRetornado.Add(oTransaccionSINPE);
+                        }
+
+                        // Asigna el objeto a retornar
+                        respuesta.ObjetoRetornado = objetoRetornado;
+
+                        // Asigna el resultado del procesamiento de la trama de salida                
+                        respuesta.CodigoMensaje = BcrConstantes.RespuestaCanal.CODIGOEXITO;
+                    }
+                }
+                else
+                {
+                    // Asigna el resultado del procesamiento de la trama de salida                
+                    respuesta.CodigoMensaje = (int)BcrEnumerados.BcrExcepcionesServicios.ERRORPOSTERIORSERVICIO;
+                    respuesta.DescripcionMensaje = Mensajes.Mensajes.EjecucionTFTSINPESinResultados;
+                }
+
+                // Retorna la respuesta
+                return respuesta;
+            }
+            catch (Exception ex)
+            {
+                // Asigna el mensaje inconsistente y el código de error interno
+                respuesta.DescripcionMensaje = ex.Message;
+                respuesta.CodigoMensaje = (int)BcrEnumerados.BcrExcepcionesServicios.ERRORPOSTERIORSERVICIO;
+
+                // Retorna la respuesta
+                return respuesta;
+            }
+        }
