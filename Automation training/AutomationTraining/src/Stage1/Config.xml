@@ -1,0 +1,15 @@
+<suite name="AllLogin">
+    <test name="LoginTests">
+        <classes>
+            <class name=”src.Stage1.LoginTests” />
+            <class name=”src.Stage1” >
+            <method></method>
+        </classes>
+    </test>
+    
+    <test name="RegisterTests">
+    	<classes>
+    		<class name="src.Stage1.RegisterTests" />
+    	</classes>
+    </test>
+</suite>
