@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="iso-8859-1"?>
+<CGPDOCUMENTOXML>
+	<CREDITOS>
+		<CREDITO CodigoEntidad="152" NumeroTransaccion="6598452     " IdOrigen="02-0595-0377        " NombreOrigen="SANCHEZ VILLALOBOS JENNY      " CuentaDebitar="15201001001131072" Monto="8000,00        " MonedaDestino="01" Descripcion="E001 - 100 CCD Aprobado Lote  " IdDestino="01-1480-0995        " NombreDestino="Banco Nacional                " CuentaAcreditar="12011111111111151" Servicio="31" Canal="003" />
+		<CREDITO CodigoEntidad="152" NumeroTransaccion="6598452     " IdOrigen="02-0595-0377        " NombreOrigen="SANCHEZ VILLALOBOS JENNY      " CuentaDebitar="15201001001131072" Monto="8000,00        " MonedaDestino="01" Descripcion="E001 - 100 CCD Aprobado Lote  " IdDestino="01-1480-0995        " NombreDestino="Banco Nacional                " CuentaAcreditar="12011111111111151" Servicio="31" Canal="003" />
+		<RESUMEN CantidadDatos="2" SumatoriaMontos="16000,00" />
+	</CREDITOS>
+</CGPDOCUMENTOXML>

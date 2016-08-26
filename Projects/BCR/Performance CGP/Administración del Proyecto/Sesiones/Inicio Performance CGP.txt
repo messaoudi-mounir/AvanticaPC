@@ -1,0 +1,70 @@
+Sesion de clarificacion de escenarios y temas de ambientes de prueba
+20160718
+10am a 
+
+
+SICC es una preocupacion pues en pruebas no se parece al ambiente real
+- Habria que coordinar muy bien
+- Hay mucha fluctuacion en tiempos e inestabilidad de parte de SICC
+
+
+
+
+********************************************
+
+Inicio 2pm
+Fin 
+
+CGP
+Centro gestor de pagos, tramite SINPE hacia el banco central
+Hay otro canal de BCR empresas que no se esta probando por instruccion del banco dado que esta siendo sustituido por comercial 
+
+El banco lo consume por diferentes canales
+- Movil BCRComercial Kristal BancoBCR y Corresponsales no bancarios
+- Tambien se esta agregando la parte  de plataforma, para que alguien pueda llegar a cajas y pedir un sinpe
+
+Actualmente se esta en proceso de certificacion funcional, lo prueba avantica con Justin y Xiomara
+
+Hay estimados de transferencias mensuales para algunos de los canales, en especial BRComercial y BancoBCR
+Falta definir Kristal, corresponsales no bancarios
+
+TIPOS DE TRANSACCIONES
+Hay Credito Directo (dia sig, enviar dinero)
+Debito Directo (dia sig, jalar dinero)
+DTR (mismo dia, jalar diner)
+TFT (mismo dia, enviar dinero)
+
+
+Para esta prueba solo se espera comprar lo saliente, Credito Directo y TFT???
+
+
+
+Definir para cada uno de los canales los flujos importantes
+
+
+A nivel de ambiente de pruebas tenemos total acceso.
+Los ambientes de pruebas son ambientes nuevos exclusivos para este tema
+Podemos asumir que es igual al server de prod
+
+Servicios WCF y capa HTTP, deberia ser sencillo
+
+
+Ocupamos una distribucion de los 250K en terminos de horas, dias pico 
+Tenemos una referencia del 2014, que se puede decir que aumento 20% por año
+- Hay que pensar en crecimiento a 2017
+
+El que responde en el ambiente de pruebas es un dummy, que tendriamos que analizar que tanto nos puede afectar
+
+Esto tambien tiene que ver con SICC y el servidor de pruebas se usa mucho
+Ver el tema del dummy y como entiende las cuentas destino 
+- no valida cedulas, si valida estructura de cuenta 17 caracteres
+- ocupamos reglas de digito validador 
+las cuentas destino se pueden quemar
+hay que contemplar el numero de documento, ddmmaahhmm tipicamente
+El dummy es un riesgo
+
+Distribucion de casos de acuerdo a escenario, cuenta no existe, no fondos
+
+
+
+hay que tramitar accesos en el banco para el tema de servicios de CGP, cueva lo va a probar

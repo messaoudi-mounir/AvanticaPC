@@ -1,0 +1,8 @@
+﻿<?xml version="1.0" encoding="iso-8859-1"?>
+<CGPDOCUMENTOXML>
+	<DEBITOS>
+		<DEBITO CodigoEntidad="152" NumeroTransaccion="6598452     " CuentaDebitar="11111111111111117" Monto="5000,00        " MonedaDestino="01" Descripcion="E001 - 100 CDD Aprobado Lote  " IdDestino="01-1480-0995        " NombreDestino="Banco Nacional                " IdOrigen="02-0595-0377        " NombreOrigen="SANCHEZ VILLALOBOS JENNY      "  CuentaAcreditar="15201001001131072" ServicioDebito="0114800995          " Servicio="32" Canal="003" TitularServicio="01-1480-0995" />
+		<DEBITO CodigoEntidad="152" NumeroTransaccion="6598452     " CuentaDebitar="11111111111111117" Monto="5000,00        " MonedaDestino="01" Descripcion="E001 - 100 CDD Aprobado Lote  " IdDestino="01-1480-0995        " NombreDestino="Banco Nacional                " IdOrigen="02-0595-0377        " NombreOrigen="SANCHEZ VILLALOBOS JENNY      "  CuentaAcreditar="15201001001131072" ServicioDebito="0114800995          " Servicio="32" Canal="003" TitularServicio="01-1480-0995" />
+		<RESUMEN CantidadDatos="2" SumatoriaMontos="10000,00" />
+	</DEBITOS>
+</CGPDOCUMENTOXML>	
