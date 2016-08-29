@@ -60,14 +60,14 @@ public class RegisterTests extends BasePage{
 	public void verifyDuplicateUserError(){
 		goToRegisterPage();
 		
-		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_FirstNameRequired")).sendKeys("FirstName");
-		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_LastNameRequired")).sendKeys("LastName");
-		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_EmailRequired")).sendKeys("alejandro.quesada@avantica.com");
-		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_UserNameRequired")).sendKeys("aquesada");//already exists
-		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_PasswordRequired")).sendKeys("passw0rd#");
-		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_ConfirmPasswordRequired")).sendKeys("passw0rd#");
-		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_QuestionRequired")).sendKeys("question?");
-		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_AnswerRequired")).sendKeys("yes");
+		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_FirstNameRequired"),"FirstName");
+		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_LastNameRequired"),"LastName");
+		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_EmailRequired"),"alejandro.quesada@avantica.com");
+		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_UserNameRequired"),"aquesada");//already exists
+		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_PasswordRequired"),"passw0rd#");
+		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_ConfirmPasswordRequired"),"passw0rd#");
+		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_QuestionRequired"),"question?");
+		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_AnswerRequired"),"yes");
 		
 		clickElement(By.id("ctl00_Main_CreateUserWizardControl___CustomNav0_StepNextButtonButton"));
 		
@@ -78,14 +78,14 @@ public class RegisterTests extends BasePage{
 	public void verifyPasswordAndConfirm(){
 		goToRegisterPage();
 		
-		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_FirstNameRequired")).sendKeys("FirstName");
-		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_LastNameRequired")).sendKeys("LastName");
-		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_EmailRequired")).sendKeys("alejandro.quesada@avantica.com");
-		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_UserNameRequired")).sendKeys("aquesada");//already exists
-		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_PasswordRequired")).sendKeys("passw0rd#");
-		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_ConfirmPasswordRequired")).sendKeys("passw0rd!");
-		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_QuestionRequired")).sendKeys("question?");
-		driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_AnswerRequired")).sendKeys("yes");
+		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_FirstNameRequired"),"FirstName");
+		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_LastNameRequired"),"LastName");
+		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_EmailRequired"),"alejandro.quesada@avantica.com");
+		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_UserNameRequired"),"aquesada");//already exists
+		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_PasswordRequired"),"passw0rd#");
+		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_ConfirmPasswordRequired"),"passw0rd!");
+		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_QuestionRequired"),"question?");
+		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_AnswerRequired"),"yes");
 		
 		clickElement(By.id("ctl00_Main_CreateUserWizardControl___CustomNav0_StepNextButtonButton"));
 		

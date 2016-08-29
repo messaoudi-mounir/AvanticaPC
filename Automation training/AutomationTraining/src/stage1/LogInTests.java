@@ -66,13 +66,11 @@ public class LogInTests extends BasePage{
 	    * Validating that we were able to successfully log into the application.*/ 
 	  @Test
 	  public void testAlejandroQuesadaStage1QAAutomationTrainingPractice1Login2() throws Exception {
-	    driver.get(baseUrl + "/default.aspx");
-	    driver.findElement(By.id("ctl00_LoginView_LoginLink")).click();
-	    driver.findElement(By.id("ctl00_Main_LoginConrol_UserName")).clear();
-	    driver.findElement(By.id("ctl00_Main_LoginConrol_UserName")).sendKeys("aquesada");
-	    driver.findElement(By.id("ctl00_Main_LoginConrol_Password")).clear();
-	    driver.findElement(By.id("ctl00_Main_LoginConrol_Password")).sendKeys("Ljnd1709#");
-	    driver.findElement(By.id("ctl00_Main_LoginConrol_LoginButton")).click();
+	    driver.get(baseUrl + "/default.aspx");	    
+	    clickElement(By.id("ctl00_LoginView_LoginLink"));
+	    sendKeysBy(By.id("ctl00_Main_LoginConrol_UserName"),"aquesada");	    
+	    sendKeysBy(By.id("ctl00_Main_LoginConrol_Password"),"Ljnd1709#");
+	    clickElement(By.id("ctl00_Main_LoginConrol_LoginButton"));
 	    assertEquals(driver.findElement(By.id("ctl00_LoginView_MemberLoginStatus")).getText(), "Logout");
 	    assertTrue(driver.findElement(By.id("ctl00_Main_LoginConrol_UserName")).getText() == "aquesada");
 	  } 
@@ -85,12 +83,10 @@ public class LogInTests extends BasePage{
 	  @Test
 	  public void testAlejandroQuesadaStage1QAAutomationTrainingPractice1Login3() throws Exception {
 	    driver.get(baseUrl + "/");
-	    driver.findElement(By.id("ctl00_LoginView_LoginLink")).click();
-	    driver.findElement(By.id("ctl00_Main_LoginConrol_UserName")).clear();
-	    driver.findElement(By.id("ctl00_Main_LoginConrol_UserName")).sendKeys("aquesada");
-	    driver.findElement(By.id("ctl00_Main_LoginConrol_Password")).clear();
-	    driver.findElement(By.id("ctl00_Main_LoginConrol_Password")).sendKeys("password");
-	    driver.findElement(By.id("ctl00_Main_LoginConrol_LoginButton")).click();
+	    clickElement(By.id("ctl00_LoginView_LoginLink"));	    
+	    sendKeysBy(By.id("ctl00_Main_LoginConrol_UserName"), "aquesada");
+	    sendKeysBy(By.id("ctl00_Main_LoginConrol_Password"), "password");
+	    clickElement(By.id("ctl00_Main_LoginConrol_LoginButton"));
 	    assertEquals(driver.findElement(By.xpath("//table[@id='ctl00_Main_LoginConrol']/tbody/tr/td/table/tbody/tr[4]/td")).getText(), "Your login attempt was not successful. Please try again.");
 	  }  
 	  

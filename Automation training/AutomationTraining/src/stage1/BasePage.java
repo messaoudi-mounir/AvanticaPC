@@ -1,10 +1,7 @@
 package stage1;
 
-import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -12,6 +9,7 @@ public class BasePage {
 	
 	private WebDriver driver;
 	public String baseUrl;
+	WebDriverWait wait = new WebDriverWait(driver, 15);
 	
 	public BasePage(WebDriver driver){
 		this.driver = driver;
@@ -19,21 +17,46 @@ public class BasePage {
 	}
 	
 	public void setup(WebDriver driver){
-		driver = new FirefoxDriver();
-	    baseUrl = "http://192.168.0.103:86/";
-	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);	
 		System.out.println("Creating Driver...");	  
 	}
 	
-	public void clickElement(By by){	
-		waitElementBy(by);
-		driver.findElement(by).click();		
+	public boolean clickElement(By by){	
+		try{
+			waitElementClickable(by);
+			driver.findElement(by).click();
+			return true;
+		}catch(Exception e){
+			return false;
+		}
 	}
 	
-	public void waitElementBy (By by){
-		WebDriverWait wait = new WebDriverWait(driver, 15);		
-		wait.until(ExpectedConditions.visibilityOfElementLocated(by));
-		wait.until(ExpectedConditions.elementToBeClickable(by));		
+	public boolean waitElementVisible (By by){
+		try{
+			return wait.until(ExpectedConditions.visibilityOfElementLocated(by)) != null;			
+		}catch(Exception ex){
+			return false;
+		}					
 	}
+	
+	public boolean waitElementClickable(By by){
+		try{
+		return wait.until(ExpectedConditions.elementToBeClickable(by)) != null;				
+		
+		}catch(Exception ex){
+			return false;
+		}
+	}
+	
+	public boolean sendKeysBy(By by, String text){
+		try{
+			waitElementVisible(by);
+			driver.findElement(by).clear();
+			driver.findElement(by).sendKeys(text);
+			return true;
+		}catch (Exception ex){
+			return false;
+		}
+	}
+	
 	
 }

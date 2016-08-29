@@ -24,7 +24,7 @@ Valores de NumeroTransaccion  son relevantes?... Puede ser un consecutivo de 7 d
 IdOrigen es una cedula del dueño de un origen, puede ser la misma 
 Valores de NombreOrigen son relevantes? (No vienen en datos de prueba)
 Valores de CuentaDebitar se validan?
-Valores de Monto se validan contra saldo? Si, hay que cargarle el saldo como una precondicion, seguramente automatizarla
+Valores de Monto se validan contra saldo? Si, hay que cargarle el saldo como una precondicion, seguramente automatizarla -> [montoACargar * cant transacciones]
 Valores de MonedaDestino, cuales puede ser? que significan? 01 colones 02 dolares, 70% colones 30% dolares
 DEscripcion si es importante, 
 Valores de NombreDestino son relevantes? Cuales puden ser? Cualquier cosa
