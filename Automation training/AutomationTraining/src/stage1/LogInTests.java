@@ -16,14 +16,17 @@ import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.Test;
 
-public class LogInTests extends BasePage{
+public class LogInTests{
 	
 	public LogInTests(WebDriver driver){
-		super(driver);
+		this.driver = driver;
+		baseUrl = "http://192.168.0.103:86/";
+		basePage = new BasePage(driver);
 	}
 	
 	private WebDriver driver;
 	private String baseUrl;
+	private BasePage basePage;
 	private StringBuffer verificationErrors = new StringBuffer();
 
 	@BeforeClass
@@ -54,9 +57,9 @@ public class LogInTests extends BasePage{
 	  @Test
 	  public void testAlejandroQuesadaStage1QAAutomationTrainingPractice1Login1() throws Exception {
 	    driver.get(baseUrl + "/Login.aspx");
-	    driver.findElement(By.id("ctl00_LoginView_LoginLink")).click();
-	    assertEquals(driver.findElement(By.id("ctl00_Main_LoginConrol_LoginButton")).getAttribute("value"), "Log In");
-	    assertTrue(driver.findElement(By.id("ctl00_Main_ForgotPasswordButton")).getText().matches("^exact:Forgot Password[\\s\\S]$"));
+	    basePage.clickElement(By.id("ctl00_LoginView_LoginLink"));
+	    assertEquals(basePage.getAttributeBy(By.id("ctl00_Main_LoginConrol_LoginButton"), "value"), "Log In");
+	    assertTrue(basePage.getTextBy(By.id("ctl00_Main_ForgotPasswordButton")).matches("^exact:Forgot Password[\\s\\S]$"));
 	  }
 	  /* Excecutes the test, follows the workflow
 	    * 1-Adding the Login path to the baseUrl
@@ -66,12 +69,12 @@ public class LogInTests extends BasePage{
 	    * Validating that we were able to successfully log into the application.*/ 
 	  @Test
 	  public void testAlejandroQuesadaStage1QAAutomationTrainingPractice1Login2() throws Exception {
-	    driver.get(baseUrl + "/default.aspx");	    
-	    clickElement(By.id("ctl00_LoginView_LoginLink"));
-	    sendKeysBy(By.id("ctl00_Main_LoginConrol_UserName"),"aquesada");	    
-	    sendKeysBy(By.id("ctl00_Main_LoginConrol_Password"),"Ljnd1709#");
-	    clickElement(By.id("ctl00_Main_LoginConrol_LoginButton"));
-	    assertEquals(driver.findElement(By.id("ctl00_LoginView_MemberLoginStatus")).getText(), "Logout");
+	    driver.get(baseUrl + "/default.aspx");
+	    basePage.clickElement(By.id("ctl00_LoginView_LoginLink"));
+	    basePage.sendKeysBy(By.id("ctl00_Main_LoginConrol_UserName"),"aquesada");	    
+	    basePage.sendKeysBy(By.id("ctl00_Main_LoginConrol_Password"),"Ljnd1709#");
+	    basePage.clickElement(By.id("ctl00_Main_LoginConrol_LoginButton"));
+	    assertEquals(basePage.getTextBy(By.id("ctl00_LoginView_MemberLoginStatus")), "Logout");
 	    assertTrue(driver.findElement(By.id("ctl00_Main_LoginConrol_UserName")).getText() == "aquesada");
 	  } 
 	  /* Excecutes the test, follows the workflow
@@ -83,11 +86,11 @@ public class LogInTests extends BasePage{
 	  @Test
 	  public void testAlejandroQuesadaStage1QAAutomationTrainingPractice1Login3() throws Exception {
 	    driver.get(baseUrl + "/");
-	    clickElement(By.id("ctl00_LoginView_LoginLink"));	    
-	    sendKeysBy(By.id("ctl00_Main_LoginConrol_UserName"), "aquesada");
-	    sendKeysBy(By.id("ctl00_Main_LoginConrol_Password"), "password");
-	    clickElement(By.id("ctl00_Main_LoginConrol_LoginButton"));
-	    assertEquals(driver.findElement(By.xpath("//table[@id='ctl00_Main_LoginConrol']/tbody/tr/td/table/tbody/tr[4]/td")).getText(), "Your login attempt was not successful. Please try again.");
+	    basePage.clickElement(By.id("ctl00_LoginView_LoginLink"));	    
+	    basePage.sendKeysBy(By.id("ctl00_Main_LoginConrol_UserName"), "aquesada");
+	    basePage.sendKeysBy(By.id("ctl00_Main_LoginConrol_Password"), "password");
+	    basePage.clickElement(By.id("ctl00_Main_LoginConrol_LoginButton"));
+	    assertEquals(basePage.getTextBy(By.xpath("//table[@id='ctl00_Main_LoginConrol']/tbody/tr/td/table/tbody/tr[4]/td")), "Your login attempt was not successful. Please try again.");
 	  }  
 	  
 	  @AfterMethod(alwaysRun = true)

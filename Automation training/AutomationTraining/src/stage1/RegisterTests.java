@@ -16,15 +16,18 @@ import org.testng.annotations.BeforeClass;
 import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.Test;
 
-public class RegisterTests extends BasePage{
+public class RegisterTests {
 	
 	
 	public RegisterTests (WebDriver driver){
-		super(driver);
+		this.driver = driver;
+		baseUrl = "http://192.168.0.103:86/";
+		basePage = new BasePage(driver);
 	}
 	
 	private WebDriver driver;
 	private String baseUrl;
+	private BasePage basePage;
 	private StringBuffer verificationErrors = new StringBuffer();
 
 	
@@ -45,14 +48,14 @@ public class RegisterTests extends BasePage{
 	@Test
 	public void goToRegisterPage(){
 		driver.get(baseUrl + "/default.aspx");
-		clickElement(By.id("ctl00_LoginView_RegisterLink"));
+		basePage.clickElement(By.id("ctl00_LoginView_RegisterLink"));
 		Assert.assertTrue(isElementPresent(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_FirstName")));		    	    
 	}
 	
 	@Test
 	public void emptySubmitErrors(){
 		goToRegisterPage();
-		clickElement(By.id("ctl00_Main_CreateUserWizardControl___CustomNav0_StepNextButtonButton")); //click Submit
+		basePage.clickElement(By.id("ctl00_Main_CreateUserWizardControl___CustomNav0_StepNextButtonButton")); //click Submit
 		verifyErrorLabelsPresent();
 	}
 	
@@ -60,16 +63,16 @@ public class RegisterTests extends BasePage{
 	public void verifyDuplicateUserError(){
 		goToRegisterPage();
 		
-		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_FirstNameRequired"),"FirstName");
-		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_LastNameRequired"),"LastName");
-		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_EmailRequired"),"alejandro.quesada@avantica.com");
-		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_UserNameRequired"),"aquesada");//already exists
-		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_PasswordRequired"),"passw0rd#");
-		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_ConfirmPasswordRequired"),"passw0rd#");
-		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_QuestionRequired"),"question?");
-		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_AnswerRequired"),"yes");
+		basePage.sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_FirstNameRequired"),"FirstName");
+		basePage.sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_LastNameRequired"),"LastName");
+		basePage.sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_EmailRequired"),"alejandro.quesada@avantica.com");
+		basePage.sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_UserNameRequired"),"aquesada");//already exists
+		basePage.sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_PasswordRequired"),"passw0rd#");
+		basePage.sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_ConfirmPasswordRequired"),"passw0rd#");
+		basePage.sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_QuestionRequired"),"question?");
+		basePage.sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_AnswerRequired"),"yes");
 		
-		clickElement(By.id("ctl00_Main_CreateUserWizardControl___CustomNav0_StepNextButtonButton"));
+		basePage.clickElement(By.id("ctl00_Main_CreateUserWizardControl___CustomNav0_StepNextButtonButton"));
 		
 		verifyUserAvailable();
 	}
@@ -78,16 +81,16 @@ public class RegisterTests extends BasePage{
 	public void verifyPasswordAndConfirm(){
 		goToRegisterPage();
 		
-		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_FirstNameRequired"),"FirstName");
-		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_LastNameRequired"),"LastName");
-		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_EmailRequired"),"alejandro.quesada@avantica.com");
-		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_UserNameRequired"),"aquesada");//already exists
-		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_PasswordRequired"),"passw0rd#");
-		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_ConfirmPasswordRequired"),"passw0rd!");
-		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_QuestionRequired"),"question?");
-		sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_AnswerRequired"),"yes");
+		basePage.sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_FirstNameRequired"),"FirstName");
+		basePage.sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_LastNameRequired"),"LastName");
+		basePage.sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_EmailRequired"),"alejandro.quesada@avantica.com");
+		basePage.sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_UserNameRequired"),"aquesada");//already exists
+		basePage.sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_PasswordRequired"),"passw0rd#");
+		basePage.sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_ConfirmPasswordRequired"),"passw0rd!");
+		basePage.sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_QuestionRequired"),"question?");
+		basePage.sendKeysBy(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_AnswerRequired"),"yes");
 		
-		clickElement(By.id("ctl00_Main_CreateUserWizardControl___CustomNav0_StepNextButtonButton"));
+		basePage.clickElement(By.id("ctl00_Main_CreateUserWizardControl___CustomNav0_StepNextButtonButton"));
 		
 		verifyPassAndConfirm();
 	}

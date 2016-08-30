@@ -7,17 +7,11 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 public class BasePage {
 	
-	private WebDriver driver;
-	public String baseUrl;
-	WebDriverWait wait = new WebDriverWait(driver, 15);
+	private WebDriver driver;	
+	private WebDriverWait wait = new WebDriverWait(driver, 15);
 	
 	public BasePage(WebDriver driver){
-		this.driver = driver;
-		setup(driver);
-	}
-	
-	public void setup(WebDriver driver){
-		System.out.println("Creating Driver...");	  
+		this.driver = driver;		
 	}
 	
 	public boolean clickElement(By by){	
@@ -55,6 +49,22 @@ public class BasePage {
 			return true;
 		}catch (Exception ex){
 			return false;
+		}
+	}
+	
+	public String getTextBy(By by){
+		try{
+			return driver.findElement(by).getText();			
+		}catch (Exception ex){
+			return null;
+		}
+	}
+	
+	public String getAttributeBy(By by, String attribute){
+		try{
+			return driver.findElement(by).getAttribute(attribute);			
+		}catch (Exception ex){
+			return null;
 		}
 	}
 	
