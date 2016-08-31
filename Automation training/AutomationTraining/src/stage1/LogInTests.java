@@ -59,7 +59,7 @@ public class LogInTests{
 	    driver.get(baseUrl + "/Login.aspx");
 	    basePage.clickElement(By.id("ctl00_LoginView_LoginLink"));
 	    assertEquals(basePage.getAttributeBy(By.id("ctl00_Main_LoginConrol_LoginButton"), "value"), "Log In");
-	    assertTrue(basePage.getTextBy(By.id("ctl00_Main_ForgotPasswordButton")).matches("^exact:Forgot Password[\\s\\S]$"));
+	    assertTrue(basePage.getTextBy(By.id("ctl00_Main_ForgotPasswordButton")).equals("Forgot Password"));
 	  }
 	  /* Excecutes the test, follows the workflow
 	    * 1-Adding the Login path to the baseUrl
@@ -75,7 +75,7 @@ public class LogInTests{
 	    basePage.sendKeysBy(By.id("ctl00_Main_LoginConrol_Password"),"Ljnd1709#");
 	    basePage.clickElement(By.id("ctl00_Main_LoginConrol_LoginButton"));
 	    assertEquals(basePage.getTextBy(By.id("ctl00_LoginView_MemberLoginStatus")), "Logout");
-	    assertTrue(driver.findElement(By.id("ctl00_Main_LoginConrol_UserName")).getText() == "aquesada");
+	    assertTrue(basePage.getTextBy(By.id("ctl00_Main_LoginConrol_UserName")).equals( "aquesada"));
 	  } 
 	  /* Excecutes the test, follows the workflow
 	   * 1-Adding the Login path to the baseUrl

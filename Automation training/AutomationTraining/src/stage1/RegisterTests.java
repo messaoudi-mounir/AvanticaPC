@@ -124,14 +124,14 @@ public class RegisterTests {
 	}
 	
 	public void verifyErrorLabelsPresent(){
-		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_FirstNameRequired")).isDisplayed());
-		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_LastNameRequired")).isDisplayed());
-		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_EmailRequired")).isDisplayed());
-		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_UserNameRequired")).isDisplayed());
-		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_PasswordRequired")).isDisplayed());
-		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_ConfirmPasswordRequired")).isDisplayed());
-		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_QuestionRequired")).isDisplayed());
-		Assert.assertTrue(driver.findElement(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_AnswerRequired")).isDisplayed());
+		Assert.assertTrue(basePage.waitElementVisible(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_FirstNameRequired")));
+		Assert.assertTrue(basePage.waitElementVisible(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_LastNameRequired")));
+		Assert.assertTrue(basePage.waitElementVisible(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_EmailRequired")));
+		Assert.assertTrue(basePage.waitElementVisible(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_UserNameRequired")));
+		Assert.assertTrue(basePage.waitElementVisible(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_PasswordRequired")));
+		Assert.assertTrue(basePage.waitElementVisible(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_ConfirmPasswordRequired")));
+		Assert.assertTrue(basePage.waitElementVisible(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_QuestionRequired")));
+		Assert.assertTrue(basePage.waitElementVisible(By.id("ctl00_Main_CreateUserWizardControl_CreateUserStepContainer_AnswerRequired")));
 	}
 	
 	

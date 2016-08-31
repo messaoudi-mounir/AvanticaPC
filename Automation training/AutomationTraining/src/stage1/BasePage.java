@@ -2,6 +2,7 @@ package stage1;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -38,6 +39,15 @@ public class BasePage {
 		
 		}catch(Exception ex){
 			return false;
+		}
+	}
+	
+	public WebElement findElementBy(By by){
+		try{
+		return driver.findElement(by);				
+		
+		}catch(Exception ex){
+			return null;
 		}
 	}
 	
