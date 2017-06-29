@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified"
+	targetNamespace="http://www.petrolink.com/mbe/rules"
+	 xmlns:rul="http://www.petrolink.com/mbe/rules"
+	 >
+    <xs:include schemaLocation="definitions.xsd"/>
+    <xs:group name="smtpSMSTemplate">
+        <xs:annotation>
+            <xs:documentation>The non-contextual common setting of Email.</xs:documentation>
+        </xs:annotation>
+        <xs:all>
+            <xs:element type="rul:type_emailConnection" name="Connection" minOccurs="0"/>
+            <xs:element type="rul:type_parameters" name="Params" minOccurs="0"/>            
+            <xs:element type="xs:string" name="From" minOccurs="0"/>
+            <xs:element type="xs:string" name="To" minOccurs="0"/>
+            <xs:element type="xs:string" name="Subject" minOccurs="0"/>
+            <xs:element type="xs:string" name="Body" minOccurs="0"/>
+        </xs:all>
+    </xs:group>
+    
+    <xs:complexType name="type_templateSMS">
+        <xs:group ref="rul:grp_email" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+                <xs:documentation>The non-contextual common setting of Email.</xs:documentation>
+            </xs:annotation>
+        </xs:group>
+        <xs:attribute name="uuid" type="rul:type_UUID" use="required"/>
+    </xs:complexType>
+
+    <xs:element name="SMSTemplate" type="rul:type_templateSMS"/>    
+ </xs:schema>

@@ -1,0 +1,12 @@
+<AlertStatusRequest xmlns="http://www.petrolink.com/mbe/alertstatus"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/alertstatus AlertStatusRequest.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<!-- Actions that support this same structure include:
+		- QUERYACTIVE
+		- QUERYALL
+	-->
+	<Action>QUERYACTIVE</Action>
+	<!--  Well is optional as well as Class this way the same query will retrieve all alerts by Well, by Class or both -->
+	<Well>8d908037-3bc1-4a42-a18c-da8d333bd7c1</Well>
+	<Class>Class001</Class>
+</AlertStatusRequest>

@@ -1,0 +1,11 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.Analytix.RuleEngine.Datatypes",
+	"name": "IndexMeasurement",
+	"fields":
+	[
+		{ "name": "magnitude", "type": "double" },
+		{ "name": "unit", "type": "Petrolink.Analytix.RuleEngine.Datatypes.IndexUnit" },
+		{ "name": "category", "type": ["string","null"] }
+	]
+}

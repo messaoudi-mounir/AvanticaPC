@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<con:soapui-project id="a120db56-f2c2-4b63-a1d4-05d1308f7cb6" activeEnvironment="Default" name="TestUnni" resourceRoot="" soapui-version="5.2.1" xmlns:con="http://eviware.com/soapui/config"><con:settings/><con:interface xsi:type="con:WsdlInterface" id="17b29b47-1493-4d95-974f-8c5f3042c314" wsaVersion="NONE" name="BasicHttpBinding_ITestUnni" type="wsdl" bindingName="{http://tempuri.org/}BasicHttpBinding_ITestUnni" soapVersion="1_1" anonymous="optional" definition="http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc?wsdl" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><con:settings/><con:definitionCache type="TEXT" rootPart="http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc?wsdl"><con:part><con:url>http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc?wsdl</con:url><con:content><![CDATA[<wsdl:definitions name="TestUnni" targetNamespace="http://tempuri.org/" xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:wsx="http://schemas.xmlsoap.org/ws/2004/09/mex" xmlns:wsu="http://docs.oasis-open.org/wss/2004/01/oasis-200401-wss-wssecurity-utility-1.0.xsd" xmlns:wsa10="http://www.w3.org/2005/08/addressing" xmlns:wsp="http://schemas.xmlsoap.org/ws/2004/09/policy" xmlns:wsap="http://schemas.xmlsoap.org/ws/2004/08/addressing/policy" xmlns:msc="http://schemas.microsoft.com/ws/2005/12/wsdl/contract" xmlns:soap12="http://schemas.xmlsoap.org/wsdl/soap12/" xmlns:wsa="http://schemas.xmlsoap.org/ws/2004/08/addressing" xmlns:wsam="http://www.w3.org/2007/05/addressing/metadata" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://tempuri.org/" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:wsaw="http://www.w3.org/2006/05/addressing/wsdl" xmlns:soapenc="http://schemas.xmlsoap.org/soap/encoding/">
+  <wsdl:types>
+    <xsd:schema targetNamespace="http://tempuri.org/Imports">
+      <xsd:import schemaLocation="http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc?xsd=xsd0" namespace="http://tempuri.org/"/>
+      <xsd:import schemaLocation="http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc?xsd=xsd1" namespace="http://schemas.microsoft.com/2003/10/Serialization/"/>
+      <xsd:import schemaLocation="http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+    </xsd:schema>
+  </wsdl:types>
+  <wsdl:message name="ITestUnni_CreateRequestPasaporteAdultos_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateRequestPasaporteAdultos"/>
+  </wsdl:message>
+  <wsdl:message name="ITestUnni_CreateRequestPasaporteAdultos_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateRequestPasaporteAdultosResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ITestUnni_CreateRequestPasaporteMenores_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateRequestPasaporteMenores"/>
+  </wsdl:message>
+  <wsdl:message name="ITestUnni_CreateRequestPasaporteMenores_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateRequestPasaporteMenoresResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ITestUnni_CreateRequestDimex_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateRequestDimex"/>
+  </wsdl:message>
+  <wsdl:message name="ITestUnni_CreateRequestDimex_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateRequestDimexResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ITestUnni_CreateRequestPasaporteAdultosConcurrente_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateRequestPasaporteAdultosConcurrente"/>
+  </wsdl:message>
+  <wsdl:message name="ITestUnni_CreateRequestPasaporteAdultosConcurrente_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateRequestPasaporteAdultosConcurrenteResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ITestUnni_CreateRequestPasaporteMenoresConcurrente_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateRequestPasaporteMenoresConcurrente"/>
+  </wsdl:message>
+  <wsdl:message name="ITestUnni_CreateRequestPasaporteMenoresConcurrente_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateRequestPasaporteMenoresConcurrenteResponse"/>
+  </wsdl:message>
+  <wsdl:message name="ITestUnni_CreateRequestDimexConcurrente_InputMessage">
+    <wsdl:part name="parameters" element="tns:CreateRequestDimexConcurrente"/>
+  </wsdl:message>
+  <wsdl:message name="ITestUnni_CreateRequestDimexConcurrente_OutputMessage">
+    <wsdl:part name="parameters" element="tns:CreateRequestDimexConcurrenteResponse"/>
+  </wsdl:message>
+  <wsdl:portType name="ITestUnni">
+    <wsdl:operation name="CreateRequestPasaporteAdultos">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITestUnni/CreateRequestPasaporteAdultos" message="tns:ITestUnni_CreateRequestPasaporteAdultos_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/ITestUnni/CreateRequestPasaporteAdultosResponse" message="tns:ITestUnni_CreateRequestPasaporteAdultos_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="CreateRequestPasaporteMenores">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITestUnni/CreateRequestPasaporteMenores" message="tns:ITestUnni_CreateRequestPasaporteMenores_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/ITestUnni/CreateRequestPasaporteMenoresResponse" message="tns:ITestUnni_CreateRequestPasaporteMenores_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="CreateRequestDimex">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITestUnni/CreateRequestDimex" message="tns:ITestUnni_CreateRequestDimex_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/ITestUnni/CreateRequestDimexResponse" message="tns:ITestUnni_CreateRequestDimex_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="CreateRequestPasaporteAdultosConcurrente">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITestUnni/CreateRequestPasaporteAdultosConcurrente" message="tns:ITestUnni_CreateRequestPasaporteAdultosConcurrente_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/ITestUnni/CreateRequestPasaporteAdultosConcurrenteResponse" message="tns:ITestUnni_CreateRequestPasaporteAdultosConcurrente_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="CreateRequestPasaporteMenoresConcurrente">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITestUnni/CreateRequestPasaporteMenoresConcurrente" message="tns:ITestUnni_CreateRequestPasaporteMenoresConcurrente_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/ITestUnni/CreateRequestPasaporteMenoresConcurrenteResponse" message="tns:ITestUnni_CreateRequestPasaporteMenoresConcurrente_OutputMessage"/>
+    </wsdl:operation>
+    <wsdl:operation name="CreateRequestDimexConcurrente">
+      <wsdl:input wsaw:Action="http://tempuri.org/ITestUnni/CreateRequestDimexConcurrente" message="tns:ITestUnni_CreateRequestDimexConcurrente_InputMessage"/>
+      <wsdl:output wsaw:Action="http://tempuri.org/ITestUnni/CreateRequestDimexConcurrenteResponse" message="tns:ITestUnni_CreateRequestDimexConcurrente_OutputMessage"/>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="BasicHttpBinding_ITestUnni" type="tns:ITestUnni">
+    <soap:binding transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="CreateRequestPasaporteAdultos">
+      <soap:operation soapAction="http://tempuri.org/ITestUnni/CreateRequestPasaporteAdultos" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateRequestPasaporteMenores">
+      <soap:operation soapAction="http://tempuri.org/ITestUnni/CreateRequestPasaporteMenores" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateRequestDimex">
+      <soap:operation soapAction="http://tempuri.org/ITestUnni/CreateRequestDimex" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateRequestPasaporteAdultosConcurrente">
+      <soap:operation soapAction="http://tempuri.org/ITestUnni/CreateRequestPasaporteAdultosConcurrente" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateRequestPasaporteMenoresConcurrente">
+      <soap:operation soapAction="http://tempuri.org/ITestUnni/CreateRequestPasaporteMenoresConcurrente" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="CreateRequestDimexConcurrente">
+      <soap:operation soapAction="http://tempuri.org/ITestUnni/CreateRequestDimexConcurrente" style="document"/>
+      <wsdl:input>
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output>
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="TestUnni">
+    <wsdl:port name="BasicHttpBinding_ITestUnni" binding="tns:BasicHttpBinding_ITestUnni">
+      <soap:address location="http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>]]></con:content><con:type>http://schemas.xmlsoap.org/wsdl/</con:type></con:part><con:part><con:url>http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc?xsd=xsd0</con:url><con:content><![CDATA[<xs:schema elementFormDefault="qualified" targetNamespace="http://tempuri.org/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://tempuri.org/">
+  <xs:import schemaLocation="http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc?xsd=xsd2" namespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+  <xs:element name="CreateRequestPasaporteAdultos">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="cedula" nillable="true" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateRequestPasaporteAdultosResponse">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateRequestPasaporteMenores">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="cedula" nillable="true" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateRequestPasaporteMenoresResponse">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateRequestDimex">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="cedula" nillable="true" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateRequestDimexResponse">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateRequestPasaporteAdultosConcurrente">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="cedula" nillable="true" type="q1:ArrayOfstring" xmlns:q1="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateRequestPasaporteAdultosConcurrenteResponse">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateRequestPasaporteMenoresConcurrente">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="cedula" nillable="true" type="q2:ArrayOfstring" xmlns:q2="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateRequestPasaporteMenoresConcurrenteResponse">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateRequestDimexConcurrente">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element minOccurs="0" name="cedula" nillable="true" type="q3:ArrayOfstring" xmlns:q3="http://schemas.microsoft.com/2003/10/Serialization/Arrays"/>
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+  <xs:element name="CreateRequestDimexConcurrenteResponse">
+    <xs:complexType>
+      <xs:sequence/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc?xsd=xsd2</con:url><con:content><![CDATA[<xs:schema elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/Arrays" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+  <xs:complexType name="ArrayOfstring">
+    <xs:sequence>
+      <xs:element minOccurs="0" maxOccurs="unbounded" name="string" nillable="true" type="xs:string"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:element name="ArrayOfstring" nillable="true" type="tns:ArrayOfstring"/>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part><con:part><con:url>http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc?xsd=xsd1</con:url><con:content><![CDATA[<xs:schema attributeFormDefault="qualified" elementFormDefault="qualified" targetNamespace="http://schemas.microsoft.com/2003/10/Serialization/" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:tns="http://schemas.microsoft.com/2003/10/Serialization/">
+  <xs:element name="anyType" nillable="true" type="xs:anyType"/>
+  <xs:element name="anyURI" nillable="true" type="xs:anyURI"/>
+  <xs:element name="base64Binary" nillable="true" type="xs:base64Binary"/>
+  <xs:element name="boolean" nillable="true" type="xs:boolean"/>
+  <xs:element name="byte" nillable="true" type="xs:byte"/>
+  <xs:element name="dateTime" nillable="true" type="xs:dateTime"/>
+  <xs:element name="decimal" nillable="true" type="xs:decimal"/>
+  <xs:element name="double" nillable="true" type="xs:double"/>
+  <xs:element name="float" nillable="true" type="xs:float"/>
+  <xs:element name="int" nillable="true" type="xs:int"/>
+  <xs:element name="long" nillable="true" type="xs:long"/>
+  <xs:element name="QName" nillable="true" type="xs:QName"/>
+  <xs:element name="short" nillable="true" type="xs:short"/>
+  <xs:element name="string" nillable="true" type="xs:string"/>
+  <xs:element name="unsignedByte" nillable="true" type="xs:unsignedByte"/>
+  <xs:element name="unsignedInt" nillable="true" type="xs:unsignedInt"/>
+  <xs:element name="unsignedLong" nillable="true" type="xs:unsignedLong"/>
+  <xs:element name="unsignedShort" nillable="true" type="xs:unsignedShort"/>
+  <xs:element name="char" nillable="true" type="tns:char"/>
+  <xs:simpleType name="char">
+    <xs:restriction base="xs:int"/>
+  </xs:simpleType>
+  <xs:element name="duration" nillable="true" type="tns:duration"/>
+  <xs:simpleType name="duration">
+    <xs:restriction base="xs:duration">
+      <xs:pattern value="\-?P(\d*D)?(T(\d*H)?(\d*M)?(\d*(\.\d*)?S)?)?"/>
+      <xs:minInclusive value="-P10675199DT2H48M5.4775808S"/>
+      <xs:maxInclusive value="P10675199DT2H48M5.4775807S"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:element name="guid" nillable="true" type="tns:guid"/>
+  <xs:simpleType name="guid">
+    <xs:restriction base="xs:string">
+      <xs:pattern value="[\da-fA-F]{8}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{4}-[\da-fA-F]{12}"/>
+    </xs:restriction>
+  </xs:simpleType>
+  <xs:attribute name="FactoryType" type="xs:QName"/>
+  <xs:attribute name="Id" type="xs:ID"/>
+  <xs:attribute name="Ref" type="xs:IDREF"/>
+</xs:schema>]]></con:content><con:type>http://www.w3.org/2001/XMLSchema</con:type></con:part></con:definitionCache><con:endpoints><con:endpoint>http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc</con:endpoint></con:endpoints><con:operation id="573bb85f-6717-4594-97e4-dfcb75008b92" isOneWay="false" action="http://tempuri.org/ITestUnni/CreateRequestDimex" name="CreateRequestDimex" bindingOperationName="CreateRequestDimex" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="4de678c4-c556-4aa4-a2ec-286a78cd21e5" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <tem:CreateRequestDimex>\r
+         <!--Optional:-->\r
+         <tem:cedula>?</tem:cedula>\r
+      </tem:CreateRequestDimex>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/ITestUnni/CreateRequestDimex"/></con:call></con:operation><con:operation id="982ec588-dfbb-4146-bedc-9c23a7c4583b" isOneWay="false" action="http://tempuri.org/ITestUnni/CreateRequestDimexConcurrente" name="CreateRequestDimexConcurrente" bindingOperationName="CreateRequestDimexConcurrente" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="8fd47ce1-a939-404e-98de-f8a45fe88a5e" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <tem:CreateRequestDimexConcurrente>\r
+         <!--Optional:-->\r
+         <tem:cedula>\r
+            <!--Zero or more repetitions:-->\r
+            <arr:string>?</arr:string>\r
+         </tem:cedula>\r
+      </tem:CreateRequestDimexConcurrente>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/ITestUnni/CreateRequestDimexConcurrente"/></con:call></con:operation><con:operation id="36781079-8614-403d-b58c-0b0ec259dafc" isOneWay="false" action="http://tempuri.org/ITestUnni/CreateRequestPasaporteAdultos" name="CreateRequestPasaporteAdultos" bindingOperationName="CreateRequestPasaporteAdultos" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="9c04750e-f343-440d-b732-9b574ed4b9e9" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <tem:CreateRequestPasaporteAdultos>\r
+         <!--Optional:-->\r
+         <tem:cedula>?</tem:cedula>\r
+      </tem:CreateRequestPasaporteAdultos>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/ITestUnni/CreateRequestPasaporteAdultos"/></con:call></con:operation><con:operation id="995c7e75-67e4-435e-81f7-6c9d5735da6c" isOneWay="false" action="http://tempuri.org/ITestUnni/CreateRequestPasaporteAdultosConcurrente" name="CreateRequestPasaporteAdultosConcurrente" bindingOperationName="CreateRequestPasaporteAdultosConcurrente" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="a702b623-8de0-4b7d-82c2-2d3b392864dd" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <tem:CreateRequestPasaporteAdultosConcurrente>\r
+         <!--Optional:-->\r
+         <tem:cedula>\r
+            <!--Zero or more repetitions:-->\r
+            <arr:string>?</arr:string>\r
+         </tem:cedula>\r
+      </tem:CreateRequestPasaporteAdultosConcurrente>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/ITestUnni/CreateRequestPasaporteAdultosConcurrente"/></con:call></con:operation><con:operation id="5e5b0bcb-5ec5-42f9-aa3b-81a636c462cb" isOneWay="false" action="http://tempuri.org/ITestUnni/CreateRequestPasaporteMenores" name="CreateRequestPasaporteMenores" bindingOperationName="CreateRequestPasaporteMenores" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="095dd158-6c7a-4bca-a551-f835a11fb162" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <tem:CreateRequestPasaporteMenores>\r
+         <!--Optional:-->\r
+         <tem:cedula>?</tem:cedula>\r
+      </tem:CreateRequestPasaporteMenores>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/ITestUnni/CreateRequestPasaporteMenores"/></con:call></con:operation><con:operation id="b9d39efc-7ebf-4b41-8296-9f8b86556b42" isOneWay="false" action="http://tempuri.org/ITestUnni/CreateRequestPasaporteMenoresConcurrente" name="CreateRequestPasaporteMenoresConcurrente" bindingOperationName="CreateRequestPasaporteMenoresConcurrente" type="Request-Response" inputName="" receivesAttachments="false" sendsAttachments="false" anonymous="optional"><con:settings/><con:call id="1d17061e-670c-4867-8bc8-3e7883d07a98" name="Request 1"><con:settings/><con:encoding>UTF-8</con:encoding><con:endpoint>http://degobiernodigital:12000/UnniWebTestTool/TestUnni.svc</con:endpoint><con:request><![CDATA[<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays">\r
+   <soapenv:Header/>\r
+   <soapenv:Body>\r
+      <tem:CreateRequestPasaporteMenoresConcurrente>\r
+         <!--Optional:-->\r
+         <tem:cedula>\r
+            <!--Zero or more repetitions:-->\r
+            <arr:string>?</arr:string>\r
+         </tem:cedula>\r
+      </tem:CreateRequestPasaporteMenoresConcurrente>\r
+   </soapenv:Body>\r
+</soapenv:Envelope>]]></con:request><con:wsaConfig mustUnderstand="NONE" version="200508" action="http://tempuri.org/ITestUnni/CreateRequestPasaporteMenoresConcurrente"/></con:call></con:operation></con:interface><con:properties/><con:wssContainer/><con:oAuth2ProfileContainer/></con:soapui-project>

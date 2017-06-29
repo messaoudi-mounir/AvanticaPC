@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Triggers>
+	<JMSQueueConsumer name="JMS01" queueName="testQueue2" eventClassId="BasicTest" active="false">
+ 		<JMSProvider type="amq">tcp://localhost:61616</JMSProvider>		
+		<Parser class="json" />
+		<Condition>
+		<![CDATA[
+			(event.content.get(0).value<25)
+		]]>
+		</Condition>
+	</JMSQueueConsumer>
+</Triggers>

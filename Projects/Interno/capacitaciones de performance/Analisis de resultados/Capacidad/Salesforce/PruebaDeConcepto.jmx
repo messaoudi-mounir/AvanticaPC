@@ -1,0 +1,346 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="3.1" jmeter="3.1 r1770033">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Plan de Pruebas" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="Variables definidas por el Usuario" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Variables Pruebas" enabled="false">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="llaveBusqueda" elementType="Argument">
+            <stringProp name="Argument.name">llaveBusqueda</stringProp>
+            <stringProp name="Argument.value">101450658</stringProp>
+            <stringProp name="Argument.desc">#CedFisica</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="host" elementType="Argument">
+            <stringProp name="Argument.name">host</stringProp>
+            <stringProp name="Argument.value">usbusserviciosweb-app</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">busserviciosweb-app/usbusserviciosweb-app</stringProp>
+          </elementProp>
+          <elementProp name="path" elementType="Argument">
+            <stringProp name="Argument.name">path</stringProp>
+            <stringProp name="Argument.value">usbcrservicios/clientes?wsdl</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">/bcrservicios/clientes?wsdl-/usbcrservicios/clientes?wsdl</stringProp>
+          </elementProp>
+          <elementProp name="port" elementType="Argument">
+            <stringProp name="Argument.name">port</stringProp>
+            <stringProp name="Argument.value">12000</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">24000/12000</stringProp>
+          </elementProp>
+        </collectionProp>
+      </Arguments>
+      <hashTree/>
+      <CSVDataSet guiclass="TestBeanGUI" testclass="CSVDataSet" testname="Configuración CSV llaveBusqueda" enabled="true">
+        <stringProp name="delimiter">,</stringProp>
+        <stringProp name="fileEncoding"></stringProp>
+        <stringProp name="filename">llaveBusqueda.csv</stringProp>
+        <boolProp name="quotedData">false</boolProp>
+        <boolProp name="recycle">true</boolProp>
+        <stringProp name="shareMode">shareMode.all</stringProp>
+        <boolProp name="stopThread">false</boolProp>
+        <stringProp name="variableNames">llaveBusqueda</stringProp>
+      </CSVDataSet>
+      <hashTree/>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Variables Produccion - Datapower" enabled="true">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="TESTllaveBusqueda" elementType="Argument">
+            <stringProp name="Argument.name">TESTllaveBusqueda</stringProp>
+            <stringProp name="Argument.value">101450658</stringProp>
+            <stringProp name="Argument.desc">https://192.168.160.105:28002/ConsultasSalesForce</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="host" elementType="Argument">
+            <stringProp name="Argument.name">host</stringProp>
+            <stringProp name="Argument.value">192.168.160.105</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">busserviciosweb-app/usbusserviciosweb-app</stringProp>
+          </elementProp>
+          <elementProp name="path" elementType="Argument">
+            <stringProp name="Argument.name">path</stringProp>
+            <stringProp name="Argument.value">ConsultasSalesForce</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">/bcrservicios/clientes?wsdl-/usbcrservicios/clientes?wsdl</stringProp>
+          </elementProp>
+          <elementProp name="port" elementType="Argument">
+            <stringProp name="Argument.name">port</stringProp>
+            <stringProp name="Argument.value">443</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">24000/12000</stringProp>
+          </elementProp>
+        </collectionProp>
+        <stringProp name="TestPlan.comments">datapower produccion</stringProp>
+      </Arguments>
+      <hashTree/>
+      <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="Variables Produccion - BCR clientes" enabled="false">
+        <collectionProp name="Arguments.arguments">
+          <elementProp name="TESTllaveBusqueda" elementType="Argument">
+            <stringProp name="Argument.name">TESTllaveBusqueda</stringProp>
+            <stringProp name="Argument.value">101450658</stringProp>
+            <stringProp name="Argument.desc">#CedFisica</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+          </elementProp>
+          <elementProp name="host" elementType="Argument">
+            <stringProp name="Argument.name">host</stringProp>
+            <stringProp name="Argument.value">busserviciosweb</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">busserviciosweb-app/usbusserviciosweb-app</stringProp>
+          </elementProp>
+          <elementProp name="path" elementType="Argument">
+            <stringProp name="Argument.name">path</stringProp>
+            <stringProp name="Argument.value">bcrservicios/clientes?wsdl</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">/bcrservicios/clientes?wsdl-/usbcrservicios/clientes?wsdl</stringProp>
+          </elementProp>
+          <elementProp name="port" elementType="Argument">
+            <stringProp name="Argument.name">port</stringProp>
+            <stringProp name="Argument.value">24000</stringProp>
+            <stringProp name="Argument.metadata">=</stringProp>
+            <stringProp name="Argument.desc">24000/12000</stringProp>
+          </elementProp>
+        </collectionProp>
+        <stringProp name="TestPlan.comments">directo a clientes</stringProp>
+      </Arguments>
+      <hashTree/>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Grupo de Hilos" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Controlador Bucle" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">1</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1200</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">300</stringProp>
+        <longProp name="ThreadGroup.start_time">1484060433000</longProp>
+        <longProp name="ThreadGroup.end_time">1484060433000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <SoapSampler guiclass="SoapSamplerGui" testclass="SoapSampler" testname="Datapower - Produccion" enabled="true">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="SoapSampler.URL_DATA">https://${host}:${port}/${path}</stringProp>
+          <stringProp name="HTTPSamper.xml_data">&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:tram=&quot;http://www.bancobcr.com/banking/common/schema/tramacanonica&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;tram:ESBXML&gt;
+         &lt;Header&gt;
+            &lt;activityName&gt;IConsulta&lt;/activityName&gt;
+            &lt;srvName&gt;CLIENTES_TransaccionesFrontend&lt;/srvName&gt;
+            &lt;!--Optional:--&gt;
+            &lt;userName&gt;11000001&lt;/userName&gt;
+         &lt;/Header&gt;
+         &lt;!--Optional:--&gt;
+         &lt;Body&gt;
+            &lt;ClientesRequest&gt;
+               &lt;XMLConsulta&gt;
+                  &lt;ConsultarClientes&gt;
+                     &lt;DatosEntrada&gt;
+                        &lt;TipoBusqueda&gt;1&lt;/TipoBusqueda&gt;
+                        &lt;LlaveBusqueda&gt;${llaveBusqueda}&lt;/LlaveBusqueda&gt;
+                        &lt;Canal&gt;RUC&lt;/Canal&gt;
+                     &lt;/DatosEntrada&gt;
+                     &lt;DatosSalida&gt;
+                        &lt;!--1 or more repetitions:--&gt;
+                        &lt;Salida&gt;CodigoCliente&lt;/Salida&gt;
+                        &lt;Salida&gt;TipoCliente&lt;/Salida&gt;
+                        &lt;Salida&gt;Fallecido&lt;/Salida&gt;
+                        &lt;Salida&gt;IdentificacionRuc&lt;/Salida&gt;
+                        &lt;Salida&gt;Nombre&lt;/Salida&gt;
+                        &lt;Salida&gt;Apellido1&lt;/Salida&gt;
+                        &lt;Salida&gt;Apellido2&lt;/Salida&gt;
+                        &lt;Salida&gt;RazonSocial&lt;/Salida&gt;
+                        &lt;Salida&gt;EstadoCivil&lt;/Salida&gt;
+                        &lt;Salida&gt;Profesion&lt;/Salida&gt;
+                        &lt;Salida&gt;NaturalezaNegocio&lt;/Salida&gt;
+                        &lt;Salida&gt;SectorEconomico&lt;/Salida&gt;
+                        &lt;Salida&gt;ActividadEconomica&lt;/Salida&gt;
+                        &lt;Salida&gt;SectorEconomicoSUGEF&lt;/Salida&gt;
+                        &lt;Salida&gt;IngresoNeto&lt;/Salida&gt;
+                        &lt;Salida&gt;IngresosPromedio&lt;/Salida&gt;
+                        &lt;Salida&gt;OficinaCliente&lt;/Salida&gt;
+                        &lt;Salida&gt;Telefonos&lt;/Salida&gt;
+                        &lt;Salida&gt;Direcciones&lt;/Salida&gt;
+                        &lt;Salida&gt;Correos&lt;/Salida&gt;
+                        &lt;Salida&gt;FuncionariosAsignados&lt;/Salida&gt;
+                        &lt;Salida&gt;ActualizacionFisica&lt;/Salida&gt;
+                        &lt;Salida&gt;ActualizacionElectronica&lt;/Salida&gt;
+                        &lt;Salida&gt;FechaNacimiento&lt;/Salida&gt;
+                        &lt;Salida&gt;Genero&lt;/Salida&gt;
+                        &lt;Salida&gt;EsEmpleado&lt;/Salida&gt;
+                        &lt;Salida&gt;Difunto&lt;/Salida&gt;
+                        &lt;Salida&gt;FechaConstitucion&lt;/Salida&gt;
+                        &lt;Salida&gt;FechaNacimiento&lt;/Salida&gt;
+                        &lt;Salida&gt;Ocupacion&lt;/Salida&gt;
+                     &lt;/DatosSalida&gt;
+                  &lt;/ConsultarClientes&gt;
+               &lt;/XMLConsulta&gt;
+            &lt;/ClientesRequest&gt;
+         &lt;/Body&gt;
+      &lt;/tram:ESBXML&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;</stringProp>
+          <stringProp name="SoapSampler.xml_data_file"></stringProp>
+          <stringProp name="SoapSampler.SOAP_ACTION"></stringProp>
+          <stringProp name="SoapSampler.SEND_SOAP_ACTION">false</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">false</boolProp>
+          <stringProp name="TestPlan.comments">https://${host}:${port}/${path} //            &lt;tram:logicalID&gt;24&lt;/tram:logicalID&gt;</stringProp>
+        </SoapSampler>
+        <hashTree/>
+        <SoapSampler guiclass="SoapSamplerGui" testclass="SoapSampler" testname="BCRClientes" enabled="false">
+          <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
+            <collectionProp name="Arguments.arguments"/>
+          </elementProp>
+          <stringProp name="SoapSampler.URL_DATA">http://${host}:${port}/${path}</stringProp>
+          <stringProp name="HTTPSamper.xml_data">&lt;soapenv:Envelope xmlns:soapenv=&quot;http://schemas.xmlsoap.org/soap/envelope/&quot; xmlns:tram=&quot;http://www.bancobcr.com/banking/common/schema/tramacanonica&quot;&gt;
+   &lt;soapenv:Header/&gt;
+   &lt;soapenv:Body&gt;
+      &lt;tram:ESBXML&gt;
+         &lt;tram:Header&gt;
+            &lt;tram:logicalID&gt;24&lt;/tram:logicalID&gt;
+            &lt;tram:activityName&gt;IConsulta&lt;/tram:activityName&gt;
+            &lt;tram:srvName&gt;CLIENTES_TransaccionesFrontend&lt;/tram:srvName&gt;
+            &lt;tram:userName&gt;11000001&lt;/tram:userName&gt;
+         &lt;/tram:Header&gt;
+         &lt;Body&gt;
+            &lt;ClientesRequest&gt;
+               &lt;XMLConsulta&gt;
+                  &lt;ConsultarClientes&gt;
+                     &lt;DatosEntrada&gt;
+                        &lt;TipoBusqueda&gt;1&lt;/TipoBusqueda&gt;
+                        &lt;LlaveBusqueda&gt;${llaveBusqueda}&lt;/LlaveBusqueda&gt;
+                        &lt;Canal&gt;RUC&lt;/Canal&gt;
+                     &lt;/DatosEntrada&gt;
+                     &lt;DatosSalida&gt;
+                        &lt;Salida&gt;CodigoCliente&lt;/Salida&gt;
+                        &lt;Salida&gt;TipoCliente&lt;/Salida&gt;
+                        &lt;Salida&gt;IdentificacionRuc&lt;/Salida&gt;
+                        &lt;Salida&gt;Nombre&lt;/Salida&gt;
+                        &lt;Salida&gt;Apellido1&lt;/Salida&gt;
+                        &lt;Salida&gt;Apellido2&lt;/Salida&gt;
+                        &lt;Salida&gt;RazonSocial&lt;/Salida&gt;
+                        &lt;Salida&gt;EstadoCivil&lt;/Salida&gt;
+                        &lt;Salida&gt;Profesion&lt;/Salida&gt;
+                        &lt;Salida&gt;NaturalezaNegocio&lt;/Salida&gt;
+                        &lt;Salida&gt;SectorEconomico&lt;/Salida&gt;
+                        &lt;Salida&gt;ActividadEconomica&lt;/Salida&gt;
+                        &lt;Salida&gt;SectorEconomicoSUGEF&lt;/Salida&gt;
+                        &lt;Salida&gt;IngresoNeto&lt;/Salida&gt;
+                        &lt;Salida&gt;IngresosPromedio&lt;/Salida&gt;
+                        &lt;Salida&gt;OficinaCliente&lt;/Salida&gt;
+                        &lt;Salida&gt;Telefonos&lt;/Salida&gt;
+                        &lt;Salida&gt;Direcciones&lt;/Salida&gt;
+                        &lt;Salida&gt;Correos&lt;/Salida&gt;
+                        &lt;Salida&gt;FuncionariosAsignados&lt;/Salida&gt;
+                        &lt;Salida&gt;ActualizacionFisica&lt;/Salida&gt;
+                        &lt;Salida&gt;ActualizacionElectronica&lt;/Salida&gt;
+                        &lt;Salida&gt;FechaNacimiento&lt;/Salida&gt;
+                        &lt;Salida&gt;Genero&lt;/Salida&gt;
+                        &lt;Salida&gt;EsEmpleado&lt;/Salida&gt;
+                        &lt;Salida&gt;Difunto&lt;/Salida&gt;
+                        &lt;Salida&gt;FechaConstitucion&lt;/Salida&gt;
+                        &lt;Salida&gt;FechaNacimiento&lt;/Salida&gt;
+                        &lt;Salida&gt;Ocupacion&lt;/Salida&gt;
+                     &lt;/DatosSalida&gt;
+                  &lt;/ConsultarClientes&gt;
+               &lt;/XMLConsulta&gt;
+            &lt;/ClientesRequest&gt;
+         &lt;/Body&gt;
+      &lt;/tram:ESBXML&gt;
+   &lt;/soapenv:Body&gt;
+&lt;/soapenv:Envelope&gt;&gt;
+&lt;/soapenv:Envelope&gt;</stringProp>
+          <stringProp name="SoapSampler.xml_data_file"></stringProp>
+          <stringProp name="SoapSampler.SOAP_ACTION"></stringProp>
+          <stringProp name="SoapSampler.SEND_SOAP_ACTION">false</stringProp>
+          <boolProp name="HTTPSampler.use_keepalive">false</boolProp>
+          <stringProp name="TestPlan.comments">https://${host}:${port}/${path} //            &lt;tram:logicalID&gt;24&lt;/tram:logicalID&gt;</stringProp>
+        </SoapSampler>
+        <hashTree/>
+        <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="Ver Árbol de Resultados" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+        <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Informe Agregado" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>true</latency>
+              <timestamp>true</timestamp>
+              <success>true</success>
+              <label>true</label>
+              <code>true</code>
+              <message>true</message>
+              <threadName>true</threadName>
+              <dataType>true</dataType>
+              <encoding>false</encoding>
+              <assertions>true</assertions>
+              <subresults>true</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>true</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+              <bytes>true</bytes>
+              <sentBytes>true</sentBytes>
+              <threadCounts>true</threadCounts>
+              <idleTime>true</idleTime>
+              <connectTime>true</connectTime>
+            </value>
+          </objProp>
+          <stringProp name="filename"></stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

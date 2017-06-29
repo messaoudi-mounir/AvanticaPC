@@ -1,0 +1,6 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.Datatypes",	
+	"name": "IndexValue",
+	"fields": [{"name": "item", "type": [ "Petrolink.Datatypes.DateTime",  "double",  "long"] }]
+}

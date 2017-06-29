@@ -1,0 +1,14 @@
+{
+	"type": "enum",
+	"namespace": "Petrolink.Analytix.RuleEngine.Messages",
+	"name": "ComparisonType",
+	"symbols":
+	[
+		"Equal",
+		"NotEqual",
+		"LessThan",
+		"LessThanOrEqual",
+		"GreaterThan",
+		"GreaterThanOrEqual"
+	]
+}

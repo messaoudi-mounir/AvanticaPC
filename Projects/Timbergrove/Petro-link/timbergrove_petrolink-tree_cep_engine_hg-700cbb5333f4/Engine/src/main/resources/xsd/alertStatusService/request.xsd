@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified"
+	targetNamespace="http://www.petrolink.com/mbe/alertstatus">
+	<xs:element xmlns:alert="http://www.petrolink.com/mbe/alertstatus"
+		name="AlertStatusRequest" type="alert:AlertStatusRequestType" />
+	<xs:complexType name="AlertStatusRequestType">
+		<xs:sequence>
+			<xs:element name="Action">
+				<xs:simpleType>
+					<xs:restriction base="xs:string">
+						<xs:enumeration value="COMMENT" />
+						<xs:enumeration value="QUERYACTIVE" />
+						<xs:enumeration value="QUERYALL" />
+						<xs:enumeration value="QUERYWHERE" />
+						<xs:enumeration value="QUERY" />
+						<xs:enumeration value="QUERYCOUNTWHERE"/>
+						<xs:enumeration value="UPDATESTATUS" />
+						<xs:enumeration value="ACKNOWLEDGE" />
+						<xs:enumeration value="ACKNOWLEDGEWHERE" />
+						<xs:enumeration value="SNOOZE" />
+						<xs:enumeration value="UNSNOOZE" />
+					</xs:restriction>
+				</xs:simpleType>
+			</xs:element>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element type="xs:string" name="UUID" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element type="xs:string" name="Well" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element type="xs:string" name="Class" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element type="xs:string" name="Where" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element type="xs:string" name="Comment" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element type="xs:string" name="By" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element type="xs:dateTime" name="Timestamp" minOccurs="0"
+					maxOccurs="1" />
+				<xs:element type="xs:string" name="NewStatus" minOccurs="0"
+					maxOccurs="1" />					
+				<xs:element type="xs:dateTime" name="ExpireAt" minOccurs="0"
+					maxOccurs="1" />
+			</xs:choice>
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>

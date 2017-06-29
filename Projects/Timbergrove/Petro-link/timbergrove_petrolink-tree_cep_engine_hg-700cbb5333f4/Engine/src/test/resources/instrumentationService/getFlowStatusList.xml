@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Explanation of RabbitMQ message properties for requests:
+
+  appId: An ID to identify the application that sent the message.
+  contentEncoding: Should be "utf-8"
+  contentType: Must be "text/xml"
+  correlationId: A correlation ID provided by the client that will be included in the response
+  replyTo: The name of the queue that the server will reply to
+
+ -->
+<Request xmlns="http://www.petrolink.com/mbe/query"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.petrolink.com/mbe/query ../../../main/resources/xsd/service.xsd">
+	<FlowStatusListRequest>
+		<Status>Started</Status>
+		<Type>RuleFlow</Type>
+	</FlowStatusListRequest>
+</Request>
+

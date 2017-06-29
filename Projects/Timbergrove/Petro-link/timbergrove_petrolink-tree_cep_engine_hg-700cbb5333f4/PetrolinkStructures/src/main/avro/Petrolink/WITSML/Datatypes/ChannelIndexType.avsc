@@ -1,0 +1,19 @@
+{
+	"type": "enum",
+	"namespace": "Petrolink.WITSML.Datatypes",
+	"name": "ChannelIndexType",
+	"symbols":
+	[
+		"Byte",
+		"Datetime",
+		"Double",
+		"Float",
+		"Int",
+		"Long",
+		"Short",
+		"String",
+		"String40",
+		"String16",
+		"Unknown"
+	]
+}

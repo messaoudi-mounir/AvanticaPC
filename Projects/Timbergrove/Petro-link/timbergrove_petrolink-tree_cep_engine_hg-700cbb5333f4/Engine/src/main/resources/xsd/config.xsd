@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified"
+	targetNamespace="http://www.petrolink.com/mbe/config" xmlns:cfg="http://www.petrolink.com/mbe/config">
+	<xs:include schemaLocation="config/executiongroups.xsd" />
+	<xs:include schemaLocation="config/services.xsd" />
+	
+	<xs:element name="PetrolinkMBE" type="cfg:config" />
+	<xs:complexType name="EngineSettingsType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute type="xs:byte" name="maxretries" />
+				<xs:attribute type="xs:int" name="workersRecycleTime" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ExecutionGroupsType">
+	   <xs:choice maxOccurs="unbounded">
+			<xs:element type="cfg:executionGroup_Default" name="Default" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="cfg:executionGroup_Default" name="ExecutionGroup" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+	</xs:complexType>
+	<xs:complexType name="UserDefinedPropertiesType">
+		<xs:sequence>
+			<xs:any minOccurs="0" processContents="skip" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="GlobalSettingsType">
+		<xs:sequence>
+			<xs:element type="cfg:EngineSettingsType" name="EngineSettings" />
+			<xs:element type="cfg:ExecutionGroupsType" name="ExecutionGroups" />
+			<xs:element type="cfg:UserDefinedPropertiesType" name="UserDefinedProperties" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="instanceGroup">
+		<xs:sequence>
+			<xs:element type="xs:string" name="PreServicesContext" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="cfg:config_services" name="Services" />
+			<xs:element type="xs:string" name="PostServicesContext" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="cfg:UserDefinedPropertiesType" name="UserDefinedProperties" />
+		</xs:sequence>
+		<xs:attribute name="id"></xs:attribute>
+	</xs:complexType>
+	<xs:complexType name="InstanceGroupsType">
+		<xs:sequence>
+			<xs:element type="cfg:instanceGroup" name="InstanceGroup" minOccurs="1" maxOccurs="unbounded"/>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="config">
+		<xs:sequence>
+			<xs:element type="xs:string" name="ConnectionsDirectory" minOccurs="0"/>
+			<xs:element type="cfg:GlobalSettingsType" name="GlobalSettings" minOccurs="1"/>
+			<xs:element type="cfg:InstanceGroupsType" name="InstanceGroups" minOccurs="1"/>
+			<xs:element type="xs:string" name="Triggers" />
+		</xs:sequence>
+		<xs:attribute type="xs:string" name="encrypted" />
+	</xs:complexType>
+</xs:schema>

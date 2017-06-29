@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.petrolink.com/mbe/rules" xmlns:rul="http://www.petrolink.com/mbe/rules">
+    <xs:include schemaLocation="flows/definitions.xsd"/>
+    <xs:include schemaLocation="flows/actions.xsd"/>
+    <xs:include schemaLocation="flows/flowRule.xsd"/>
+    <xs:complexType name="flow_ProcessActions">
+        <xs:complexContent>
+            <xs:extension base="rul:flow_BaseFlow">
+	        <xs:sequence>
+	            <xs:element name="Actions" type="rul:type_actions"/>
+	        </xs:sequence>
+        </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+    <xs:element name="Flow" type="rul:flow_BaseFlow">
+        <xs:annotation>
+            <xs:documentation> Base flow. Refer to com.smartnow.engine.xflow.Flow.
+            </xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:element name="ActionsFlow" type="rul:flow_ProcessActions">
+        <xs:annotation>
+            <xs:documentation> Contain sequences  of actions
+			</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:element name="AlertActionsFlow">
+        <xs:annotation>
+            <xs:documentation> Contain sequences  of actions, and sets the context to contain the alert and related rule
+			</xs:documentation>
+        </xs:annotation>
+    	<xs:complexType>
+    		<xs:complexContent>
+    			<xs:extension base="rul:flow_ProcessActions">
+    				<xs:attribute type="rul:type_UUID" name="ruleFlow" use="required"/>
+    			</xs:extension>
+    		</xs:complexContent>
+    	</xs:complexType>
+    </xs:element>
+    <xs:element name="Rule" type="rul:flow_ProcessRule">
+        <xs:annotation>
+            <xs:documentation> Contain Rule Processing Action in flowRule.xsd
+			</xs:documentation>
+        </xs:annotation>
+    </xs:element>
+    <xs:complexType name="type_flows">
+        <xs:annotation>
+            <xs:documentation> Collection of Flows
+			</xs:documentation>
+        </xs:annotation>
+        <xs:choice maxOccurs="unbounded">
+            <xs:element ref="rul:Flow"/>
+            <xs:element ref="rul:ActionsFlow"/>
+            <xs:element ref="rul:AlertActionsFlow"/>
+            <xs:element ref="rul:Rule"/>
+        </xs:choice>
+    </xs:complexType>
+    <xs:element name="Flows" type="rul:type_flows"/>
+</xs:schema>

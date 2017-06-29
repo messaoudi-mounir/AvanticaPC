@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules">
+  <Rule name="HistDepth-ROP_3a4205a0-50fb-43a5-9d6a-14902a4b8846" uuid="3a4205a0-50fb-43a5-9d6a-14902a4b8846" wellId="63ad0598-59b2-48cd-b8d2-e749f907d9d7" wellboreId="9755a16a-dec3-47d9-a1d6-2a04fe484aba" wellName="Realtime_Depth_Test" ruleId="3a4205a0-50fb-43a5-9d6a-14902a4b8846" ruleName="HistDepth-ROP" evaluationStrategy="IndexAlignment">
+    <Dependencies defaultType="buffered">
+      <Channel alias="ROP" type="buffered" indexType="double" scope="condition" valueUnit="ft/h" indexUnit="ft" gap="2" id="1fb6d717-b08e-4216-b92f-ea6521b92df0" sequence="10" />
+      <Channel alias="ROP_HIST" type="historical" indexType="double" scope="condition" valueUnit="ft/h" indexUnit="ft" gap="2" id="b83d24af-959a-4644-8a74-0d72ee7884c8" startIndex="588800448" endIndex="689994048" sequence="20" />
+    </Dependencies>
+    <Variables />
+    <FilteringCondition />
+    <Condition><![CDATA[ROP > (ROP_HIST * 1.5)]]></Condition>
+    <RuleActions>
+      <EvaluationLog sequence="10" name="366dd4b5-0bff-40fb-8aa2-c73592d989b8">
+        <Channel id="366dd4b5-0bff-40fb-8aa2-c73592d989b8" />
+      </EvaluationLog>
+    </RuleActions>
+    <AlertSettings className="HistDepth-ROP" class="3a4205a0-50fb-43a5-9d6a-14902a4b8846">
+      <ProcessingLogic type="PetrolinkAutoClear" />
+      <Template>
+        <Domain>Testing</Domain>
+        <Classification>Performance Optimization</Classification>
+        <Severity>4</Severity>
+        <Priority>3</Priority>
+        <Description source="templated">Alert is raised!</Description>
+        <Details contentType="json" source="context" />
+      </Template>
+      <Actions>
+        <OnCreateActions>
+          <SendUINotification sequence="30">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+            <InlineTemplate>
+              <Title>HistDepth-ROP</Title>
+              <Body>Alert is raised!</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnCreateActions>
+        <OnUpdateActions />
+        <OnCommentActions>
+          <SendUINotification sequence="40">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+            <InlineTemplate>
+              <Title>HistDepth-ROP</Title>
+              <Body>Alert is raised!</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnCommentActions>
+        <OnAcknowledgeActions>
+          <SendUINotification sequence="50">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+            <InlineTemplate>
+              <Title>HistDepth-ROP</Title>
+              <Body>Alert is raised!</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnAcknowledgeActions>
+        <OnStatusChangeActions>
+          <SendUINotification sequence="60">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+            <InlineTemplate>
+              <Title>HistDepth-ROP</Title>
+              <Body>Alert is raised!</Body>
+            </InlineTemplate>
+          </SendUINotification>
+          <Switch sequence="70">
+            <!-- ACTIVE = 0, INACTIVE = 1, CLOSED = 2 -->
+            <Case condition="alert.status == 2">
+              <ClosedAlertLog sequence="80">
+                <Channel id="45203ecf-64e5-400a-8fed-0694e82f0c62" />
+              </ClosedAlertLog>
+            </Case>
+          </Switch>
+        </OnStatusChangeActions>
+        <OnJournalEntryActions>
+          <EventLog sequence="90">
+            <Channel id="f3a547eb-bdb8-4d0c-b052-bd5d00cfa266" />
+          </EventLog>
+        </OnJournalEntryActions>
+      </Actions>
+    </AlertSettings>
+  </Rule>
+</Flows>

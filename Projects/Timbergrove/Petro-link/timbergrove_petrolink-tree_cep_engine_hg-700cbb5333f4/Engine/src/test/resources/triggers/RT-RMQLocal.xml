@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Triggers>
+	<RabbitMQTrigger name="RT-RMQLocal" eventClassId="StandardIOFlow" active="false">
+<!--  		<Connection><![CDATA[amqp://etp:etp@127.0.0.1:5672]]></Connection> -->
+ 		<Connection><![CDATA[amqp://guest:guest@localhost]]></Connection>
+ 		<!-- default Exchange type is direct and default durability is true -->
+		<Exchange type="topic" durable="true">PetroVault.Realtime.Raw</Exchange>
+		<!-- RoutinkKey is optional -->
+		<RoutingKey></RoutingKey>
+		<Queue>EventEnginesQueue</Queue>
+		<Parser class="petrolinkChannelDataAppended" />
+	</RabbitMQTrigger>
+</Triggers>

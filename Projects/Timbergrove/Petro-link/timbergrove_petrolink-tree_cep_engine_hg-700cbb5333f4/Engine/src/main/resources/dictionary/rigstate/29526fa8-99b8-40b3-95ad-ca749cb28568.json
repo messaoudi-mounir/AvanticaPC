@@ -1,0 +1,145 @@
+{
+	"Id": "29526fa8-99b8-40b3-95ad-ca749cb28568",
+	"Name": "Default Rigstate Dictionary",
+	"Description": "Default Rigstate Dictionary",
+	"RigStates": [{
+		"Name": "Unknown",
+		"Value": "0"
+	},
+	{
+		"Name": "Rig Up and Tear Down",
+		"Value": "1"
+	},
+	{
+		"Name": "Drilling",
+		"Value": "2"
+	},
+	{
+		"Name": "Connection (Drilling)",
+		"Value": "3"
+	},
+	{
+		"Name": "Reaming",
+		"Value": "4"
+	},
+	{
+		"Name": "Hole Opening",
+		"Value": "5"
+	},
+	{
+		"Name": "Coring",
+		"Value": "6"
+	},
+	{
+		"Name": "Condition and/or Circulate Mud",
+		"Value": "7"
+	},
+	{
+		"Name": "Tripping In",
+		"Value": "8"
+	},
+	{
+		"Name": "Tripping Out",
+		"Value": "9"
+	},
+	{
+		"Name": "Lubricate Rig",
+		"Value": "10"
+	},
+	{
+		"Name": "Rig repair",
+		"Value": "11"
+	},
+	{
+		"Name": "Cut/Slip Drilling Line",
+		"Value": "12"
+	},
+	{
+		"Name": "Deviation Survey",
+		"Value": "13"
+	},
+	{
+		"Name": "Wireline Logs",
+		"Value": "14"
+	},
+	{
+		"Name": "Run Casing",
+		"Value": "15"
+	},
+	{
+		"Name": "Cementing",
+		"Value": "16"
+	},
+	{
+		"Name": "Plug Back",
+		"Value": "17"
+	},
+	{
+		"Name": "Squeeze Cementing",
+		"Value": "18"
+	},
+	{
+		"Name": "Wait on Cement",
+		"Value": "19"
+	},
+	{
+		"Name": "Drill Cement and/or Float Equipment",
+		"Value": "20"
+	},
+	{
+		"Name": "Nipple Up/Nipple Down BOP Stack",
+		"Value": "21"
+	},
+	{
+		"Name": "Test BOP",
+		"Value": "22"
+	},
+	{
+		"Name": "Drill Stem Test",
+		"Value": "23"
+	},
+	{
+		"Name": "Fishing",
+		"Value": "24"
+	},
+	{
+		"Name": "Direction Work",
+		"Value": "25"
+	},
+	{
+		"Name": "Well Control",
+		"Value": "26"
+	},
+	{
+		"Name": "Stuck Pipe",
+		"Value": "27"
+	},
+	{
+		"Name": "Wait on Weather",
+		"Value": "28"
+	},
+	{
+		"Name": "Subsea",
+		"Value": "30"
+	},
+	{
+		"Name": "Flow check",
+		"Value": "31"
+	},
+	{
+		"Name": "Pressure Integrity Check",
+		"Value": "32"
+	},
+	{
+		"Name": "Lost Circulation",
+		"Value": "33"
+	},
+	{
+		"Name": "Short Trip In",
+		"Value": "34"
+	},
+	{
+		"Name": "Short Trip Out",
+		"Value": "35"
+	}]
+}

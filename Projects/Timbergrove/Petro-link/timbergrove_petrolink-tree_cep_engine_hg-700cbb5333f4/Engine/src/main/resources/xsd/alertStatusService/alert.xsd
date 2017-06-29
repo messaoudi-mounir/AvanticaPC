@@ -1,0 +1,76 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   xmlns:alertlist="http://www.petrolink.com/mbe/alertstatus/list"
+		   attributeFormDefault="unqualified"
+		   elementFormDefault="qualified"
+		   targetNamespace="http://www.petrolink.com/mbe/alertstatus/list">
+  <xs:complexType name="DetailsType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="contentType" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="MetadataType">
+   	<xs:choice minOccurs="0" maxOccurs="unbounded">
+   		<xs:element name="Entry">
+   			<xs:complexType>
+   				<xs:simpleContent>
+   					<xs:extension base="xs:string">
+   						<xs:attribute name="key" type="xs:string"/>
+   					</xs:extension>
+   				</xs:simpleContent>
+   			</xs:complexType>
+   		</xs:element>
+   	</xs:choice>
+  </xs:complexType>
+  <xs:complexType name="type_Alert">
+    <xs:sequence>
+      <xs:element type="xs:string" name="Name"/>
+      <xs:element type="xs:string" name="ClassId"/>
+      <xs:element type="xs:string" name="Description"/>
+      <xs:element type="xs:string" name="Domain"/>
+      <xs:element type="xs:string" name="Classification"/>
+      <xs:element type="xs:byte" name="Severity"/>
+      <xs:element type="xs:byte" name="Priority"/>
+      <xs:element type="xs:string" name="Status"/>
+      <xs:element type="xs:string" name="LastStatusChange"/>
+      <xs:element type="xs:string" name="Created"/>
+      <xs:element type="xs:string" name="LastOccurrence"/>
+      <xs:element type="xs:string" name="AcknowledgeBy" minOccurs="0"/>
+      <xs:element type="xs:string" name="AcknowledgeAt" minOccurs="0"/>
+      <xs:element type="xs:string" name="Comment"   minOccurs="0"/>
+      <xs:element type="xs:string" name="CommentedBy"   minOccurs="0"/>
+      <xs:element type="xs:string" name="CommentedAt"  minOccurs="0"/>
+      <xs:element type="xs:integer" name="CommentedCount" minOccurs="0"/>
+      <xs:element type="xs:integer" name="Tally"/>
+      <xs:element type="alertlist:MetadataType" name="Metadata"/>
+      <xs:element type="alertlist:DetailsType" name="Details"/>
+      <xs:element type="xs:string" name="CreatedIndex"/>
+      <xs:element type="xs:string" name="LastIndex"/>
+      <xs:element type="xs:boolean" name="Snoozed" minOccurs="0"/>
+      <xs:element type="xs:string" name="SnoozedBy" minOccurs="0"/>
+      <xs:element type="xs:string" name="SnoozedAt" minOccurs="0"/>
+      <xs:element type="xs:string" name="UnSnoozeAt" minOccurs="0"/>
+      <xs:element type="xs:string" name="WellId" minOccurs="0"/>
+      <xs:element type="xs:float" name="HoleDepth" minOccurs="0"/>
+      <xs:element type="xs:float" name="FinalHoleDepth" minOccurs="0"/>
+      <xs:element type="xs:float" name="BitDepth" minOccurs="0"/>
+      <xs:element type="xs:float" name="FinalBitDepth" minOccurs="0"/>
+      <xs:element type="xs:byte" name="RigState" minOccurs="0"/>
+      <xs:element type="xs:byte" name="FinalRigState" minOccurs="0"/>
+      <xs:element type="xs:boolean" name="NotificationsSent"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="UUID" use="optional"/>
+  </xs:complexType>
+  <xs:complexType name="type_SnoozeRecord">
+    <xs:sequence>
+		<xs:element type="xs:string" name="ClassId"/>
+		<xs:element type="xs:string" name="Well"/>
+		<xs:element type="xs:string" name="SnoozedBy"   minOccurs="0"/>
+		<xs:element type="xs:string" name="SnoozedAt"   minOccurs="0"/>
+		<xs:element type="xs:string" name="ExpireAt"   minOccurs="0"/>
+	</xs:sequence>
+    <xs:attribute type="xs:string" name="UUID" use="optional"/>
+  </xs:complexType>
+</xs:schema>

@@ -1,0 +1,12 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.WITSML.Datatypes",	
+	"name": "DataItem",
+	
+	"fields":
+	[
+		{ "name": "indexes", "type": { "type": "array", "items": "Petrolink.Datatypes.IndexValue" } },
+		{ "name": "value", "type": "Petrolink.Datatypes.DataValue" },
+		{ "name": "valueAttributes", "type": { "type": "array", "items": "Petrolink.Datatypes.DataAttribute" } }
+	]
+}

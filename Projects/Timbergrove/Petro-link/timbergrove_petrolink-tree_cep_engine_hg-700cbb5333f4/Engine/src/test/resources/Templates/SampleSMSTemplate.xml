@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Templates xmlns="http://www.petrolink.com/mbe/rules"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../../main/resources/xsd/templates.xsd">
+	<SMSTemplate uuid="c13818bb-95b2-44a1-bc4a-8ef692f41c02">
+		<Connection>
+			<Host>localhost</Host>
+			<Port>1025</Port>
+		</Connection>
+		<Params>
+		</Params>
+		<From><![CDATA[Event Mailflow <mbe@petrolink.com>]]></From>
+		<Subject>(Severity:${alert.severity!""}) Alert from Petrolink: ${alert.description!""}</Subject>
+		<Body><![CDATA[
+	            Class: ${alert.classification!"No Classification for the alert"}
+	            ${alert.description!"No Description for the alert"}        
+	            Index = ${index!"unknown"}
+	            Value = ${value!"unknown"}
+	]]>
+	</Body>
+	</SMSTemplate>
+</Templates>

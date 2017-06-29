@@ -1,0 +1,882 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="2.9" jmeter="3.0 r1743807">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="Riesgo y liquidez" enabled="true">
+      <stringProp name="TestPlan.comments"></stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp>
+      <boolProp name="TestPlan.serialize_threadgroups">false</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+        <collectionProp name="Arguments.arguments"/>
+      </elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="Activos y Pasivos" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true">
+          <boolProp name="LoopController.continue_forever">false</boolProp>
+          <stringProp name="LoopController.loops">5</stringProp>
+        </elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp>
+        <stringProp name="ThreadGroup.ramp_time">1</stringProp>
+        <longProp name="ThreadGroup.start_time">1475706631000</longProp>
+        <longProp name="ThreadGroup.end_time">1475706631000</longProp>
+        <boolProp name="ThreadGroup.scheduler">false</boolProp>
+        <stringProp name="ThreadGroup.duration"></stringProp>
+        <stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig guiclass="com.googlecode.jmeter.plugins.webdriver.config.gui.ChromeDriverConfigGui" testclass="com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig" testname="jp@gc - Chrome Driver Config" enabled="true">
+          <stringProp name="WebDriverConfig.proxy_type">SYSTEM</stringProp>
+          <stringProp name="WebDriverConfig.proxy_pac_url"></stringProp>
+          <stringProp name="WebDriverConfig.http_host"></stringProp>
+          <intProp name="WebDriverConfig.http_port">8080</intProp>
+          <boolProp name="WebDriverConfig.use_http_for_all_protocols">true</boolProp>
+          <stringProp name="WebDriverConfig.https_host"></stringProp>
+          <intProp name="WebDriverConfig.https_port">8080</intProp>
+          <stringProp name="WebDriverConfig.ftp_host"></stringProp>
+          <intProp name="WebDriverConfig.ftp_port">8080</intProp>
+          <stringProp name="WebDriverConfig.socks_host"></stringProp>
+          <intProp name="WebDriverConfig.socks_port">8080</intProp>
+          <stringProp name="WebDriverConfig.no_proxy">localhost</stringProp>
+          <boolProp name="WebDriverConfig.maximize_browser">false</boolProp>
+          <boolProp name="WebDriverConfig.reset_per_iteration">false</boolProp>
+          <boolProp name="WebDriverConfig.dev_mode">false</boolProp>
+          <stringProp name="ChromeDriverConfig.chromedriver_path">C:\Windows\System32\chromedriver.exe</stringProp>
+          <boolProp name="ChromeDriverConfig.android_enabled">false</boolProp>
+        </com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig>
+        <hashTree/>
+        <CookieManager guiclass="CookiePanel" testclass="CookieManager" testname="HTTP Cookie Manager" enabled="true">
+          <collectionProp name="CookieManager.cookies"/>
+          <boolProp name="CookieManager.clearEachIteration">false</boolProp>
+          <stringProp name="CookieManager.policy">standard</stringProp>
+          <stringProp name="CookieManager.implementation">org.apache.jmeter.protocol.http.control.HC4CookieHandler</stringProp>
+        </CookieManager>
+        <hashTree/>
+        <Arguments guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true">
+          <collectionProp name="Arguments.arguments">
+            <elementProp name="usuario" elementType="Argument">
+              <stringProp name="Argument.name">usuario</stringProp>
+              <stringProp name="Argument.value">503670416</stringProp>
+              <stringProp name="Argument.desc">Jose Luis Cordero</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="contrasena" elementType="Argument">
+              <stringProp name="Argument.name">contrasena</stringProp>
+              <stringProp name="Argument.value">Avan1016</stringProp>
+              <stringProp name="Argument.desc">Avan(mmyy)</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+            <elementProp name="url" elementType="Argument">
+              <stringProp name="Argument.name">url</stringProp>
+              <stringProp name="Argument.value">https://usrriesgoliquidez:18000</stringProp>
+              <stringProp name="Argument.metadata">=</stringProp>
+            </elementProp>
+          </collectionProp>
+        </Arguments>
+        <hashTree/>
+        <RandomOrderController guiclass="RandomOrderControllerGui" testclass="RandomOrderController" testname="Random Order Controller" enabled="true"/>
+        <hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Activos y Pasivos" enabled="true"/>
+          <hashTree>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="1 - Login" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 1&apos;)
+var url = WDS.args[0]
+WDS.browser.get(url)
+
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters">${url}</stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="2 - Iniciando sesion" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 2&apos;)
+var paginaSiguiente = new com.bcr.performance.paginas.Login(WDS.browser)
+var usuario = WDS.args[0]
+var contrasena = WDS.args[1]
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+WDS.sampleResult.samplePause()
+
+paginaSiguiente.llenarLogin(usuario, contrasena)
+
+WDS.sampleResult.sampleResume()
+paginaSiguiente.iniciarSesion()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters">${usuario} ${contrasena}</stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="3 - Ir a pagina solicitudes" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 3&apos;)
+var paginaSiguiente = new com.bcr.performance.paginas.PaginaPrincipal(WDS.browser)
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+paginaSiguiente.irAPaginaSolicitud()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="4 - Seleccionar Reporte Activo y pasivo" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 4&apos;)
+var paginaSiguiente = new com.bcr.performance.paginas.PaginaSolicitud(WDS.browser)
+var especificoActivos = [&apos;USD&apos;,&apos;Tarjetas&apos;,&apos;Grupo 1&apos;,&apos;Persona Física&apos;,&apos;114260339&apos;,&apos;10&apos;,&apos;10&apos;,&apos;10&apos;,&apos;10&apos;] 
+var tipoReporte = &quot;Activos y Pasivos&quot;
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+paginaSiguiente.seleccionaTipoReporte(tipoReporte)
+WDS.sampleResult.samplePause()
+
+paginaSiguiente.llenarEspecificoActivosYPasivos(especificoActivos)
+
+WDS.sampleResult.sampleResume()
+paginaSiguiente.agregarEspecifico()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="5 - Generar " enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 5&apos;)
+var paginaSiguiente = new com.bcr.performance.paginas.PaginaSolicitud(WDS.browser)
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+paginaSiguiente.verificarCargaActivosYPasivos()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="6 - Cerrar sesion" enabled="true">
+              <stringProp name="WebDriverSampler.script">var paginaSiguiente = new com.bcr.performance.paginas.PaginaSolicitud(WDS.browser)
+WDS.log.info(&apos;Step 6&apos;)
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.cerrarSesion()
+WDS.sampleResult.sampleEnd()</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>true</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                  <idleTime>true</idleTime>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Pasivos" enabled="true"/>
+          <hashTree>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="1 - Login" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 1&apos;)
+var url = WDS.args[0]
+WDS.browser.get(url)
+
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters">${url}</stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="2 - Iniciando sesion" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 2&apos;)
+var paginaSiguiente = new com.bcr.performance.paginas.Login(WDS.browser)
+var usuario = WDS.args[0]
+var contrasena = WDS.args[1]
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+WDS.sampleResult.samplePause()
+
+paginaSiguiente.llenarLogin(usuario, contrasena)
+
+WDS.sampleResult.sampleResume()
+paginaSiguiente.iniciarSesion()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters">${usuario} ${contrasena}</stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="3 - Ir a pagina solicitudes" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 3&apos;)
+var paginaSiguiente = new com.bcr.performance.paginas.PaginaPrincipal(WDS.browser)
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+paginaSiguiente.irAPaginaSolicitud()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="4 - Seleccionar Reporte pasivo" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 4&apos;)
+var paginaSiguiente = new com.bcr.performance.paginas.PaginaSolicitud(WDS.browser)
+var especificoPasivos = [&apos;USD&apos;,&apos;Cuenta Corriente&apos;,&apos;Grupo 1&apos;,&apos;Persona Física&apos;,&apos;114260339&apos;,&apos;10&apos;,&apos;10&apos;,&apos;10&apos;]
+var tipoReporte = &quot;Pasivos&quot;
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+paginaSiguiente.seleccionaTipoReporte(tipoReporte)
+WDS.sampleResult.samplePause()
+
+paginaSiguiente.llenarEspecificoPasivos(especificoPasivos)
+
+WDS.sampleResult.sampleResume()
+paginaSiguiente.agregarEspecifico()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="5 - Generar reporte pasivos" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 5&apos;)
+var paginaSiguiente = new com.bcr.performance.paginas.PaginaSolicitud(WDS.browser)
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+paginaSiguiente.verificarCargaPasivos()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="6 - Cerrar sesion" enabled="true">
+              <stringProp name="WebDriverSampler.script">var paginaSiguiente = new com.bcr.performance.paginas.PaginaSolicitud(WDS.browser)
+WDS.log.info(&apos;Step 6&apos;)
+
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.cerrarSesion()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>true</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                  <idleTime>true</idleTime>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Efectivos" enabled="true"/>
+          <hashTree>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="1 - Login" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 1&apos;)
+var url = WDS.args[0]
+WDS.browser.get(url)
+
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters">${url}</stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="2 - Iniciando sesion" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 2&apos;)
+var paginaSiguiente = new com.bcr.performance.paginas.Login(WDS.browser)
+var usuario = WDS.args[0]
+var contrasena = WDS.args[1]
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+WDS.sampleResult.samplePause()
+
+paginaSiguiente.llenarLogin(usuario, contrasena)
+
+WDS.sampleResult.sampleResume()
+paginaSiguiente.iniciarSesion()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters">${usuario} ${contrasena}</stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="3 - Ir a pagina solicitudes" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 3&apos;)
+var paginaSiguiente = new com.bcr.performance.paginas.PaginaPrincipal(WDS.browser)
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+paginaSiguiente.irAPaginaSolicitud()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="4 - Seleccionar Reporte efectivo" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 4&apos;)
+var paginaSiguiente = new com.bcr.performance.paginas.PaginaSolicitud(WDS.browser)
+var tipoReporte = &quot;Efectivo&quot;
+var tam = 5
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+paginaSiguiente.seleccionaTipoReporte(tipoReporte)
+paginaSiguiente.verificarCargaEfectivos(tam)
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="5- Cerrar sesion" enabled="true">
+              <stringProp name="WebDriverSampler.script">var paginaSiguiente = new com.bcr.performance.paginas.PaginaSolicitud(WDS.browser)
+WDS.log.info(&apos;Step 5&apos;)
+
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.cerrarSesion()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>true</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                  <idleTime>true</idleTime>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Backtesting" enabled="true"/>
+          <hashTree>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="1 - Login" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 1&apos;)
+var url = WDS.args[0]
+WDS.browser.get(url)
+
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters">${url}</stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="2 - Iniciando sesion" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 2&apos;)
+var paginaSiguiente = new com.bcr.performance.paginas.Login(WDS.browser)
+var usuario = WDS.args[0]
+var contrasena = WDS.args[1]
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+WDS.sampleResult.samplePause()
+
+paginaSiguiente.llenarLogin(usuario, contrasena)
+
+WDS.sampleResult.sampleResume()
+paginaSiguiente.iniciarSesion()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters">${usuario} ${contrasena}</stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="3 - Ir a pagina solicitudes" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 3&apos;)
+var paginaSiguiente = new com.bcr.performance.paginas.PaginaPrincipal(WDS.browser)
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+paginaSiguiente.irAPaginaSolicitud()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="4 - Seleccionar Reporte Backtesting" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 4&apos;)
+var paginaSiguiente = new com.bcr.performance.paginas.PaginaSolicitud(WDS.browser)
+//var especificoPasivos = [&apos;CRC&apos;,&apos;Ahorro automatico BCR&apos;,&apos;Grupo 1&apos;,&apos;Persona Física&apos;,&apos;114260339&apos;,&apos;10&apos;,&apos;10&apos;,&apos;10&apos;]
+var tipoReporte = &quot;Backtesting&quot;
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+paginaSiguiente.seleccionaTipoReporte(tipoReporte)
+WDS.sampleResult.sampleEnd()
+
+
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="5 - Cargar archivo popup" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 5&apos;)
+var paginaSiguiente = new com.bcr.performance.paginas.PaginaSolicitud(WDS.browser)
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCargaBackTesting()
+paginaSiguiente.clickCargarArchivo()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="6 - Cargar archivo" enabled="true">
+              <stringProp name="WebDriverSampler.script">WDS.log.info(&apos;Step 6&apos;)
+var paginaSiguiente = new com.bcr.performance.paginas.PaginaSolicitud(WDS.browser)
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.cargarArchivo(&quot;E:/Users/10291445/Documents/PlantillaInsumoBacktesting TC 21 días.xlsx&quot;)
+paginaSiguiente.verificarCargaArchivo(&quot;PlantillaInsumoBacktesting TC 21 días.xlsx&quot;)
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="7- Cerrar sesion" enabled="true">
+              <stringProp name="WebDriverSampler.script">var paginaSiguiente = new com.bcr.performance.paginas.PaginaBacktesting(WDS.browser)
+WDS.log.info(&apos;Step 7&apos;)
+
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.cerrarSesion()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>true</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                  <idleTime>true</idleTime>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Todas las plantillas" enabled="true"/>
+          <hashTree>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="1-Login" enabled="true">
+              <stringProp name="WebDriverSampler.script">var url = WDS.args[0]
+WDS.browser.get(url)
+
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters">${url}</stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="2- Iniciando sesion" enabled="true">
+              <stringProp name="WebDriverSampler.script">var paginaSiguiente = new com.bcr.performance.paginas.Login(WDS.browser)
+var usuario = WDS.args[0]
+var contrasena = WDS.args[1]
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+WDS.sampleResult.samplePause()
+
+paginaSiguiente.llenarLogin(usuario, contrasena)
+
+WDS.sampleResult.sampleResume()
+paginaSiguiente.iniciarSesion()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters">${usuario} ${contrasena}</stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="3- Ir a pagina plantillas" enabled="true">
+              <stringProp name="WebDriverSampler.script">var paginaSiguiente = new com.bcr.performance.paginas.PaginaPrincipal(WDS.browser)
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+paginaSiguiente.irAPaginaPlantillas()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="4- Cerrar sesion" enabled="true">
+              <stringProp name="WebDriverSampler.script">var paginaSiguiente = new com.bcr.performance.paginas.PaginaTodasLasPlantillas(WDS.browser)
+WDS.log.info(&apos;Step 4&apos;)
+
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+paginaSiguiente.cerrarSesion()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="true">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>true</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                  <idleTime>true</idleTime>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Todas las ordenes" enabled="true"/>
+          <hashTree>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="1-Login" enabled="true">
+              <stringProp name="WebDriverSampler.script">var url = WDS.args[0]
+WDS.browser.get(url)
+
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters">${url}</stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="2- Iniciando sesion" enabled="true">
+              <stringProp name="WebDriverSampler.script">var paginaSiguiente = new com.bcr.performance.paginas.Login(WDS.browser)
+var usuario = WDS.args[0]
+var contrasena = WDS.args[1]
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+WDS.sampleResult.samplePause()
+
+paginaSiguiente.llenarLogin(usuario, contrasena)
+
+WDS.sampleResult.sampleResume()
+paginaSiguiente.iniciarSesion()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters">${usuario} ${contrasena}</stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="3- Ir a pagina ordenes" enabled="true">
+              <stringProp name="WebDriverSampler.script">var paginaSiguiente = new com.bcr.performance.paginas.PaginaPrincipal(WDS.browser)
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+paginaSiguiente.irAPaginaOrdenes()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="4- Cerrar sesion" enabled="true">
+              <stringProp name="WebDriverSampler.script">var paginaSiguiente = new com.bcr.performance.paginas.PaginaTodasLasOrdenes(WDS.browser)
+WDS.log.info(&apos;Step 4&apos;)
+
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+paginaSiguiente.cerrarSesion()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>true</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                  <idleTime>true</idleTime>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+          </hashTree>
+          <GenericController guiclass="LogicControllerGui" testclass="GenericController" testname="Todos los reportes" enabled="true"/>
+          <hashTree>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="1-Login" enabled="true">
+              <stringProp name="WebDriverSampler.script">var url = WDS.args[0]
+WDS.browser.get(url)
+
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters">${url}</stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="2- Iniciando sesion" enabled="true">
+              <stringProp name="WebDriverSampler.script">var paginaSiguiente = new com.bcr.performance.paginas.Login(WDS.browser)
+var usuario = WDS.args[0]
+var contrasena = WDS.args[1]
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+WDS.sampleResult.samplePause()
+
+paginaSiguiente.llenarLogin(usuario, contrasena)
+
+WDS.sampleResult.sampleResume()
+paginaSiguiente.iniciarSesion()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters">${usuario} ${contrasena}</stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="3- Ir a pagina reportes" enabled="true">
+              <stringProp name="WebDriverSampler.script">var paginaSiguiente = new com.bcr.performance.paginas.PaginaPrincipal(WDS.browser)
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+paginaSiguiente.irAPaginaReportes()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler guiclass="com.googlecode.jmeter.plugins.webdriver.sampler.gui.WebDriverSamplerGui" testclass="com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler" testname="4- Cerrar sesion" enabled="true">
+              <stringProp name="WebDriverSampler.script">var paginaSiguiente = new com.bcr.performance.paginas.PaginaTodasLasOrdenes(WDS.browser)
+WDS.log.info(&apos;Step 4&apos;)
+
+
+WDS.sampleResult.sampleStart()
+paginaSiguiente.verificarCarga()
+paginaSiguiente.cerrarSesion()
+WDS.sampleResult.sampleEnd()
+</stringProp>
+              <stringProp name="WebDriverSampler.parameters"></stringProp>
+              <stringProp name="WebDriverSampler.language">javascript</stringProp>
+            </com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler>
+            <hashTree/>
+            <ResultCollector guiclass="ViewResultsFullVisualizer" testclass="ResultCollector" testname="View Results Tree" enabled="false">
+              <boolProp name="ResultCollector.error_logging">false</boolProp>
+              <objProp>
+                <name>saveConfig</name>
+                <value class="SampleSaveConfiguration">
+                  <time>true</time>
+                  <latency>true</latency>
+                  <timestamp>true</timestamp>
+                  <success>true</success>
+                  <label>true</label>
+                  <code>true</code>
+                  <message>true</message>
+                  <threadName>true</threadName>
+                  <dataType>true</dataType>
+                  <encoding>false</encoding>
+                  <assertions>true</assertions>
+                  <subresults>true</subresults>
+                  <responseData>false</responseData>
+                  <samplerData>false</samplerData>
+                  <xml>false</xml>
+                  <fieldNames>true</fieldNames>
+                  <responseHeaders>false</responseHeaders>
+                  <requestHeaders>false</requestHeaders>
+                  <responseDataOnError>false</responseDataOnError>
+                  <saveAssertionResultsFailureMessage>true</saveAssertionResultsFailureMessage>
+                  <assertionsResultsToSave>0</assertionsResultsToSave>
+                  <bytes>true</bytes>
+                  <threadCounts>true</threadCounts>
+                  <idleTime>true</idleTime>
+                </value>
+              </objProp>
+              <stringProp name="filename"></stringProp>
+            </ResultCollector>
+            <hashTree/>
+          </hashTree>
+        </hashTree>
+        <ResultCollector guiclass="StatVisualizer" testclass="ResultCollector" testname="Aggregate Report" enabled="true">
+          <boolProp name="ResultCollector.error_logging">false</boolProp>
+          <objProp>
+            <name>saveConfig</name>
+            <value class="SampleSaveConfiguration">
+              <time>true</time>
+              <latency>false</latency>
+              <timestamp>true</timestamp>
+              <success>false</success>
+              <label>true</label>
+              <code>false</code>
+              <message>true</message>
+              <threadName>false</threadName>
+              <dataType>false</dataType>
+              <encoding>false</encoding>
+              <assertions>false</assertions>
+              <subresults>false</subresults>
+              <responseData>false</responseData>
+              <samplerData>false</samplerData>
+              <xml>false</xml>
+              <fieldNames>false</fieldNames>
+              <responseHeaders>false</responseHeaders>
+              <requestHeaders>false</requestHeaders>
+              <responseDataOnError>false</responseDataOnError>
+              <saveAssertionResultsFailureMessage>false</saveAssertionResultsFailureMessage>
+              <assertionsResultsToSave>0</assertionsResultsToSave>
+            </value>
+          </objProp>
+          <stringProp name="filename">\\bcr.fi.cr\proveedores\Avantica\Manuel\BCR-RiesgoLiquidez_Repo\src\com\bcr\performance\pruebas\ejemploLog.csv</stringProp>
+        </ResultCollector>
+        <hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>

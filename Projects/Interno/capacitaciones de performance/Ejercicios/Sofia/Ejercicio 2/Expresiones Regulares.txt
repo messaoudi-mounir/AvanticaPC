@@ -1,0 +1,12 @@
+Expresion Regular para Obtener la Categoria al crear un Ad
+&quot;(ct[^;]+)&quot.+>Garden
+
+Expresion Regular para cambiar la Categoria
+value="([0-9])"> Home
+
+-- Cambiar por Home por la Categoria deseada
+
+Expresion regular para Obtener el Nombre
+id=1060">([^<]+)
+
+ -- Cambiar el ID (hay que probar

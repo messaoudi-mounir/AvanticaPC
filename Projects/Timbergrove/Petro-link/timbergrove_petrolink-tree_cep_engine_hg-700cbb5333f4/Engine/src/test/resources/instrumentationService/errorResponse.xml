@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Explanation of RabbitMQ message properties for responses:
+
+  appId: An ID to identify the application that sent the message. Will be like CEP@nodename
+  contentEncoding: Will be "utf-8"
+  contentType: Will be "text/xml"
+  correlationId: A correlation ID provided by the client that will be included in the response
+
+ -->
+<Response xmlns="http://www.petrolink.com/mbe/query"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.petrolink.com/mbe/query ../../../main/resources/xsd/service.xsd">
+	<Error exception="java.lang.NullPointerException">
+		<StackTrace>
+			Exception in thread "main" java.lang.RuntimeException
+			    at test.stack.trace.SomeClass.methodC(SomeClass.java:18)
+			    at test.stack.trace.SomeClass.methodB(SomeClass.java:13)
+			    at test.stack.trace.SomeClass.methodA(SomeClass.java:9)
+			    at test.stack.trace.SomeClass.main(SomeClass.java:27)
+		</StackTrace>
+	</Error>
+</Response>
+

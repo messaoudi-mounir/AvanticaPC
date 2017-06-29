@@ -1,0 +1,9 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.Analytix.RuleEngine.Messages",
+	"name": "StopRule",
+	"fields":
+	[
+		{ "name": "id", "type": "Petrolink.Datatypes.UUID" }
+	]
+}

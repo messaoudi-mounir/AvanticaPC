@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AlertStatusResponse xmlns="http://www.petrolink.com/mbe/alertstatus/list"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/alertstatus/list/ response.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<AlertCount>5</AlertCount>
+</AlertStatusResponse>

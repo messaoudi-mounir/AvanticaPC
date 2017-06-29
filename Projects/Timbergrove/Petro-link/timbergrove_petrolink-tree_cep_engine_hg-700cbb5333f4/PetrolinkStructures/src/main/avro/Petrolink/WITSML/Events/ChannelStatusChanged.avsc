@@ -1,0 +1,11 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.WITSML.Events",	
+	"name": "ChannelStatusChanged",
+	
+	"fields":
+	[
+		{ "name": "channelId", "type": "Petrolink.Datatypes.UUID" },
+		{ "name": "status", "type": "Petrolink.WITSML.Datatypes.ChannelStatus" }
+	]
+}

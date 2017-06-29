@@ -1,0 +1,15 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.Analytix.RuleEngine.Messages",
+	"name": "RuleEvent",
+	"fields":
+	[
+		{ "name": "id", "type": "Petrolink.Datatypes.UUID" },
+		{ "name": "time", "type": "Petrolink.Datatypes.DateTime" },
+		{ "name": "sourceUri", "type": "string" },
+		{ "name": "rule", "type": "Petrolink.Analytix.RuleEngine.Messages.Rule" },
+		{ "name": "conditionStates", "type": { "type": "array", "items": "Petrolink.Analytix.RuleEngine.Messages.ConditionState" } },
+		{ "name": "oldState", "type": "Petrolink.Analytix.RuleEngine.Messages.RuleState" },
+	    { "name": "newState", "type": "Petrolink.Analytix.RuleEngine.Messages.RuleState" }
+	]
+}

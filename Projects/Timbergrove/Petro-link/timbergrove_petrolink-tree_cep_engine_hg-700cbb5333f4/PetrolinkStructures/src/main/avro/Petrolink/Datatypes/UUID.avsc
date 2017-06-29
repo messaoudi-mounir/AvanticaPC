@@ -1,0 +1,6 @@
+{
+	"type": "fixed",
+	"namespace": "Petrolink.Datatypes",	
+	"name": "UUID",
+	"size": 16
+}

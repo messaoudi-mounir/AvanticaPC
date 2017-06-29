@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows>
+	<ActionsFlow name="MailFlow" load="true">
+		<Actions>
+		    <!-- Originally from  template="MailTemplateLocalhost"-->
+			<SendSMSNotification sequence="20" template="ea3ae2bc-dd6d-4a9f-89af-4a9a0dc86327">
+				<To>12821812, 86279043</To>
+	            <Message>
+	            <![CDATA[
+	            ${opening},<br/>
+	            <br/>
+	            <p>
+	            This sms came from MBESMSFlow.
+	            The parameters are :
+	            </p>
+	            <p>
+		            P1 = ${p1} <br/> 
+		            P2 = ${p2} <br/>
+	            </p>
+	            <p>
+		            If variables are missing, for example, you can do like<br/>
+		            P3 = ${p3} <br/>
+		            P3 = ${p3! "Unknown value"} <br/>
+	            </p>
+	            <p>
+		            Others<br/>
+		            P3 = ${details! "No Details"} <br/>
+		            P3 = ${alert! "No Alert"} <br/>
+	            </p>
+	            ${closing}
+	            ]]> 
+	            </Message>
+	            <Subject>
+	            	SMS test
+	            </Subject>
+			</SendSMSNotification>
+			<Script sequence="30">
+				System.out.println("Flow: Mailflow  completed!!")
+			</Script>
+		</Actions>
+	</ActionsFlow>
+</Flows>

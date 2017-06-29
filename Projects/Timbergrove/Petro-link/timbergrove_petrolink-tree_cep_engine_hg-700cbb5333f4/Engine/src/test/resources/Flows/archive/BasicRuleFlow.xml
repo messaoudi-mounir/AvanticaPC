@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.w3.org/2001/XMLSchema-instance ../../xsd/flows.xsd"
+	   >
+	<Rule uuid="c1dea7e0-7510-11e6-bdf4-0800200c9a66" well="81549d90-7a99-11e6-bdf4-0800200c9a66" evaluationStrategy="LastKnownValue" disableAt="2016-12-30T09:00:00">
+		<Dependencies defaultType="LastKnownValue">
+			<!--
+			Note : Scope in here means where the channel will be available.
+			So filtering means it will only be available for the filtering condition
+			Condition for the condition evaluation
+			 -->
+			<Channel alias="rigState" scope="filtering">5037f119-2d45-4106-a3c7-2fed671c1dcd</Channel>
+			<Channel alias="rop" scope="condition">5037f119-2d45-4106-a3c7-2fed671c1dcc</Channel>
+			<Channel alias="mudflow" scope="global">933d141d-3a94-420f-839b-d7e013d7a630</Channel>
+		</Dependencies>
+		<Variables>
+<!-- 			<Lookup alias="modelROP" type="index" uuid="32c84305-a7f7-4c0f-ad8c-040b95f58298" sequence="10"> -->
+<!-- 				<Param id="Method">regression</Param> -->
+<!-- 			</Lookup> -->
+<!-- 			<Static alias="mudFlowValue" type="Integer" sequence="10">20</Static> -->
+<!-- 			<Scripted alias="whatever" sequence="20"><![CDATA[ -->
+<!-- 				(rop*3/25) -->
+<!-- 			]]> -->
+<!-- 			</Scripted> -->
+		</Variables>
+		<FilteringCondition>rigState==23</FilteringCondition>
+		<Condition><![CDATA[
+		(rop>modelROP) && (mudFlow> mudFlowValue)
+		]]>
+		</Condition>
+		<RuleActions>
+			<!-- Clear Rule base cache action should be here -->
+		</RuleActions>		
+		<AlertSettings name="Well123-Alert-a23234">
+			<!-- Processing logic for the Alert
+				Pluggable alert processing logic is supported
+				Default processing logic types include:
+					- Default Auto Clear
+					- Default No-Auto Clear
+					- Clear
+					- Script (Script Text in the ProcessingLogic Tag)
+			 -->
+			<ProcessingLogic type="defaultAutoClear"></ProcessingLogic>
+			<Template>
+				<Domain>Y</Domain>
+				<Classification>ClassMajor</Classification>
+				<Severity>5</Severity>
+				<Priority>3</Priority>
+				<Description>I don't care</Description>
+				<Details contentType="text/json" source="context">
+				</Details>
+			</Template>
+			<Actions>
+				<OnCreateActions>
+					<SendMailNotification sequence="10" template="Template1">
+						<Params>
+							<Param name="p1" type="Integer">3</Param>
+							<Param name="p2" type="Integer">15</Param>
+							<Param name="opening" type="String">Hola</Param>
+						</Params>
+					</SendMailNotification>
+				</OnCreateActions>
+					
+				<OnUpdateActions/>					
+
+				<OnCommentActions/>
+
+				<OnAcknowledgeActions/>
+
+				<OnStatusChangeActions>
+					<Switch sequence="10">
+						<Case condition="newStatus == 'INACTIVE'">
+							<SendMailNotification sequence="10" template="Template2">
+							
+							</SendMailNotification>
+						</Case>
+					</Switch>
+				</OnStatusChangeActions>
+			</Actions>
+		</AlertSettings>
+	</Rule>
+</Flows>

@@ -1,0 +1,4 @@
+<ActionModeChange>
+	<SetMode flow="XXX" id="action1" mode="TEST" />
+	<GetMode flow="XXX" id="action1" />
+</ActionModeChange>

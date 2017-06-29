@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PetrolinkMBE encrypted="false"
+	xmlns="http://www.petrolink.com/mbe/config" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/config ../src/main/resources/xsd/config.xsd">
+	<ConnectionsDirectory>connections.xml</ConnectionsDirectory>
+	<GlobalSettings>
+		<EngineSettings maxretries="5" workersRecycleTime="1209600000" />
+		<ExecutionGroups>
+			<Default workers="1">
+				<EventStore type="memory" />
+			</Default>
+<!-- 			<ExecutionGroup class="Native" name="DefaultRuleExecGroup" -->
+<!-- 				workers="100" /> -->
+<!-- 			<ExecutionGroup class="Native" name="DefaultAlertActionsExecGroup" -->
+<!-- 				workers="100" /> -->
+		</ExecutionGroups>
+		<UserDefinedProperties>
+			<TemplatePath>NA</TemplatePath>
+			<MailTemplates>/templates/</MailTemplates>
+			<EvaluationLogs>../src/test/resources/logs/evaluation/</EvaluationLogs>
+			<AlertAuditLogs>../src/test/resources/logs/AlertAudit/</AlertAuditLogs>
+			<EventLogs>../src/test/resources/logs/Event/</EventLogs>
+			<NotificationLogs>../src/test/resources/logs/Notification/</NotificationLogs>
+			<ClosedAlertLogs>../src/test/resources/logs/ClosedAlert/</ClosedAlertLogs>
+			<PreloadedChannels>/channels/</PreloadedChannels>
+			<EvaluationLogBatchTime>10000</EvaluationLogBatchTime>
+		</UserDefinedProperties>
+	</GlobalSettings>
+	<InstanceGroups>
+		<InstanceGroup id="local">
+			<Services>
+				<ClusteringService name="clustering01" index="0">
+					<PrimaryNode>NodeA</PrimaryNode>
+					<ResourceGroups>
+						<ResourceGroup name="A"/>
+						<ResourceGroup name="B"/>
+						<ResourceGroup name="D"/>
+					</ResourceGroups>
+					<SharedCacheId>MBECache</SharedCacheId>
+					<HeartBeat time="1000" timeout="30000" masterRefresh="5000"/>
+				</ClusteringService>
+				<SchedulerService name="Scheduler" index="1">
+				</SchedulerService>
+				<WellDirectoryService name="WellDirectory"
+					index="1">
+					<PredefinedWellsLocation relative="true">/wells/</PredefinedWellsLocation>
+					<RabbitMQRestfulServices>
+						<Connection id="rmqLocal" />
+						<Exchange type="direct" durable="true">MBE.WellDirectory.Service</Exchange>
+						<Queue>WellDirectoryServiceQ</Queue>
+						<ConcurrentListeners>1</ConcurrentListeners>
+					</RabbitMQRestfulServices>
+					<DefaultWellDefinition>
+						<ChannelDataAppendedSettings>
+							<Connection id="rmqLocal" />
+							<Exchange type="topic" durable="true">PetroVault.Realtime.Raw</Exchange>
+							<!-- Yes, this misspelling of 'dataappnded' is intentional. -->
+							<RoutingKey>*.channel.dataappnded.'%s'</RoutingKey>
+							<Queue>MBE.CDA.%s</Queue>
+							<ConcurrentListeners>1</ConcurrentListeners>
+						</ChannelDataAppendedSettings>
+						<ExecutionGroupTemplates>
+							<RuleActionTemplate workers="3" />
+							<AlertActionTemplate workers="3" />
+						</ExecutionGroupTemplates>
+						<!-- <ExecutionGroups> -->
+						<!-- <RuleActionsExecutionGroup>DefaultRuleExecGroup</RuleActionsExecutionGroup> -->
+						<!-- <AlertActionsExecutionGroup>DefaultAlertActionsExecGroup</AlertActionsExecutionGroup> -->
+						<!-- </ExecutionGroups> -->
+					</DefaultWellDefinition>
+					<ClockChannelSettings>
+						<ClockChannel id="0000ABCD-0100-000F-0000-000000000000" interval="15000" />
+						<ClockChannel id="0000ABCD-0100-003C-0000-000000000000" interval="60000" />
+						<ClockChannel id="0000ABCD-0100-012C-0000-000000000000" interval="300000" />
+					</ClockChannelSettings>
+				</WellDirectoryService>
+				<PetroVaultMbeOrchestrationService name="defaultMBEService" index="2">
+					<Connection apiPath="mbe" id="petrovault" />
+					<CacheOption maximumSize="5000" refreshSeconds="600" />
+				</PetroVaultMbeOrchestrationService>
+				<PetroVaultPrincipalService name="defaultPrincipalService" index="2">
+					<Connection apiPath="SecurityApi" id="petrovault"/>
+					<CacheOption maximumSize="5000" refreshSeconds="600" />
+				</PetroVaultPrincipalService>
+				<PetroVaultResourceService name="defaultResourceService" index="2">
+					<Connection apiPath="HDAPI" id="petrovault"/>
+					<CacheOption maximumSize="5000" refreshSeconds="600" />
+				</PetroVaultResourceService>
+				<ChronosClientService name="ChronosClientService" index="2">
+					<Connection apiPath="HDAPI" id="petrovault"/>
+				</ChronosClientService>
+				<MBEFlowsManagementService name="DefaultFlowsLoader"
+					index="2">
+					<Path relative="true">/flows/</Path>
+					<DefaultNamespace>http://www.petrolink.com/mbe/rules</DefaultNamespace>
+					<RabbitMQRestfulServices>
+						<Connection id="rmqLocal" />
+						<Exchange type="direct" durable="true">MBE.Management.Service</Exchange>
+						<Queue>FlowServiceQ</Queue>
+						<ConcurrentListeners>2</ConcurrentListeners>
+						<RoutingKey>Flows</RoutingKey>
+					</RabbitMQRestfulServices>
+					<RequestActiveFlows>true</RequestActiveFlows>
+				</FlowsManagementService>
+				<TriggersManagementService name="DefaultTriggerssLoader"
+					index="3">
+					<Path relative="true">/triggers/</Path>
+					<DefaultNamespace>http://www.petrolink.com/mbe/rules</DefaultNamespace>
+					<RabbitMQRestfulServices>
+						<Connection id="rmqLocal" />
+						<Exchange type="direct" durable="true">MBE.Management.Service</Exchange>
+						<Queue>TriggerServiceQ</Queue>
+						<ConcurrentListeners>2</ConcurrentListeners>
+						<RoutingKey>Triggers</RoutingKey>
+					</RabbitMQRestfulServices>
+				</TriggersManagementService>
+				<NotificationTemplateService name="NotificationTemplateService"
+					index="5">
+					<Path relative="true">/templates/</Path>
+					<DefaultNamespace>http://www.petrolink.com/mbe/rules</DefaultNamespace>
+					<RabbitMQRestfulServices>
+						<Connection id="rmqLocal" />
+						<Exchange type="direct" durable="true">MBE.TemplatesRepository.Service</Exchange>
+						<Queue>TemplateRepositoryQ</Queue>
+						<ConcurrentListeners>1</ConcurrentListeners>
+					</RabbitMQRestfulServices>
+				</NotificationTemplateService>
+				<AlertStatusService name="alertStatusTableService" index="10">
+					<!-- Required to enable external DB access through JDBC -->
+					<H2Server port="9031">
+						./h2/
+					</H2Server>
+					<ConnectionURL>jdbc:h2:tcp://localhost:9031/petrolink</ConnectionURL>
+					<CacheSize>524288</CacheSize>
+					<TimeToLive>100</TimeToLive>
+					<DefaultNamespace>http://www.petrolink.com/mbe/rules</DefaultNamespace>
+					<RabbitMQRestfulServices>
+						<Connection id="rmqLocal" />
+						<Exchange type="direct" durable="true">MBE.AlertStatus.Service</Exchange>
+						<Queue>AlertStatusServiceQ</Queue>
+						<ConcurrentListeners>2</ConcurrentListeners>
+					</RabbitMQRestfulServices>
+				</AlertStatusService>
+			</Services>
+			<UserDefinedProperties>
+				<Var1>NA</Var1>
+			</UserDefinedProperties>
+		</InstanceGroup>
+	</InstanceGroups>
+	<Triggers>
+	</Triggers>
+</PetrolinkMBE>

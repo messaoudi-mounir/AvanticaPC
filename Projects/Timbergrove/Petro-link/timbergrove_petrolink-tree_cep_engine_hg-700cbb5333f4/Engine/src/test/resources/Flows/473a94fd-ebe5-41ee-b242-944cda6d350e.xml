@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Rule name="Buffer Rule 4_473a94fd-ebe5-41ee-b242-944cda6d350e" uuid="473a94fd-ebe5-41ee-b242-944cda6d350e" wellId="e93b6a61-85a1-45be-8f53-8e5802bcbcad" wellboreId="791b3134-1cba-4bb1-991d-c96b69b67b74" wellName="Synthetic_Data" ruleId="473a94fd-ebe5-41ee-b242-944cda6d350e" ruleName="Buffer Rule 4" evaluationStrategy="IndexAlignment">
+    <Dependencies defaultType="buffered">
+      <Channel alias="ramping_curve_1" type="lastknownvalue" indexType="datetime" scope="condition" indexUnit="" gap="5000" id="7aabc46d-934b-4d28-afdc-6011d583c1c7" sequence="10" />
+      <Channel alias="sine_wave" type="lastknownvalue" indexType="datetime" scope="condition" indexUnit="" gap="5000" id="21b8fc9f-a5c6-4661-8606-95b60babb35f" sequence="20" />
+      <Channel alias="square_wave_corrected" type="lastknownvalue" indexType="datetime" scope="condition" indexUnit="" gap="5000" id="c90cb856-9380-49dd-af03-c294fc722496" sequence="30" />
+    </Dependencies>
+    <Variables />
+    <FilteringCondition />
+    <Condition><![CDATA[sine_wave > 1 && ramping_curve_1 > 1 && square_wave_corrected > 1]]></Condition>
+    <RuleActions>
+      <EvaluationLog sequence="40" name="4f560238-abb3-4c4f-abed-b644461a99be">
+        <Channel id="4f560238-abb3-4c4f-abed-b644461a99be" />
+      </EvaluationLog>
+    </RuleActions>
+    <AlertSettings className="Buffer Rule 4" class="473a94fd-ebe5-41ee-b242-944cda6d350e">
+      <ProcessingLogic type="PetrolinkAutoClear" />
+      <Template>
+        <Domain>Domain 1</Domain>
+        <Classification>Drilling Optimization</Classification>
+        <Severity>2</Severity>
+        <Priority>1</Priority>
+        <Description source="templated">Sine wave: ${$sine_wave_corrected.value}
+Square wave: ${$square_wave_corrected.value}
+Sawtooth wave: ${$sawtooth_wave_corrected.value}
+Triangle wave: ${$triangle_wave_corrected.value}
+Ramping Curve 1: ${$ramping_curve_1.value}
+Ramping Curve 2: ${$ramping_curve_2.value}</Description>
+        <Details contentType="json" source="context" />
+      </Template>
+      <Actions>
+        <OnCreateActions>
+          <SendUINotification sequence="50">
+            <User id="ee80408b-9d68-4a6c-80b6-32151b074c0e" />
+            <InlineTemplate>
+              <Title>Buffer Rule 4</Title>
+              <Body>Sine wave: ${$sine_wave_corrected.value}
+Square wave: ${$square_wave_corrected.value}
+Sawtooth wave: ${$sawtooth_wave_corrected.value}
+Triangle wave: ${$triangle_wave_corrected.value}
+Ramping Curve 1: ${$ramping_curve_1.value}
+Ramping Curve 2: ${$ramping_curve_2.value}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnCreateActions>
+        <OnUpdateActions />
+        <OnCommentActions>
+          <SendUINotification sequence="60">
+            <User id="ee80408b-9d68-4a6c-80b6-32151b074c0e" />
+            <InlineTemplate>
+              <Title>Buffer Rule 4</Title>
+              <Body>Sine wave: ${$sine_wave_corrected.value}
+Square wave: ${$square_wave_corrected.value}
+Sawtooth wave: ${$sawtooth_wave_corrected.value}
+Triangle wave: ${$triangle_wave_corrected.value}
+Ramping Curve 1: ${$ramping_curve_1.value}
+Ramping Curve 2: ${$ramping_curve_2.value}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnCommentActions>
+        <OnAcknowledgeActions>
+          <SendUINotification sequence="70">
+            <User id="ee80408b-9d68-4a6c-80b6-32151b074c0e" />
+            <InlineTemplate>
+              <Title>Buffer Rule 4</Title>
+              <Body>Sine wave: ${$sine_wave_corrected.value}
+Square wave: ${$square_wave_corrected.value}
+Sawtooth wave: ${$sawtooth_wave_corrected.value}
+Triangle wave: ${$triangle_wave_corrected.value}
+Ramping Curve 1: ${$ramping_curve_1.value}
+Ramping Curve 2: ${$ramping_curve_2.value}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnAcknowledgeActions>
+        <OnStatusChangeActions>
+          <Switch sequence="80">
+            <Case condition="alert.snoozed == false">
+              <SendUINotification sequence="90">
+                <User id="ee80408b-9d68-4a6c-80b6-32151b074c0e" />
+                <InlineTemplate>
+                  <Title>Buffer Rule 4</Title>
+                  <Body>Sine wave: ${$sine_wave_corrected.value}
+Square wave: ${$square_wave_corrected.value}
+Sawtooth wave: ${$sawtooth_wave_corrected.value}
+Triangle wave: ${$triangle_wave_corrected.value}
+Ramping Curve 1: ${$ramping_curve_1.value}
+Ramping Curve 2: ${$ramping_curve_2.value}</Body>
+                </InlineTemplate>
+              </SendUINotification>
+            </Case>
+          </Switch>
+          <Switch sequence="100">
+            <!-- ACTIVE = 0, INACTIVE = 1, CLOSED = 2 -->
+            <Case condition="alert.status == 2">
+              <ClosedAlertLog sequence="110">
+                <Channel id="98e18eda-60c3-41a6-86c9-f84f67283f97" />
+              </ClosedAlertLog>
+            </Case>
+          </Switch>
+        </OnStatusChangeActions>
+        <OnJournalEntryActions>
+          <Switch sequence="120">
+            <Case condition="journal.type != &quot;alertchange&quot;">
+              <EventLog sequence="130">
+                <Channel id="c5ae57c6-d349-4641-8028-ce207f085f5e" />
+                <Channel id="01c2a9c1-1598-4c9a-8f42-0fe8fb2ec347" />
+              </EventLog>
+            </Case>
+          </Switch>
+        </OnJournalEntryActions>
+      </Actions>
+    </AlertSettings>
+  </Rule>
+</Flows>

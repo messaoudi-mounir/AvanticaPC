@@ -1,0 +1,157 @@
+2017/05/26 15:57:36 INFO  - jmeter.util.JMeterUtils: Setting Locale to en_US 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: Loading user properties from: D:\Avantica\apache-jmeter-3.1\bin\user.properties 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: Loading system properties from: D:\Avantica\apache-jmeter-3.1\bin\system.properties 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: Copyright (c) 1998-2016 The Apache Software Foundation 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: Version 3.1 r1770033 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: java.version=1.8.0_20 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: java.vm.name=Java HotSpot(TM) 64-Bit Server VM 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: os.name=Windows 7 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: os.arch=amd64 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: os.version=6.1 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: file.encoding=Cp1252 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: Max memory     =523763712 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: Available Processors =4 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: Default Locale=English (United States) 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: JMeter  Locale=English (United States) 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: JMeterHome=D:\Avantica\apache-jmeter-3.1 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: user.dir  =D:\Avantica\apache-jmeter-3.1\bin 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: PWD       =D:\Avantica\apache-jmeter-3.1\bin 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: IP: 192.168.24.60 Name: ale-quesada FullName: ale-quesada.AVANTICA.AVANTICATEC.NET 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: user.classpath=D:/bin/com/avantica/pages 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: Adding to classpath and loader: D:/bin/com/avantica/pages 
+2017/05/26 15:57:36 INFO  - jmeter.gui.action.LookAndFeelCommand: Using look and feel: javax.swing.plaf.metal.MetalLookAndFeel [Metal, CrossPlatform] 
+2017/05/26 15:57:36 INFO  - jmeter.JMeter: Loaded icon properties from org/apache/jmeter/images/icon.properties 
+2017/05/26 15:57:37 INFO  - jmeter.engine.util.CompoundVariable: Note: Function class names must contain the string: '.functions.' 
+2017/05/26 15:57:37 INFO  - jmeter.engine.util.CompoundVariable: Note: Function class names must not contain the string: '.gui.' 
+2017/05/26 15:57:41 INFO  - org.jmeterplugins.repository.PluginManager: Plugins Status: [jmeter-ftp=3.1, jmeter-http=3.1, jmeter-jdbc=3.1, jmeter-jms=3.1, jmeter-core=3.1, jmeter-junit=3.1, jmeter-java=3.1, jmeter-ldap=3.1, jmeter-mail=3.1, jmeter-mongodb=3.1, jmeter-native=3.1, jpgc-perfmon=2.1, jpgc-plugins-manager=0.12, jpgc-webdriver=1.4.0, jmeter-tcp=3.1, jmeter-components=3.1] 
+2017/05/26 15:57:42 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.assertions.BSFAssertion 
+2017/05/26 15:57:42 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.extractor.BSFPostProcessor 
+2017/05/26 15:57:42 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.modifiers.BSFPreProcessor 
+2017/05/26 15:57:42 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for text/html is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser 
+2017/05/26 15:57:42 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for application/xhtml+xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser 
+2017/05/26 15:57:42 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for application/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser 
+2017/05/26 15:57:42 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for text/xml is org.apache.jmeter.protocol.http.parser.LagartoBasedHtmlParser 
+2017/05/26 15:57:42 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for text/vnd.wap.wml is org.apache.jmeter.protocol.http.parser.RegexpHTMLParser 
+2017/05/26 15:57:42 INFO  - jmeter.protocol.http.sampler.HTTPSamplerBase: Parser for text/css is org.apache.jmeter.protocol.http.parser.CssParser 
+2017/05/26 15:57:42 INFO  - jorphan.exec.KeyToolUtils: keytool found at 'C:\Program Files\Java\jre1.8.0_20\bin\keytool' 
+2017/05/26 15:57:42 INFO  - jmeter.protocol.http.proxy.ProxyControl: HTTP(S) Test Script Recorder SSL Proxy will use keys that support embedded 3rd party resources in file D:\Avantica\apache-jmeter-3.1\bin\proxyserver.jks 
+2017/05/26 15:57:42 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.protocol.java.sampler.BSFSampler 
+2017/05/26 15:57:42 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.protocol.mongodb.config.MongoSourceElement 
+2017/05/26 15:57:42 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.protocol.mongodb.sampler.MongoScriptSampler 
+2017/05/26 15:57:43 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.timers.BSFTimer 
+2017/05/26 15:57:43 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.visualizers.BSFListener 
+2017/05/26 15:57:43 INFO  - jmeter.gui.util.MenuFactory: Skipping org.apache.jmeter.visualizers.MonitorHealthVisualizer 
+2017/05/26 15:57:43 INFO  - jmeter.samplers.SampleResult: Note: Sample TimeStamps are START times 
+2017/05/26 15:57:43 INFO  - jmeter.samplers.SampleResult: sampleresult.default.encoding is set to ISO-8859-1 
+2017/05/26 15:57:43 INFO  - jmeter.samplers.SampleResult: sampleresult.useNanoTime=true 
+2017/05/26 15:57:43 INFO  - jmeter.samplers.SampleResult: sampleresult.nanoThreadSleep=5000 
+2017/05/26 15:57:50 INFO  - jmeter.services.FileServer: Default base='D:\Avantica\apache-jmeter-3.1\bin' 
+2017/05/26 15:57:50 INFO  - jmeter.gui.action.Load: Loading file: C:\Users\alejandro.quesada\Desktop\View Results Tree.jmx 
+2017/05/26 15:57:50 INFO  - jmeter.services.FileServer: Set new base='C:\Users\alejandro.quesada\Desktop' 
+2017/05/26 15:57:50 INFO  - jmeter.save.SaveService: Testplan (JMX) version: 2.2. Testlog (JTL) version: 2.2 
+2017/05/26 15:57:50 INFO  - jmeter.save.SaveService: Using SaveService properties file encoding UTF-8 
+2017/05/26 15:57:50 INFO  - jmeter.save.SaveService: Using SaveService properties version 3.1 
+2017/05/26 15:57:50 INFO  - jmeter.save.SaveService: All converter versions present and correct 
+2017/05/26 15:57:50 INFO  - jmeter.save.SaveService: Loading file: C:\Users\alejandro.quesada\Desktop\View Results Tree.jmx 
+2017/05/26 15:57:50 INFO  - jmeter.protocol.http.control.CookieManager: Settings: Delete null: true Check: true Allow variable: true Save: false Prefix: COOKIE_ 
+2017/05/26 15:57:50 INFO  - jmeter.services.FileServer: Set new base='C:\Users\alejandro.quesada\Desktop' 
+2017/05/26 15:57:55 INFO  - jmeter.engine.StandardJMeterEngine: Running the test! 
+2017/05/26 15:57:55 INFO  - jmeter.samplers.SampleEvent: List of sample_variables: [] 
+2017/05/26 15:57:55 INFO  - jmeter.samplers.SampleEvent: List of sample_variables: [] 
+2017/05/26 15:57:55 INFO  - jmeter.gui.util.JMeterMenuBar: setRunning(true,*local*) 
+2017/05/26 15:57:55 INFO  - jmeter.engine.StandardJMeterEngine: Starting ThreadGroup: 1 : Thread Group 
+2017/05/26 15:57:55 INFO  - jmeter.engine.StandardJMeterEngine: Starting 1 threads for group Thread Group. 
+2017/05/26 15:57:55 INFO  - jmeter.engine.StandardJMeterEngine: Thread will continue on error 
+2017/05/26 15:57:55 INFO  - jmeter.threads.ThreadGroup: Starting thread group number 1 threads 1 ramp-up 1 perThread 1000.0 delayedStart=false 
+2017/05/26 15:57:55 INFO  - jmeter.threads.ThreadGroup: Started thread group number 1 
+2017/05/26 15:57:55 INFO  - jmeter.engine.StandardJMeterEngine: All thread groups have been started 
+2017/05/26 15:57:55 INFO  - jmeter.threads.JMeterThread: Thread started: Thread Group 1-1 
+2017/05/26 15:57:58 INFO  - com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler: Step 1 
+2017/05/26 15:58:09 INFO  - com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler: Step 2 
+2017/05/26 15:58:09 ERROR - com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler: java.lang.ClassNotFoundException: com.avantica.pages.HomePage 
+2017/05/26 15:58:09 INFO  - jmeter.threads.JMeterThread: Thread is done: Thread Group 1-1 
+2017/05/26 15:58:09 INFO  - jmeter.threads.JMeterThread: Thread finished: Thread Group 1-1 
+2017/05/26 15:58:09 ERROR - jmeter.JMeter: Uncaught exception:  java.lang.NoClassDefFoundError: com/sun/jna/platform/win32/Kernel32
+	at java.lang.ClassLoader.defineClass1(Native Method)
+	at java.lang.ClassLoader.defineClass(Unknown Source)
+	at java.security.SecureClassLoader.defineClass(Unknown Source)
+	at java.net.URLClassLoader.defineClass(Unknown Source)
+	at java.net.URLClassLoader.access$100(Unknown Source)
+	at java.net.URLClassLoader$1.run(Unknown Source)
+	at java.net.URLClassLoader$1.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(Unknown Source)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at org.openqa.selenium.os.ProcessUtils.killWinProcess(ProcessUtils.java:133)
+	at org.openqa.selenium.os.ProcessUtils.killProcess(ProcessUtils.java:81)
+	at org.openqa.selenium.os.UnixProcess$SeleniumWatchDog.destroyHarder(UnixProcess.java:247)
+	at org.openqa.selenium.os.UnixProcess$SeleniumWatchDog.access$200(UnixProcess.java:201)
+	at org.openqa.selenium.os.UnixProcess.destroy(UnixProcess.java:125)
+	at org.openqa.selenium.os.CommandLine.destroy(CommandLine.java:155)
+	at org.openqa.selenium.remote.service.DriverService.stop(DriverService.java:196)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:94)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:644)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:701)
+	at org.openqa.selenium.remote.RemoteWebDriver.quit(RemoteWebDriver.java:526)
+	at com.googlecode.jmeter.plugins.webdriver.config.WebDriverConfig.quitBrowser(WebDriverConfig.java:269)
+	at com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig.quitBrowser(ChromeDriverConfig.java:66)
+	at com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig.quitBrowser(ChromeDriverConfig.java:21)
+	at com.googlecode.jmeter.plugins.webdriver.config.WebDriverConfig.threadFinished(WebDriverConfig.java:244)
+	at org.apache.jmeter.threads.JMeterThread$ThreadListenerTraverser.addNode(JMeterThread.java:661)
+	at org.apache.jorphan.collections.HashTree.traverseInto(HashTree.java:996)
+	at org.apache.jorphan.collections.HashTree.traverse(HashTree.java:978)
+	at org.apache.jmeter.threads.JMeterThread.threadFinished(JMeterThread.java:633)
+	at org.apache.jmeter.threads.JMeterThread.run(JMeterThread.java:304)
+	at java.lang.Thread.run(Unknown Source)
+Caused by: java.lang.ClassNotFoundException: com.sun.jna.platform.win32.Kernel32
+	at java.net.URLClassLoader$1.run(Unknown Source)
+	at java.net.URLClassLoader$1.run(Unknown Source)
+	at java.security.AccessController.doPrivileged(Native Method)
+	at java.net.URLClassLoader.findClass(Unknown Source)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	at java.lang.ClassLoader.loadClass(Unknown Source)
+	... 32 more
+
+2017/05/26 15:58:09 INFO  - jmeter.engine.StandardJMeterEngine: Notifying test listeners of end of test 
+2017/05/26 15:58:09 INFO  - jmeter.gui.util.JMeterMenuBar: setRunning(false,*local*) 
+2017/05/26 15:58:38 INFO  - jmeter.engine.StandardJMeterEngine: Running the test! 
+2017/05/26 15:58:38 INFO  - jmeter.samplers.SampleEvent: List of sample_variables: [] 
+2017/05/26 15:58:38 INFO  - jmeter.gui.util.JMeterMenuBar: setRunning(true,*local*) 
+2017/05/26 15:58:39 INFO  - jmeter.engine.StandardJMeterEngine: Starting ThreadGroup: 1 : Thread Group 
+2017/05/26 15:58:39 INFO  - jmeter.engine.StandardJMeterEngine: Starting 1 threads for group Thread Group. 
+2017/05/26 15:58:39 INFO  - jmeter.engine.StandardJMeterEngine: Thread will continue on error 
+2017/05/26 15:58:39 INFO  - jmeter.threads.ThreadGroup: Starting thread group number 1 threads 1 ramp-up 1 perThread 1000.0 delayedStart=false 
+2017/05/26 15:58:39 INFO  - jmeter.threads.ThreadGroup: Started thread group number 1 
+2017/05/26 15:58:39 INFO  - jmeter.engine.StandardJMeterEngine: All thread groups have been started 
+2017/05/26 15:58:39 INFO  - jmeter.threads.JMeterThread: Thread started: Thread Group 1-1 
+2017/05/26 15:58:41 INFO  - com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler: Step 1 
+2017/05/26 15:58:51 INFO  - com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler: Step 2 
+2017/05/26 15:58:51 ERROR - com.googlecode.jmeter.plugins.webdriver.sampler.WebDriverSampler: ReferenceError: "HomePage" is not defined in <eval> at line number 2 
+2017/05/26 15:58:51 INFO  - jmeter.threads.JMeterThread: Thread is done: Thread Group 1-1 
+2017/05/26 15:58:51 INFO  - jmeter.threads.JMeterThread: Thread finished: Thread Group 1-1 
+2017/05/26 15:58:52 ERROR - jmeter.JMeter: Uncaught exception:  java.lang.NoClassDefFoundError: org/openqa/selenium/os/Kernel32
+	at org.openqa.selenium.os.ProcessUtils.killWinProcess(ProcessUtils.java:133)
+	at org.openqa.selenium.os.ProcessUtils.killProcess(ProcessUtils.java:81)
+	at org.openqa.selenium.os.UnixProcess$SeleniumWatchDog.destroyHarder(UnixProcess.java:247)
+	at org.openqa.selenium.os.UnixProcess$SeleniumWatchDog.access$200(UnixProcess.java:201)
+	at org.openqa.selenium.os.UnixProcess.destroy(UnixProcess.java:125)
+	at org.openqa.selenium.os.CommandLine.destroy(CommandLine.java:155)
+	at org.openqa.selenium.remote.service.DriverService.stop(DriverService.java:196)
+	at org.openqa.selenium.remote.service.DriverCommandExecutor.execute(DriverCommandExecutor.java:94)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:644)
+	at org.openqa.selenium.remote.RemoteWebDriver.execute(RemoteWebDriver.java:701)
+	at org.openqa.selenium.remote.RemoteWebDriver.quit(RemoteWebDriver.java:526)
+	at com.googlecode.jmeter.plugins.webdriver.config.WebDriverConfig.quitBrowser(WebDriverConfig.java:269)
+	at com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig.quitBrowser(ChromeDriverConfig.java:66)
+	at com.googlecode.jmeter.plugins.webdriver.config.ChromeDriverConfig.quitBrowser(ChromeDriverConfig.java:21)
+	at com.googlecode.jmeter.plugins.webdriver.config.WebDriverConfig.threadFinished(WebDriverConfig.java:244)
+	at org.apache.jmeter.threads.JMeterThread$ThreadListenerTraverser.addNode(JMeterThread.java:661)
+	at org.apache.jorphan.collections.HashTree.traverseInto(HashTree.java:996)
+	at org.apache.jorphan.collections.HashTree.traverse(HashTree.java:978)
+	at org.apache.jmeter.threads.JMeterThread.threadFinished(JMeterThread.java:633)
+	at org.apache.jmeter.threads.JMeterThread.run(JMeterThread.java:304)
+	at java.lang.Thread.run(Unknown Source)
+
+2017/05/26 15:58:52 INFO  - jmeter.engine.StandardJMeterEngine: Notifying test listeners of end of test 
+2017/05/26 15:58:52 INFO  - jmeter.gui.util.JMeterMenuBar: setRunning(false,*local*) 

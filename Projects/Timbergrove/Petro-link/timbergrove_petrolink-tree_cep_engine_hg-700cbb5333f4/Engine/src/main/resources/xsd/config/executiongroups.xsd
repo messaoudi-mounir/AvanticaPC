@@ -1,0 +1,18 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:complexType name="executiongroup_eventStore">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="type"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="executionGroup_Default">
+    <xs:sequence>
+      <xs:element type="executiongroup_eventStore" name="EventStore" minOccurs="0" maxOccurs="1"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="name" use="optional"/>
+    <xs:attribute type="xs:string" name="class"/>
+    <xs:attribute type="xs:byte" name="workers"/>
+  </xs:complexType>
+</xs:schema>

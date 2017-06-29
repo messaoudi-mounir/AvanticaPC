@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../../main/resources/xsd/flows.xsd">
+	<Rule uuid="893fa482-52b1-466a-b16b-9063e91329c6" wellId="81549d90-7a99-11e6-bdf4-0800200c9a66"
+		evaluationStrategy="IndexAlignment" expireAt="2016-12-30T09:00:00"
+		ruleId="893fa482-52b1-466a-b16b-9063e91329c6" ruleName="Use Case 0">
+		<Dependencies defaultType="buffered">
+			<Channel alias="rop" type="buffered" scope="condition" indexType="datetime"
+				valueUnit="ft/hr" indexUnit="" id="5037f119-2d45-4106-a3c7-2fed671c1dcc"
+				gap="750"></Channel>
+		</Dependencies>
+		<Variables>
+			<Static alias="DRILLING" type="integer" scope="global"
+				sequence="10">3</Static>
+		</Variables>
+		<FilteringCondition></FilteringCondition>
+		<Condition>
+			<![CDATA[
+				//Everything must use vars and careful in doing assignment as this section doesn't allow new variable
+				vars["alertEval"] = false;
+				vars["alertCounter"] = 0;
+				vars["alertALL"] = true;
+				for (int i =1; i <= 3; i++) { 
+					if (rop > 20*i) {
+						vars["alertEval"] = true;
+						vars["subalert"+i] = true;
+						vars["alertCounter"] = 1 + vars["alertCounter"];
+					} else {
+						vars["subalert"+i] = false;
+						vars["alertALL"] = false;
+					}
+				}
+				return vars["alertEval"];
+			]]>
+		</Condition>
+		<RuleActions>
+			<EvaluationLog sequence="10" name="action1"
+				defaultMode="test" testFileName="TestAlertTriggering-EVLog">
+				<Channel id="aa76b54d-c963-4818-a69b-174352c9edf0" />
+			</EvaluationLog>
+			<Script sequence="20">System.out.println("Evaluation result was " + result + " at index " + index + " with curve value " + $rop.value);
+			</Script>
+		</RuleActions>
+		<AlertSettings class="893fa482-52b1-466a-b16b-9063e91329c6"
+			className="893fa482-52b1-466a-b16b-9063e91329c6UseCase0">
+			<ProcessingLogic type="PetrolinkAutoClear" />
+			<Template>
+				<Domain>Testing</Domain>
+				<Classification>ClassMajor</Classification>
+				<Severity>1</Severity>
+				<Priority>3</Priority>
+				<Description source="scripted">
+					<![CDATA[
+						if ( vars["alertALL"] == true) {
+							return "CRITICAL alert";
+						} else if ( 2 <= vars["alertCounter"] ) {
+							return "Major alert";
+						} else {
+							return "minor alert";
+						}
+					]]>
+				</Description>
+				<Details contentType="json" source="context" />
+			</Template>
+			<Actions>
+				<OnCreateActions>
+					<Script sequence="30">
+						System.out.println("ActionCreate alert "+ alert.uuid +" on index " + details.get("index") + " value: " + details.get("value") );
+						System.out.println("Alert "+ alert.getDescription()+ " details: " + details.toString());
+					</Script>
+				</OnCreateActions>
+				<OnUpdateActions>
+					<Switch sequence="10">
+						<Case condition="alert.severity>5">
+							
+						</Case>
+					</Switch>
+				</OnUpdateActions>
+				<OnCommentActions />
+				<OnAcknowledgeActions />
+				<OnStatusChangeActions>
+					<Switch sequence="10">
+						<Case condition="alert.status == 1">
+							<Script sequence="10">System.out.println("Alert with uuid " + alert.uuid + " was inactivated");</Script>
+						</Case>
+						<Case condition="alert.status == 2">
+							<Script sequence="10">System.out.println("Alert with uuid " + alert.uuid + " was closed");</Script>
+						</Case>
+					</Switch>
+				</OnStatusChangeActions>
+				<OnJournalEntryActions>
+					<Script sequence="30">
+						System.out.println("OnJournal Entry Type: " + journal.type +" by principal "+journal.principal);
+					</Script>
+				</OnJournalEntryActions>
+			</Actions>
+		</AlertSettings>
+	</Rule>
+</Flows>

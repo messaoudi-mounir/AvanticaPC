@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Triggers>
+	<ChannelDataAppended name="T_81549d90-7a99-11e6-bdf4-0800200c9a66">
+<!--  		<Connection><![CDATA[amqp://TGDev:G4!#zccW5-@10.20.27.221:15672]]></Connection> -->
+ 		<Connection><![CDATA[amqp://guest:guest@localhost]]></Connection>
+
+ 		<!-- default Exchange type is direct and default durability is true -->
+		<Exchange type="topic" durable="true">PetroVault.Realtime.Raw</Exchange>
+
+		<!-- RoutinkKey is optional -->
+		<RoutingKey>cda.81549d90-7a99-11e6-bdf4-0800200c9a66.#</RoutingKey>
+		<Queue>Q-81549d90-7a99-11e6-bdf4-0800200c9a66</Queue>
+		<WellUUID>81549d90-7a99-11e6-bdf4-0800200c9a66</WellUUID>
+		<ConcurrentListeners>2</ConcurrentListeners>
+	</ChannelDataAppended>
+</Triggers>

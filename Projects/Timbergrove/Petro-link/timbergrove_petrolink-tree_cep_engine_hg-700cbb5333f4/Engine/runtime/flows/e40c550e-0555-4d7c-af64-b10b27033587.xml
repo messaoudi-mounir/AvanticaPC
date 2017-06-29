@@ -1,0 +1,97 @@
+<Flows>
+<Rule xmlns="http://www.petrolink.com/mbe/rules" name="Mahesh&amp;apos;s Test_e40c550e-0555-4d7c-af64-b10b27033587" uuid="e40c550e-0555-4d7c-af64-b10b27033587" wellId="e93b6a61-85a1-45be-8f53-8e5802bcbcad" wellboreId="d712c504-bdc7-4320-aa56-94b68cca12a8" wellName="Synthetic_Data" ruleId="e40c550e-0555-4d7c-af64-b10b27033587" ruleName="Mahesh&amp;apos;s Test" evaluationStrategy="IndexAlignment">
+  <Dependencies defaultType="buffered">
+    <Channel alias="sine_wave_corrected" type="buffered" indexType="datetime" scope="condition" indexUnit="" gap="0" id="31bee6bc-78c4-453b-a082-35c90b609e06" sequence="10" />
+  </Dependencies>
+  <Variables />
+  <FilteringCondition />
+  <Condition><![CDATA[sine_wave_corrected == 1000]]></Condition>
+  <RuleActions>
+    <EvaluationLog sequence="30" name="35b3d119-35aa-4052-8862-4fd64efb59c0">
+      <Channel id="35b3d119-35aa-4052-8862-4fd64efb59c0" />
+    </EvaluationLog>
+  </RuleActions>
+  <AlertSettings className="Test Rule Library" class="e40c550e-0555-4d7c-af64-b10b27033587">
+    <ProcessingLogic type="PetrolinkAutoClear" />
+    <Template>
+      <Domain>Domain 1</Domain>
+      <Classification>Drilling Optimization</Classification>
+      <Severity>2</Severity>
+      <Priority>2</Priority>
+      <Description source="templated">ROP: ${$ROP.value} ${$ROP.valueUnit}
+Upper Threshold: ${$ROP_UPPER_THRESHOLD.value} ${$ROP_UPPER_THRESHOLD.valueUnit}
+Lower Threshold: ${$ROP_LOWER_THRESHOLD.value} ${$ROP_LOWER_THRESHOLD.valueUnit}</Description>
+      <Details contentType="json" source="context" />
+    </Template>
+    <Actions>
+      <OnCreateActions>
+        <SendUINotification sequence="40">
+          <User id="8e83db32-f452-4817-b64f-dc784ed41c32" />
+          <InlineTemplate>
+            <Title>Test Rule Library</Title>
+            <Body><![CDATA[ROP: ${$ROP.value} ${$ROP.valueUnit}
+Upper Threshold: ${$ROP_UPPER_THRESHOLD.value} ${$ROP_UPPER_THRESHOLD.valueUnit}
+Lower Threshold: ${$ROP_LOWER_THRESHOLD.value} ${$ROP_LOWER_THRESHOLD.valueUnit}]]></Body>
+          </InlineTemplate>
+        </SendUINotification>
+      </OnCreateActions>
+      <OnUpdateActions />
+      <OnCommentActions>
+        <SendUINotification sequence="50">
+          <User id="8e83db32-f452-4817-b64f-dc784ed41c32" />
+          <InlineTemplate>
+            <Title>Test Rule Library</Title>
+            <Body><![CDATA[ROP: ${$ROP.value} ${$ROP.valueUnit}
+Upper Threshold: ${$ROP_UPPER_THRESHOLD.value} ${$ROP_UPPER_THRESHOLD.valueUnit}
+Lower Threshold: ${$ROP_LOWER_THRESHOLD.value} ${$ROP_LOWER_THRESHOLD.valueUnit}]]></Body>
+          </InlineTemplate>
+        </SendUINotification>
+      </OnCommentActions>
+      <OnAcknowledgeActions>
+        <SendUINotification sequence="60">
+          <User id="8e83db32-f452-4817-b64f-dc784ed41c32" />
+          <InlineTemplate>
+            <Title>Test Rule Library</Title>
+            <Body><![CDATA[ROP: ${$ROP.value} ${$ROP.valueUnit}
+Upper Threshold: ${$ROP_UPPER_THRESHOLD.value} ${$ROP_UPPER_THRESHOLD.valueUnit}
+Lower Threshold: ${$ROP_LOWER_THRESHOLD.value} ${$ROP_LOWER_THRESHOLD.valueUnit}]]></Body>
+          </InlineTemplate>
+        </SendUINotification>
+      </OnAcknowledgeActions>
+      <OnStatusChangeActions>
+        <Switch sequence="70">
+          <Case condition="alert.snoozed == false">
+            <SendUINotification sequence="80">
+              <User id="8e83db32-f452-4817-b64f-dc784ed41c32" />
+              <InlineTemplate>
+                <Title>Test Rule Library</Title>
+                <Body><![CDATA[ROP: ${$ROP.value} ${$ROP.valueUnit}
+Upper Threshold: ${$ROP_UPPER_THRESHOLD.value} ${$ROP_UPPER_THRESHOLD.valueUnit}
+Lower Threshold: ${$ROP_LOWER_THRESHOLD.value} ${$ROP_LOWER_THRESHOLD.valueUnit}]]></Body>
+              </InlineTemplate>
+            </SendUINotification>
+          </Case>
+        </Switch>
+        <Switch sequence="90">
+          <!-- ACTIVE = 0, INACTIVE = 1, CLOSED = 2 -->
+          <Case condition="alert.status == 2">
+            <ClosedAlertLog sequence="100">
+              <Channel id="1b46d9c2-4e6c-44cc-8ca4-d97e7315a50a" />
+            </ClosedAlertLog>
+          </Case>
+        </Switch>
+      </OnStatusChangeActions>
+      <OnJournalEntryActions>
+        <Switch sequence="110">
+          <Case condition="journal.type != &quot;alertchange&quot;">
+            <EventLog sequence="120">
+              <Channel id="fadaa001-5af9-448d-96b2-59016049b156" />
+              <Channel id="880ac186-8ea8-44a0-848f-396ed2f6cd0d" />
+            </EventLog>
+          </Case>
+        </Switch>
+      </OnJournalEntryActions>
+    </Actions>
+  </AlertSettings>
+</Rule>
+</Flows>

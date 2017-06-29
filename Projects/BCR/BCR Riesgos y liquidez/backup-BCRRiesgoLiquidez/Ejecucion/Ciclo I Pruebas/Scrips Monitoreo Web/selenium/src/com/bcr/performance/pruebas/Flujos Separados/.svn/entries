@@ -1,0 +1,77 @@
+10
+
+dir
+0
+http://miravalles/DivisionQA/Performance%20Testing/Proyecto%2039%20-%20Performance%20Riesgo%20Liquidez/Ejecucion/Ciclo%20I%20Pruebas/Scrips%20Monitoreo%20Web/selenium/src/com/bcr/performance/pruebas/Flujos%20Separados
+http://miravalles/DivisionQA
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+04cf2c4b-6267-ad48-ab5a-9c31d3877c64
+
+Pasivos.jmx
+file
+
+
+
+add
+
+Activos y Pasivos.jmx
+file
+
+
+
+add
+
+Efectivos.jmx
+file
+
+
+
+add
+
+TodasLasOrdenes.jmx
+file
+
+
+
+add
+
+TodosLosReportes.jmx
+file
+
+
+
+add
+
+Backtesting.jmx
+file
+
+
+
+add
+
+TodasLasPlantillas.jmx
+file
+
+
+
+add
+

@@ -1,0 +1,301 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified"
+	targetNamespace="http://www.petrolink.com/mbe/rules" xmlns:rul="http://www.petrolink.com/mbe/rules">
+	<xs:include schemaLocation="definitions.xsd" />
+	<xs:include schemaLocation="genericnodes.xsd" />
+	<xs:include schemaLocation="../templates.xsd" />
+	<xs:include schemaLocation="bpm.xsd" />
+
+	<xs:complexType name="emptysettings_action">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attributeGroup ref="rul:attgrp_commonAction" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	
+	<xs:complexType name="type_ActionSource">
+		<xs:sequence>
+			<xs:element name="Body" type="xs:string" minOccurs="0" maxOccurs="1"/>
+		</xs:sequence>
+		<xs:attribute type="xs:string" name="source" />
+		<xs:attribute type="xs:string" name="sourceKey" />
+	</xs:complexType>
+	
+	<xs:complexType name="action_script">
+		<xs:annotation>
+			<xs:documentation>An action to process script (By default is MVEL).
+			</xs:documentation>
+		</xs:annotation>
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attributeGroup ref="rul:attgrp_commonAction" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="action_sendMailNotification">
+		<xs:annotation>
+			<xs:documentation>An action to send Mail notification.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:group ref="rul:grp_email" minOccurs="0" maxOccurs="1">
+			<xs:annotation>
+				<xs:documentation>The non-contextual common setting of Email.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:group>
+		<xs:attributeGroup ref="rul:attgrp_commonAction" />
+		<xs:attribute name="template" type="xs:string" use="optional">
+			<xs:annotation>
+				<xs:documentation>Unique identifier for the mailTemplate where the
+					send mail action should based on.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	<xs:attributeGroup name="attgrp_commonChannelAction">
+		<xs:attribute name="testFileName" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The name of a file to write test information to.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:attributeGroup>
+	<xs:group name="grp_commonChannelAction">
+		<xs:sequence>
+			<xs:choice minOccurs="1" maxOccurs="unbounded">
+				<xs:element name="Channel" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>A channel that notifications are sent to.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="id" type="rul:type_UUID" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="User" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>A user that notifications are sent to.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="id" type="rul:type_UUID" />
+					</xs:complexType>
+				</xs:element>
+				<xs:element name="Group" minOccurs="0" maxOccurs="unbounded">
+					<xs:annotation>
+						<xs:documentation>A group that notifications are sent to.
+						</xs:documentation>
+					</xs:annotation>
+					<xs:complexType>
+						<xs:attribute name="id" type="rul:type_UUID" />
+					</xs:complexType>
+				</xs:element>
+			</xs:choice>
+		</xs:sequence>
+	</xs:group>
+	<xs:complexType name="action_sendUINotification">
+		<xs:annotation>
+			<xs:documentation>An action to send a notification to a UI channel.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:group ref="rul:grp_commonChannelAction" minOccurs="1"
+				maxOccurs="1" />
+			<xs:element name="InlineTemplate" type="rul:type_uiNotification"
+				minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attributeGroup ref="rul:attgrp_commonAction" />
+		<xs:attributeGroup ref="rul:attgrp_commonChannelAction" />
+	</xs:complexType>
+	<xs:complexType name="action_writeEvaluationLog">
+		<xs:annotation>
+			<xs:documentation>An action to write Evaluation log, values written
+				will be -1,0,1.</xs:documentation>
+		</xs:annotation>
+		<xs:group ref="rul:grp_commonChannelAction" minOccurs="1"
+			maxOccurs="1" />
+		<xs:attributeGroup ref="rul:attgrp_commonAction" />
+		<xs:attributeGroup ref="rul:attgrp_commonChannelAction" />
+	</xs:complexType>
+	<xs:complexType name="action_writeAlertAuditLog">
+		<xs:annotation>
+			<xs:documentation>An action to write Evaluation log, values written
+				will be -1,0,1.</xs:documentation>
+		</xs:annotation>
+		<xs:group ref="rul:grp_commonChannelAction" minOccurs="1"
+			maxOccurs="1" />
+		<xs:attributeGroup ref="rul:attgrp_commonAction" />
+		<xs:attributeGroup ref="rul:attgrp_commonChannelAction" />
+	</xs:complexType>
+	<xs:complexType name="action_eventLog">
+		<xs:annotation>
+			<xs:documentation>An action to write journal entries to an event log.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:group ref="rul:grp_commonChannelAction" minOccurs="1"
+			maxOccurs="1" />
+		<xs:attributeGroup ref="rul:attgrp_commonAction" />
+		<xs:attributeGroup ref="rul:attgrp_commonChannelAction" />
+	</xs:complexType>
+	<xs:complexType name="action_ScheduleAlert">
+		<xs:sequence>
+			<xs:element type="xs:string" name="InvokeFlowId" />
+			<xs:element name="StartAt">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+							<xs:attribute name="baseDate">
+								<xs:simpleType>
+									<xs:restriction base="xs:string">
+										<xs:enumeration value="alert.created" />
+										<xs:enumeration value="alert.lastocurrance" />
+										<xs:enumeration value="now" />
+									</xs:restriction>
+								</xs:simpleType>
+							</xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element type="xs:string" name="CronExpression"
+				minOccurs="0" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attributeGroup ref="rul:attgrp_commonAction" />
+		<xs:attribute type="xs:string" name="uuid" />
+	</xs:complexType>
+	<xs:complexType name="action_DeleteAlertTimer">
+		<xs:attributeGroup ref="rul:attgrp_commonAction" />
+	</xs:complexType>
+	<xs:complexType name="action_closedAlertLog">
+		<xs:annotation>
+			<xs:documentation>An action to write alert information to a closed
+				alert log..</xs:documentation>
+		</xs:annotation>
+		<xs:group ref="rul:grp_commonChannelAction" minOccurs="1"
+			maxOccurs="1" />
+		<xs:attributeGroup ref="rul:attgrp_commonAction" />
+		<xs:attributeGroup ref="rul:attgrp_commonChannelAction" />
+	</xs:complexType>
+	<xs:complexType name="action_runCommand">
+		<xs:annotation>
+			<xs:documentation>An action to run a command on the local system.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="CommandTemplate" type="xs:string" minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+		<xs:attributeGroup ref="rul:attgrp_commonAction" />
+	</xs:complexType>
+	
+	<xs:complexType name="action_dispatchAlertCepEvent">
+		<xs:annotation>
+			<xs:documentation>An action to send alert to the local system in case the alert is being listened by other alert.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Source" type="rul:type_ActionSource"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="rul:attgrp_commonAction" />
+	</xs:complexType>
+	
+	<xs:complexType name="action_acknowledgeAlert">
+		<xs:annotation>
+			<xs:documentation>An action to acknowledge alert on the local system.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Source" type="rul:type_ActionSource"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="rul:attgrp_commonAction" />
+		<xs:attribute type="xs:string" name="timestampKey" />
+		<xs:attribute type="xs:string" name="by" />
+	</xs:complexType>
+	<xs:group name="grp_actionCollection">
+		<xs:choice>
+			<xs:choice minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Switch" type="rul:flowcontrol_switch" />
+				<xs:element name="If" type="rul:flowcontrol_if" />
+				<xs:element name="While" type="rul:flowcontrol_while" />
+				<xs:element name="SendMailNotification" type="rul:action_sendMailNotification" />
+				<xs:element name="SendUINotification" type="rul:action_sendUINotification" />
+				<xs:element name="Script" type="rul:action_script" />
+				<xs:element name="EvaluationLog" type="rul:action_writeEvaluationLog" />
+				<xs:element name="AlertAuditLog" type="rul:action_writeAlertAuditLog" />
+				<xs:element name="EventLog" type="rul:action_eventLog" />
+				<xs:element name="ClosedAlertLog" type="rul:action_closedAlertLog" />
+				<xs:element name="JMSSendMessage" type="rul:action_JMSSendMessage" />
+				<xs:element name="ClearRuleLevelCache" type="rul:emptysettings_action" />
+				<xs:element name="ActivitiInvoke" type="rul:action_ActivitiInvoke" />
+				<xs:element name="ScheduleAlertTimer" type="rul:action_ScheduleAlert" />
+				<xs:element name="DeleteAlertTimer" type="rul:action_DeleteAlertTimer" />
+				<xs:element name="RunCommand" type="rul:action_runCommand"/>
+				<xs:element name="AcknowledgeAlert" type="rul:action_acknowledgeAlert"/>
+				<xs:element name="DispatchAlertCepEvent" type="rul:action_dispatchAlertCepEvent"/>
+			</xs:choice>
+		</xs:choice>
+	</xs:group>
+	
+	<!-- Flow Control Nodes -->
+	<xs:complexType name="flowcontrol_switch">
+		<xs:annotation>
+			<xs:documentation> Switch action based on case processing.
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0">
+			<xs:sequence minOccurs="0" maxOccurs="unbounded">
+				<xs:element name="Case">
+					<xs:complexType>
+						<xs:group ref="rul:grp_actionCollection" />
+						<xs:attribute name="condition" type="xs:string" use="required" />
+						<xs:attribute name="conditionUID" type="xs:string"
+							use="optional" />
+					</xs:complexType>
+				</xs:element>
+			</xs:sequence>
+			<xs:element name="Else" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:group ref="rul:grp_actionCollection" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="rul:attgrp_commonAction" />
+	</xs:complexType>
+	<xs:complexType name="flowcontrol_if">
+		<xs:annotation>
+			<xs:documentation> If-Then-Else Condition
+			</xs:documentation>
+		</xs:annotation>
+		<xs:sequence minOccurs="0">
+			<xs:element name="Then">
+				<xs:complexType>
+					<xs:group ref="rul:grp_actionCollection" />
+				</xs:complexType>
+			</xs:element>
+			<xs:element name="Else" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:group ref="rul:grp_actionCollection" />
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="rul:attgrp_commonAction" />
+		<xs:attribute name="condition" type="xs:string" use="required" />
+		<xs:attribute name="conditionUID" type="xs:string"
+			use="optional" />
+	</xs:complexType>	
+	<xs:complexType name="flowcontrol_while">
+		<xs:annotation>
+			<xs:documentation> While Cycle with Condition </xs:documentation>
+		</xs:annotation>
+		<xs:group ref="rul:grp_actionCollection" />
+		<xs:attributeGroup ref="rul:attgrp_commonAction" />
+		<xs:attribute name="condition" type="xs:string" use="required" />
+		<xs:attribute name="conditionUID" type="xs:string"
+			use="optional" />
+	</xs:complexType>	
+	
+	<xs:complexType name="type_actions">
+		<xs:annotation>
+			<xs:documentation> Collection of action
+			</xs:documentation>
+		</xs:annotation>
+		<xs:group ref="rul:grp_actionCollection" />
+	</xs:complexType>
+</xs:schema>

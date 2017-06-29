@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../../main/resources/xsd/flows.xsd">
+	<Rule name="Use Case 1_Test1_d6c3b061-ee9d-4be5-83f4-7348c41b0a36"
+		uuid="d6c3b061-ee9d-4be5-83f4-7348c41b0a36" 
+		wellId="949360b4-49fc-417a-b587-675e312194d4" 
+		wellboreId="49a7812c-c625-4814-8f03-490d38995c16" 
+		wellName="Use_Case_Testing"
+		ruleId="d6c3b061-ee9d-4be5-83f4-7348c41b0a36" ruleName="Use Case 1_Test1"
+		evaluationStrategy="IndexAlignment">
+		<Dependencies defaultType="buffered">
+			<Channel alias="rigstate" type="globalbuffered" indexType="datetime"
+				scope="filtering" indexUnit="" gap="0"
+				id="a6e5cd2d-93e8-4718-bdc8-e0e2673554f9" sequence="10">
+				<ValueNames rigStateSource="38416034-0008-473a-b71f-51f5a8972e13" />
+			</Channel>
+			<Channel alias="ROP" type="buffered" indexType="datetime"
+				scope="condition" indexUnit="" gap="0"
+				id="bbdc339f-41f1-42f1-8e03-b582f362e1a3" sequence="20" />
+		</Dependencies>
+		<Variables>
+			<Static alias="DRILLING" scope="filtering" sequence="30">3</Static>
+		</Variables>
+		<FilteringCondition>rigstate == DRILLING</FilteringCondition>
+		<Condition><![CDATA[ROP > 20]]></Condition>
+		<RuleActions>
+			<EvaluationLog sequence="10"
+				name="50e1b06e-6397-4298-a509-34e734392582">
+				<Channel id="50e1b06e-6397-4298-a509-34e734392582" />
+			</EvaluationLog>
+		</RuleActions>
+		<AlertSettings className="Use Case 1_Test1"
+			class="d6c3b061-ee9d-4be5-83f4-7348c41b0a36">
+			<ProcessingLogic type="PetrolinkAutoClear">
+				<Channel alias="bitDepth" type="globalbuffered"
+					id="aa76b54d-c963-4818-a69b-174352c9edf0" gap="750"></Channel>
+				<Channel alias="holeDepth" type="globalbuffered"
+					id="3af0b7cf-6c6a-4c95-8d17-1a770581eceb" gap="750"></Channel>
+				<Channel alias="rigstate" type="globalbuffered" indexType="datetime"
+					indexUnit="" gap="0" id="a6e5cd2d-93e8-4718-bdc8-e0e2673554f9"/>
+				<Channel alias="demoBuffer" type="globalbuffered"
+					id="3431e253-537d-4699-944e-c9b182bcb127" gap="750"></Channel>
+			</ProcessingLogic>
+			<Template>
+				<Domain>Production</Domain>
+				<Classification>NPT Avoidance</Classification>
+				<Severity>2</Severity>
+				<Priority>2</Priority>
+				<Description source="templated">ROP: ${$ROP.value} ${$ROP.valueUnit}
+				</Description>
+				<Details contentType="json" source="context" />
+				<Metadata includeRuleProperties="true"></Metadata>
+			</Template>
+			<Actions>
+				<OnCreateActions>
+					<SendUINotification sequence="10">
+						<Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+						<!-- This hardcoded channel id is for demo purpose and should be removed. -->
+						<User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+						<InlineTemplate>
+							<Title>Use Case 1_Test1</Title>
+							<Body>ROP: ${$ROP.value} ${$ROP.valueUnit}</Body>
+						</InlineTemplate>
+					</SendUINotification>
+					<!-- The following action is scheduling an Alert Timer based on the defined alert -->
+					<ScheduleAlertTimer name="escalationTimer" sequence="20">
+						<!-- Invoke Flow shall include the flow Unique Id. The flow has to be declared as shown bellow as 
+						and AlertActionsFlow -->
+						<InvokeFlowId>71e752b0-c226-11e6-9598-0800200c9a66</InvokeFlowId>
+						<!-- Start At defines the triggering point of the Escalation based on a existing datetime on the alert 
+							
+						-->
+						<StartAt baseDate="alert.created">datetime = datetime.plusMinutes(30);</StartAt>
+					</ScheduleAlertTimer>
+					<Script sequence="30">
+						System.out.println("Executed on Create Action for alert with UUID" + alert.uuid);
+					</Script>
+				</OnCreateActions>
+				<OnUpdateActions>
+					<Script sequence="10">
+						System.out.println("Executed on Update Action for alert with UUID" + alert.uuid);
+					</Script>				
+				</OnUpdateActions>
+				<OnCommentActions>
+					<SendUINotification sequence="10">
+						<Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+						<!-- This hardcoded channel id is for demo purpose and should be removed. -->
+						<User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+						<InlineTemplate>
+							<Title>Use Case 1_Test1</Title>
+							<Body>ROP: ${$ROP.value} ${$ROP.valueUnit}</Body>
+						</InlineTemplate>
+					</SendUINotification>
+				</OnCommentActions>
+				<OnAcknowledgeActions>
+					<SendUINotification sequence="10">
+						<Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+						<!-- This hardcoded channel id is for demo purpose and should be removed. -->
+						<User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+						<InlineTemplate>
+							<Title>Use Case 1_Test1</Title>
+							<Body>ROP: ${$ROP.value} ${$ROP.valueUnit}</Body>
+						</InlineTemplate>
+					</SendUINotification>
+					<DeleteAlertTimer name="escalationTimer" sequence="20"/>					
+				</OnAcknowledgeActions>
+				<OnStatusChangeActions>
+					<SendUINotification sequence="10">
+						<Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+						<!-- This hardcoded channel id is for demo purpose and should be removed. -->
+						<User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+						<InlineTemplate>
+							<Title>Use Case 1_Test1</Title>
+							<Body>ROP: ${$ROP.value} ${$ROP.valueUnit}</Body>
+						</InlineTemplate>
+					</SendUINotification>
+					<Switch sequence="20">
+						<!-- ACTIVE = 0, INACTIVE = 1, CLOSED = 2 -->
+						<Case condition="alert.status == 2">
+							<ClosedAlertLog sequence="100">
+								<Channel id="d02152ff-4a8a-482d-a509-8cfb24d9fad0" />
+							</ClosedAlertLog>
+						</Case>
+					</Switch>
+				</OnStatusChangeActions>
+				<OnJournalEntryActions>
+					<Switch sequence="10">
+						<Case condition="journal.type != &quot;alertcreate&quot;">
+							<EventLog sequence="110">
+								<Channel id="e3e53b95-cdab-4bea-8095-8fed8a3de095" />
+							</EventLog>						
+						</Case>
+					</Switch>
+				</OnJournalEntryActions>
+			</Actions>
+		</AlertSettings>
+	</Rule>
+	<AlertActionsFlow name="71e752b0-c226-11e6-9598-0800200c9a66" ruleFlow="d6c3b061-ee9d-4be5-83f4-7348c41b0a36">
+		<Actions>
+			<SendUINotification sequence="50">
+				<Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+				<!-- This hardcoded channel id is for demo purpose and should be removed. -->
+				<User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+				<InlineTemplate>
+					<Title>Use Case 1_Test1 Escalation</Title>
+					<Body>ROP: ${$ROP.value} ${$ROP.valueUnit}</Body>
+				</InlineTemplate>
+			</SendUINotification>		
+		</Actions>
+	</AlertActionsFlow>
+</Flows>

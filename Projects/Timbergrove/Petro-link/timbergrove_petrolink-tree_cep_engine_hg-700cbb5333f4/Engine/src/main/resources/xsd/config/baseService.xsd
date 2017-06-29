@@ -1,0 +1,77 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    attributeFormDefault="unqualified" elementFormDefault="qualified">
+    <xs:annotation>
+        <xs:documentation>
+        Defines common things needed for Service Configuration
+        </xs:documentation>
+    </xs:annotation>
+    
+    <xs:complexType name="fileSystemPath">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute type="xs:string" name="relative" use="optional" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+    <xs:attributeGroup name="attgrp_commonServiceAttribute">
+        <xs:annotation>
+            <xs:documentation>
+                Every Service needs the following attribute. 
+                As loaded by com.smartnow.engine.services.Service.load(Element e)
+            </xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:string" name="name" />
+        <xs:attribute type="xs:byte" name="index" />
+        <xs:attribute type="xs:string" name="resourceGroup" use="optional"/>
+    </xs:attributeGroup>
+    
+    <xs:complexType name="basicAuthentication">
+        <xs:attribute type="xs:string" name="username" use="required"/>
+        <xs:attribute type="xs:string" name="password" use="optional"/>
+    </xs:complexType>
+    
+    <xs:complexType name="samlTokenAuthentication">
+        <xs:simpleContent>
+            <xs:extension base="xs:string">
+                <xs:attribute type="xs:boolean" name="base64" use="optional"/>
+            </xs:extension>
+        </xs:simpleContent>
+    </xs:complexType>
+    
+    <xs:complexType name="basicOrSamlTokenAuthentications">
+        <xs:choice>
+	      <xs:element name="Basic" type="basicAuthentication"/>
+	      <xs:element name="SamlToken" type="samlTokenAuthentication"/>
+	    </xs:choice>
+    </xs:complexType>
+    
+    <xs:complexType name="httpClientConnection">
+        <xs:attribute type="xs:string" name="id" use="required"/>
+        <xs:attribute type="xs:string" name="apiPath" use="required"/>
+    </xs:complexType>
+    
+    <xs:complexType name="cacheOptions">
+        <xs:attribute type="xs:integer" name="maximumSize" use="optional"/>
+        <xs:attribute type="xs:integer" name="refreshSeconds" use="optional"/>
+        <xs:attribute type="xs:integer" name="expirationSeconds" use="optional"/>
+    </xs:complexType>
+    
+    <xs:simpleType name="durationUnits">
+       <xs:restriction base="xs:string">
+	      <xs:enumeration value="seconds"/>
+	      <xs:enumeration value="minutes"/>
+	      <xs:enumeration value="hours"/>
+	   </xs:restriction>
+    </xs:simpleType>
+    
+	<xs:complexType name="duration">
+	  <xs:simpleContent>
+	    <xs:extension base="xs:long">
+	      <xs:attribute name="unit" type="durationUnits"/>
+	    </xs:extension>
+	  </xs:simpleContent>
+	</xs:complexType>
+</xs:schema>
+
+    

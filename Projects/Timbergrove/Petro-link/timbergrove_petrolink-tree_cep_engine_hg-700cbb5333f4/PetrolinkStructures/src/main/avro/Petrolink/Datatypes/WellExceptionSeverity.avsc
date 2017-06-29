@@ -1,0 +1,11 @@
+{
+	"type": "enum",
+	"namespace": "Petrolink.Datatypes",
+	"name": "WellExceptionSeverity",
+	"symbols":
+	[
+		"High",
+		"Medium",
+		"Low"
+	]
+}

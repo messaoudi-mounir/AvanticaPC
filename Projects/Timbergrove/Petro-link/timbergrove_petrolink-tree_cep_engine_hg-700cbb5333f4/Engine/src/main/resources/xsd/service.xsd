@@ -1,0 +1,133 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema xmlns="http://www.petrolink.com/mbe/query"
+		   xmlns:xs="http://www.w3.org/2001/XMLSchema"
+		   targetNamespace="http://www.petrolink.com/mbe/query"
+		   attributeFormDefault="unqualified"
+		   elementFormDefault="qualified">
+		   
+	<xs:include schemaLocation="servicemodel/core.xsd" />
+	<xs:include schemaLocation="servicemodel/flowStatus.xsd" />
+
+	<xs:complexType name="type_FlowStatusListRequest" >
+		<xs:choice minOccurs="1" maxOccurs="unbounded" >
+			<xs:element name="UUID" type="xs:string" minOccurs="0" />
+			<xs:element name="Status" type="enum_FlowStatuses" minOccurs="0" />
+			<xs:element name="Type" type="xs:string" minOccurs="0" />
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:complexType name="type_QueryBase">
+		<!--
+		<xs:attribute name="requestId" use="required" type="xs:string" />
+		<xs:attribute name="requestTimestamp" use="required" type="xs:string" />
+		<xs:attribute name="requestBy" use="required" type="xs:string" />
+		-->
+	</xs:complexType>
+
+	<xs:complexType  name="type_QueryRequest">
+		<xs:complexContent>
+			<xs:extension base="type_QueryBase">
+				<xs:choice minOccurs="1" >
+					<xs:element name="FlowStatusListRequest" type="type_FlowStatusListRequest" maxOccurs="1"/>
+				</xs:choice>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="type_QueryResult">
+		<xs:complexContent>
+			<xs:extension base="type_QueryBase">
+				<xs:choice minOccurs="1">
+					<xs:element name="Error" type="type_QueryError" maxOccurs="1"/>
+					<xs:element name="FlowStatusList" type="type_FlowStatusList" maxOccurs="1"/>
+				</xs:choice>
+				<!--
+				<xs:attribute name="responseId"  use="optional" type="xs:string" />
+				<xs:attribute name="responseBy"  use="required" type="xs:string" />
+				<xs:attribute name="responseTimestamp"  use="required" type="xs:string" />
+				-->
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:complexType name="type_QueryError">
+		<xs:complexContent>
+			<xs:extension base="type_QueryBase">
+				<xs:sequence>
+					<xs:element name="Message" type="xs:string" minOccurs="0" />
+					<xs:element name="StackTrace" type="xs:string" minOccurs="0" />
+				</xs:sequence>
+				<xs:attribute name="exception" type="xs:string" use="optional"/>
+				<xs:attribute name="code" type="xs:string" use="optional"/>
+<!-- 				<xs:attribute type="xs:string" name="responseBy"  use="required"/> -->
+<!-- 				<xs:attribute type="xs:string" name="responseTimestamp"  use="required"  /> -->
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+
+	<xs:simpleType name="enum_QueryBlockTypes">
+		<xs:annotation>
+			<xs:documentation>Define what is available in the content of query. Whether it is the request, or response, or update. Separated into upper block since it is often limited by security</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="set" />
+			<xs:enumeration value="get" />
+			<xs:enumeration value="result" />
+		</xs:restriction>
+	</xs:simpleType>
+
+	<xs:complexType name="type_QueryBlock">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element type="type_QueryRequest" name="Request" maxOccurs="unbounded" minOccurs="0" />
+			<xs:element type="type_QueryResult" name="Result" maxOccurs="unbounded" minOccurs="0" />
+			<xs:element type="type_QueryError" name="Error" maxOccurs="unbounded" minOccurs="0" />
+		</xs:choice>
+		<xs:attribute name="type" use="required" type="enum_QueryBlockTypes" />
+		<xs:attribute name="from" use="optional" type="type_nodeAddress" >
+			<xs:annotation>
+				<xs:documentation>
+				If it is from user/orch, should be filled with "principalusername@orchestrationhostname"
+				If it is from mbe service, should be filled with "serviceInstanceName@serverhostname" .Eg DefaultFlowsLoader@sawmbe01. Remember this is a service's name, not the actual class (in example the class is FlowsManagementService)
+				Correctly filling this would make debugging in future easier.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="category" use="required" type="xs:string" >
+			<xs:annotation>
+				<xs:documentation>
+				Define what is the category of messages in this request. 
+				For example "mbe:query:flow" is assigned for flow query in mbe. 
+				This is similar to namespace which can be used by future mechanism to know what is the request types before even parsing content of query, once we begin more routing.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="to" use="optional" type="type_nodeAddress" >
+			<xs:annotation>
+				<xs:documentation>
+				If it is to user/orch, should be filled with "principalusername@orchestrationhostname" or just "principalusername" in case needed for ALL orchestration listening same exchange,
+				or just use original request query's from field
+				If it is to mbe service, most of time you can just not fill this field (which means any node can take care of the message, and every service listening must check whether it understands the category).
+				Correctly filling this would make debugging in future easier.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<xs:element name="Request" type="type_QueryRequest"/>
+	
+	<xs:element name="Response" type="type_QueryResult"/>
+
+	<xs:element name="Query" type="type_QueryBlock"/>
+
+	<xs:complexType name="type_Messages">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element type="type_QueryBlock" name="Query" maxOccurs="unbounded" minOccurs="0" />
+		</xs:choice>
+	</xs:complexType>
+
+	<xs:element name="TraceMessages" type="type_Messages">
+		<xs:annotation>
+			<xs:documentation>TraceMessages is merely container for expressing examples. The actual message sent between peer should be the query itself, not the messages.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

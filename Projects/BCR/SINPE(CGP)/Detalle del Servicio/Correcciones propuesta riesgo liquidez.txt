@@ -1,0 +1,39 @@
+Supuestos
+-firefox o chrome segun compatibilidad de herramientas utilizadas por Avantica-done
+-seran utilizados las herramientas de avantica. -done
+
+
+Escenarios,
+
+Baseline tiempos de ejecucion reporte .
+Jugar con el horizonte para pruebas 15-45-90
+
+reporte pequeño es de 1 semana?
+plazos mas validos para casos tipicos segun horizonte?
+
+Baseline tiempos de carga
+encolar diferentes tipos de reporte 
+ej 8 1 pesado y 1 corriente
+
+Scripts de selenium 
+-------------------------------------------------------------------------
+Como estan midiendo hoy cuanto tiempo dura un reporte en generarse?
+Nos pueden pasar esa info?
+Nivel de confianza en que afecta ?
+Que tipo de navegacion puedo hacer a nivel de paginas?
+15-45-90 tiene sentido?
+
+------------------------------------------------------done
+viendo la No nos queda claro como los parametros pueden influir en el tamaño / carga de trabajo del reporte
+ejemplos.-done
+
+para el monitoreo de los servidores se cuenta con el apoyo del banco dado que el acceso para Avantica es restringido foglight-done
+
+Scripts de automatizacion de monitoreo de tiempo de carga de pagina en la aplicacion web. 
+Nada instalado mientras se pueda
+
+cuales serian los flujos de navegacion que les interesa que monitoriemos -done
+
+Meter las secciones en la propuesta
+
+Pedir project - https://jira.avantica.net/browse/TITSJO-4350

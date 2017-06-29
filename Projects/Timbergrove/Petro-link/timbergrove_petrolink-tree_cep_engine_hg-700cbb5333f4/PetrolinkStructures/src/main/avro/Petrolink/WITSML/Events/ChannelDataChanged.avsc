@@ -1,0 +1,13 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.WITSML.Events",	
+	"name": "ChannelDataChanged",
+	
+	"fields":
+	[
+		{ "name": "channelId", "type": "Petrolink.Datatypes.UUID" },
+		{ "name": "data", "type": { "type": "array", "items": "Petrolink.WITSML.Datatypes.ChannelDataItem" } },
+		{ "name": "startIndex", "type": "Petrolink.Datatypes.IndexValue" },
+		{ "name": "endIndex", "type": "Petrolink.Datatypes.IndexValue" }
+	]
+}

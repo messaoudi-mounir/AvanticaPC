@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../src/main/resources/xsd/flows.xsd">
+	<Rule uuid="01a7712c-26b1-4b93-96b7-45d9c7af5ed8"
+	      wellId="81549d90-7a99-11e6-bdf4-0800200c9a66"
+	      evaluationStrategy="LastKnownValue"
+	      ruleId="01a7712c-26b1-4b93-96b7-45d9c7af5ed8"
+	      ruleName="TestParentFlow">
+		<Dependencies defaultType="lastknownvalue">
+			<!--<Channel alias="clock" type="lastknownvalue" scope="condition" indexType="datetime" valueUnit="" indexUnit="" id="0000abcd-0100-000f-0000-000000000000" />-->
+			<AlertClass alias="child1Alert" alertClassId="e64eb1ae-bb74-4505-af25-b5e29e24db68"/>
+			<AlertClass alias="child2Alert" alertClassId="ae72bcd8-6b10-458b-8ed6-05d8bf204f66"/>
+		</Dependencies>
+		<Variables>
+			<Static alias="ACTIVE" type="integer" scope="global" sequence="10">0</Static>
+		</Variables>
+		<FilteringCondition/>
+		<Condition>
+			<![CDATA[
+				if ((child1Alert == null) || (child1Alert.getStatus() != ACTIVE) ) {
+					return false;
+				} 
+				if ((child2Alert == null) || (child2Alert.getStatus() != ACTIVE) ) {
+					return false;
+				} 
+				return true;
+			]]>
+		</Condition>
+		<RuleActions>
+			<Script sequence="20">
+				System.out.println("Evaluation result was " + result + " at index " + index );
+				System.out.println("---------- with child1Alert value " + $child1Alert);
+				System.out.println("---------- with child2Alert value " + $child2Alert);
+			</Script>
+		</RuleActions>
+		<AlertSettings class="01a7712c-26b1-4b93-96b7-45d9c7af5ed8" className="01a7712c-26b1-4b93-96b7-45d9c7af5ed8UseCase0">
+			<ProcessingLogic type="PetrolinkAutoClear" />
+			<Template>
+				<Domain>Testing</Domain>
+				<Classification>ClassMajor</Classification>
+				<Severity>1</Severity>
+				<Priority>3</Priority>
+				<Description source="templated">Time stop description</Description>
+				<Details contentType="json" source="context"/>
+				<Metadata contentType="json" source="context"/>
+			</Template>
+			<Actions>
+				<OnCreateActions>
+					<!-- Acknowledge Children -->
+					<AcknowledgeAlert sequence="10" timestampKey="evaluatedTimestamp" by="System">
+						<Source source="context" sourceKey="details.alertStatus.activeInstances" />
+					</AcknowledgeAlert>
+				</OnCreateActions>
+				<OnUpdateActions>
+				</OnUpdateActions>
+				<OnCommentActions />
+				<OnAcknowledgeActions />
+				<OnStatusChangeActions>
+				</OnStatusChangeActions>
+				<OnJournalEntryActions>
+				</OnJournalEntryActions>
+			</Actions>
+		</AlertSettings>
+	</Rule>
+</Flows>

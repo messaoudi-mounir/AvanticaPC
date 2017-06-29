@@ -1,0 +1,11 @@
+{
+	"type": "enum",
+	"namespace": "Petrolink.WITSML.Datatypes",
+	"name": "ChannelStatus",
+	"symbols":
+	[
+		"Active",
+		"Inactive",
+		"Closed"
+	]
+}

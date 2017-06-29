@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MailTemplate uuid="ea3ae2bc-dd6d-4a9f-89af-4a9a0dc86327" 
+    xmlns="http://www.petrolink.com/mbe/rules"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../xsd/templates.xsd">
+	<Connection ssl="false" sslCheckServerIdentity ="false">
+		<Host>127.0.0.1</Host>
+		<Port>25</Port>
+		<!--
+		<User>mbe</User>
+		<Password>mbepassword</Password>
+		<StartTLS required="false">false</StartTLS>
+		-->
+	</Connection>
+	<Params>
+		<Param name="p1" type="Integer">3</Param>
+		<Param name="p2" type="Integer">15</Param>
+		<Param name="opening" type="String">Hola</Param>
+	</Params>
+	<From ><![CDATA[Event Engine <mbe@petrolink.com>]]></From>
+	<Subject>Some Freemarker template ${p1}</Subject>
+	<Body>Some other Freemarker template ${p2}</Body>
+</MailTemplate>

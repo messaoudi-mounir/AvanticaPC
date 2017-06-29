@@ -1,0 +1,58 @@
+Riesgo de liquidez
+======================
+Leonardo Murillo 
+Desarrollador de Quantum, proveedor de desarrollo
+
+Sistema web de gestion de riesgo
+Toman de BD de otros productos, info para calculos de liquidez
+3 capas, cliente en .Net, app en .NET, DB en SQL Server
+2 servers de presentacion, 2 de app, 1 de DB
+
+Carga de activos y pasivos de una entidad
+
+Caso de uso comun
+Se solicita generacion de reporte
+- Son pesados por el volumen de datos, es asincrono
+
+Gestion de usuarios
+Auditoria
+Configuracion 
+Excepciones
+
+4 a 6 reportes por hora segun lo visto por ahora
+El procesamiento es por colas usando los 2 servidores de app
+
+
+Actualmente a 70% de avance segun cronograma, real 85%
+Falta 1 tipo de reporte (efectivo)
+El reporte mas pesado es activos y pasivos, ya implementado
+
+>>>> Confirmar con BCR
+
+19 set pase a pruebas
+30 set ultimo pase a pruebas para el modulo que hace falta
+-- El margen ideal es entre ciclos, a partir del 10 de octubre
+luego regresion inician en 18 octubre por 2 semanas
+Prod a inicio nov
+
+Esto es una implementacion de un producto que se esta ajustando al BCR, con caracteristicas especiales
+
+volumen de usuarios
+- Pocos users, lo usan en riesgos
+1 o 2 frecuentes y 20 usuarios esporadicos 
+
+
+el foco de la prueba deberia ser el tema de medir el reporte en si, 
+
+posible casos
+- proyecciones, max 90 dias
+
+como se comporta el sistema cuando el sistema esta generando el reporte
+
+Etapa 2, volumen de datos, como hacemos?
+hay que definir espacios coordinados
+
+Kenia y Giovanni Melis
+Ma Jose Chaves creo los TCs
+
+>> Alexandra envia el req y diagrama de arquitectura

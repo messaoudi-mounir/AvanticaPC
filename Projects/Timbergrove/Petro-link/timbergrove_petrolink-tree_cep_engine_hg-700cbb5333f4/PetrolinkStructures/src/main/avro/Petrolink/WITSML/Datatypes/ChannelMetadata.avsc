@@ -1,0 +1,33 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.WITSML.Datatypes",	
+	"name": "ChannelMetadata",
+	
+	"fields":
+	[		
+		{ "name": "channelId", "type": "Petrolink.Datatypes.UUID" },
+		{ "name": "resourceType", "type": "Petrolink.WITSML.Datatypes.ResourceType" },
+		{ "name": "channelUri", "type": "string" },
+		{ "name": "dataType", "type": "Petrolink.WITSML.Datatypes.ChannelDataType" },
+		{ "name": "customDatatype", "type": "string" },
+		{ "name": "Mnemonic", "type": "string" },
+		{ "name": "uom", "type": "string" },
+		{ "name": "channelType", "type": "Petrolink.WITSML.Datatypes.ChannelType" },
+		{ "name": "channelDataId", "type": "Petrolink.Datatypes.UUID" },
+		{ "name": "status", "type": "Petrolink.WITSML.Datatypes.ChannelStatus" },
+		{ "name": "additionalIndexes", "type": { "type": "array", "items": "int" } },		
+		{ "name": "extensions", "type": { "type": "map", "values": "string" } },
+		{ "name": "description", "type": "string" },
+		{ "name": "startIndex", "type": ["null", "Petrolink.Datatypes.IndexValue"] },
+		{ "name": "endIndex", "type": ["null", "Petrolink.Datatypes.IndexValue"] },
+		{ "name": "lastUpdatedTimestamp", "type": "Petrolink.Datatypes.DateTime" },
+		{ "name": "sourceChannels", "type": { "type": "array", "items": "Petrolink.Datatypes.UUID" } },		
+		{ "name": "indexType", "type": "Petrolink.WITSML.Datatypes.ChannelIndexType" },
+		{ "name": "indexUom", "type": "string" },
+		{ "name": "indexDatum", "type": "string" },
+		{ "name": "indexDirection", "type": "Petrolink.WITSML.Datatypes.ChannelIndexDirection" },
+		{ "name": "indexMnemonic", "type": "string" },
+		{ "name": "indexDescription", "type": "string" },
+		{ "name": "indexUri", "type": "string" }
+	]
+}

@@ -1,0 +1,3 @@
+Etiqueta,# Muestras,Media,Mediana,90% Line,95% Line,99% Line,Mín,Máx,% Error,Rendimiento,Kb/sec,Sent KB/sec
+BCRClientes,1500,95,65,175,225,361,32,3068,0.000%,4.99610,9.94,0.00
+Total,1500,95,65,175,225,361,32,3068,0.000%,4.99610,9.94,0.00

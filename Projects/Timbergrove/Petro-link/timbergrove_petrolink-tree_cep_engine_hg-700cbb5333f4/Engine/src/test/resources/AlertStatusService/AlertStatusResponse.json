@@ -1,0 +1,35 @@
+{
+	"alerts":[
+		{
+ 		 "UUID":"5c7d5a8d-1892-4f77-9b3f-714cdecf4aef",
+		 "classId":"c1dea7e0-7510-11e6-bdf4-0800200c9a66UseCase2",
+		 "name":"c1dea7e0-7510-11e6-bdf4-0800200c9a66UseCase2",
+		 "description":"Lorem Ipsum",
+		 "domain":"Y",
+		 "classification":"Class Major",
+		 "severity":5,
+		 "priority":3,
+		 "status":"ACTIVE",
+		 "lastStatusChange":"",
+		 "created":"2016-09-22T14:32:04.786Z",
+		 "lastOccurrence":"2016-09-22T14:32:04.786Z",
+		 "createdIndex":100.0,
+		 "lastIndex":100.0,
+		 "acknowledgeBy":"John Doe",
+		 "acknowledgeAt":"2016-09-22T14:30:24.679Z",
+		 "comment":"Lorem Ipsum",
+		 "commentedBy":"John Doe",
+		 "commentedAt":"2016-09-22T14:30:24.679Z",
+		 "tally":1,
+		 "detailsContentType":"JSON",
+		 "details": {"result":true,"rop":360,"DRILLING":3,"index":100,"value":360, "$rop":"com.petrolink.mbe.model.channel.DataPoint@120643bd"},
+		 "snoozed": true,
+		 "snoozedBy":"John Doe",
+		 "snoozedAt":"2016-09-22T14:30:24.679Z",
+		 "wellName":"wellName",
+		 "rigName":"rigName",
+		 "notificationsSent":true
+		},
+		{}
+	]
+}

@@ -1,0 +1,14 @@
+teoria
+interactivo 
+tarea
+que es una regex
+
+Stage 7 - incluir en las anteriores
+
+Leccion 2 Jmeter instalacion
+leccion 3 CSV Data set - uploads
+leccion 4 regex pre post
+leccion 5 regex pre post
+leccion 6 componentes y funciones
+leccion 7 webservices
+leccion 8 integracion con selenium

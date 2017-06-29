@@ -1,0 +1,74 @@
+<?xml version="1.0" standalone="yes"?>
+<xs:schema xmlns="http://www.petrolink.com/mbe/query"
+           xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.petrolink.com/mbe/query"
+           attributeFormDefault="unqualified"
+           elementFormDefault="qualified">
+           
+	<xs:include schemaLocation="core.xsd"/>
+	
+	<xs:simpleType name="enum_FlowStatuses">
+		<xs:annotation>
+			<xs:documentation>Define what is available in status</xs:documentation>
+		</xs:annotation>
+		<xs:restriction base="xs:string">
+			<xs:enumeration value="Started" />
+			<xs:enumeration value="NotAvailable" />
+		</xs:restriction>
+	</xs:simpleType>
+	
+	<xs:complexType name="type_EvaluationCounter">
+		<xs:annotation>
+			<xs:documentation>Provides statistics about evaluations of a rule.</xs:documentation>
+		</xs:annotation>
+		<xs:sequence>
+			<xs:element name="Period" minOccurs="0" maxOccurs="unbounded">
+				<xs:annotation>
+					<xs:documentation>A time period in which evaluations occurred.</xs:documentation>
+				</xs:annotation>
+				<xs:complexType>
+					<xs:attribute name="start" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>The inclusive starting time.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="end" type="xs:string">
+						<xs:annotation>
+							<xs:documentation>The exclusive ending time.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+					<xs:attribute name="count" type="xs:int">
+						<xs:annotation>
+							<xs:documentation>The number of evaluations that occurred within this time period.</xs:documentation>
+						</xs:annotation>
+					</xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="type_FlowStatus" >
+		<xs:sequence>
+			<xs:element name="EvaluationCounter" type="type_EvaluationCounter" minOccurs="1" maxOccurs="1" />
+		</xs:sequence>
+        <xs:attribute name="type" type="xs:string" >
+			<xs:annotation>
+				<xs:documentation>Type of the Flow e.g. RuleFlow</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="uuid" type="xs:string">
+			<xs:annotation>
+				<xs:documentation>The flow's UUID, which might not necessarily match the UUID of the rule that created it.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute name="lastEvaluationIndex" type="xs:string" />
+		<xs:attribute name="lastRunning" type="xs:string" />
+		<xs:attribute name="status" type="enum_FlowStatuses" />
+    </xs:complexType>
+	
+	<xs:complexType name="type_FlowStatusList">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element type="type_FlowStatus" name="FlowStatus" maxOccurs="unbounded" />
+		</xs:choice>
+	</xs:complexType>
+</xs:schema>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../../main/resources/xsd/flows.xsd"
+	   >
+	<ActionsFlow name="MailFlow" load="true">
+		<Actions>
+		    <!-- Originally from  template="MailTemplateLocalhost"-->
+			<SendMailNotification sequence="20" template="ea3ae2bc-dd6d-4a9f-89af-4a9a0dc86327">
+				<From><![CDATA[Event Mailflow <mbe@petrolink.com>]]></From>
+				<To>72ef7cda-11ed-4f3b-ae1d-b02356292124, user1@example.com,user2@example.com</To>
+				<CC></CC>
+				<BCC>test@test.com</BCC>
+				<Params>
+					<Param name="subjectParam" type="String">Mailflow</Param>
+					<Param name="p1" type="Integer">5</Param>
+					<Param name="closing" type="String">
+					<![CDATA[
+					<p>
+					Best Regards, <br/>
+					<br/>
+					Petrolink<br/>
+					</p>
+					]]>
+					</Param>
+				</Params>
+				<Subject>Test MBE Mail Subject ${subjectParam}</Subject>
+	            <Body>
+	            <![CDATA[
+	            ${opening},<br/>
+	            <br/>
+	            <p>
+	            This email came from MBEMailFlow.
+	            The parameters are :
+	            </p>
+	            <p>
+		            P1 = ${p1} <br/> 
+		            P2 = ${p2} <br/>
+	            </p>
+	            <p>
+		            If variables are missing, for example, you can do like<br/>
+		            P3 = ${p3} <br/>
+		            P3 = ${p3! "Unknown value"} <br/>
+	            </p>
+	            <p>
+		            Others<br/>
+		            P3 = ${details! "No Details"} <br/>
+		            P3 = ${alert! "No Alert"} <br/>
+	            </p>
+	            ${closing}
+	            ]]> 
+	            </Body>
+			</SendMailNotification>
+			<Script sequence="30">
+				System.out.println("Flow: Mailflow  completed!!")
+			</Script>
+		</Actions>
+	</ActionsFlow>
+</Flows>

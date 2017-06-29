@@ -1,0 +1,15 @@
+{
+	"type": "enum",
+	"namespace": "Petrolink.WITSML.Datatypes",
+	"name": "ChannelType",
+	"symbols":
+	[
+		"Raw",
+		"Alias",
+		"Synthetic",
+		"Derived",
+		"Downsampled",
+		"Threshold",
+		"Event"
+	]
+}

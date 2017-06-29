@@ -1,0 +1,125 @@
+// Only retain the 40 most recent artifacts that are not marked as 'Keep forever' in Jenkins.
+properties([[$class: 'jenkins.model.BuildDiscarderProperty', strategy: [$class: 'LogRotator', artifactNumToKeepStr: '40']]])
+
+node('linux&&maven&&oraclejdk8') {
+
+	stage('Checkout') {
+		checkout scm
+	}
+
+	stage('Versioning and Build Model') {
+		def pomVersion = getVersionFromPomFile('PetrolinkStructures/pom.xml')
+		def modelFullVersion = createFullVersion(pomVersion,env.BRANCH_NAME, env.BUILD_NUMBER)
+		def jarName = "petrolink-mbe-structures-${modelFullVersion}.jar"
+
+		withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'artifactory-credentials', usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
+			sh "mvn -f PetrolinkStructures versions:set -DnewVersion=${modelFullVersion} -DgenerateBackupPoms=false"
+			sh 'mvn -f PetrolinkStructures clean verify'
+			sh 'mvn -f PetrolinkStructures install'
+			fileExists "PetrolinkStructures/target/package/${jarName}"
+			sh "cp PetrolinkStructures/target/package/${jarName} Engine/lib"
+		}
+	}
+
+	stage('Versioning and Build Engine') {
+		def pomVersion = getVersionFromPomFile('Engine/pom.xml')
+		//This Pom version is after Model is updated
+		def currentModelVersion = getVersionFromPomFile('PetrolinkStructures/pom.xml') 
+		def currentFullVersion = createFullVersion(pomVersion,env.BRANCH_NAME,BUILD_NUMBER)
+		echo "FullVersion=${currentFullVersion}, EngineVersion=${pomVersion}, ModelVersion=${currentModelVersion}"
+
+		withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'artifactory-credentials', usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
+			sh "mvn -f Engine versions:set -DnewVersion=${currentFullVersion} -DgenerateBackupPoms=false"
+			//Update to correct petrolink-mbe-structures version
+			sh "mvn -f Engine org.codehaus.mojo:versions-maven-plugin:2.3:use-dep-version -Dincludes=com.petrolink:petrolink-mbe-structures -DforceVersion=true -DdepVersion=${currentModelVersion}" 
+			sh 'mvn -f Engine clean verify'
+		}
+	}
+	
+	stage('Publish') {
+		if (isPublishedToArtifactory(env.BRANCH_NAME)) {
+			withCredentials([[$class: 'UsernamePasswordMultiBinding', credentialsId: 'artifactory-credentials', usernameVariable: 'ARTIFACTORY_USERNAME', passwordVariable: 'ARTIFACTORY_PASSWORD']]) {
+				sh 'mvn -f PetrolinkStructures deploy'
+				sh 'mvn -f Engine deploy'
+			}
+		}
+	}
+
+	archiveArtifacts artifacts: '**/target/package/*.jar,**/target/package/*.zip', fingerprint: true
+}
+
+/**
+ * Get Pom version from a string (eg Pom.xml)
+ * @param versionString
+ * @return
+ */
+def getVersionFromPomString(versionString) {
+	def matcher = versionString =~ /<version>(.+?)<\/version>/
+	return matcher ? matcher[0][1]?.trim() : null
+}
+
+/**
+ * Get Version from POM File
+ * @param pomFilePath Path for the POM
+ * @return
+ */
+def getVersionFromPomFile(pomFilePath) {
+	def pomXml = readFile(pomFilePath);
+	return getVersionFromPomString(pomXml);
+}
+
+/**
+ * Create branch tag fom branch name
+ * @param branchName
+ * @return
+ */
+def createBranchTag(branchName) {
+	def branchTag =''
+	if (!branchName || branchName == 'master' || branchName == 'default') {
+		return branchTag
+	}
+
+	def cleanedBranchName = branchName.toLowerCase().replaceAll(/[-_]/, '')
+	cleanedBranchName = cleanedBranchName.replaceAll(/[\/]/, '-')
+	def trimmedBranchName = cleanedBranchName?.trim();
+	if (trimmedBranchName) {
+		branchTag = "-${trimmedBranchName}"
+	}
+	return branchTag
+}
+
+/**
+ * Create Version String from components
+ * @param pomVersion
+ * @param branchName
+ * @param buildNumber
+ * @return
+ */
+def createFullVersion(pomVersion, branchName, buildNumber) {
+	if (pomVersion.endsWith('-SNAPSHOT')) {
+		def pomVersionWithoutSnapshot = pomVersion.replaceAll(/-SNAPSHOT$/, '')
+		def branchVersion = createBranchTag(branchName)
+
+		def buildVersion;
+		if (branchName.startsWith('rel/') || branchName.startsWith('rel-')) {
+			buildVersion = "${pomVersionWithoutSnapshot}-${buildNumber}-rel"
+		} else {
+			buildVersion = "${pomVersionWithoutSnapshot}-${buildNumber}${branchVersion}"
+		}
+		return buildVersion
+	} else {
+		return "${pomVersion}-${buildNumber}"
+	}
+}
+
+/**
+ * Check whether this branch should be pushed to artifactory based on branch name
+ * @param branchName
+ * @return
+ */
+def boolean isPublishedToArtifactory(branchName) {
+	if (!branchName || branchName == 'master' || branchName == 'default') {
+		return true
+	}
+	return false;
+}

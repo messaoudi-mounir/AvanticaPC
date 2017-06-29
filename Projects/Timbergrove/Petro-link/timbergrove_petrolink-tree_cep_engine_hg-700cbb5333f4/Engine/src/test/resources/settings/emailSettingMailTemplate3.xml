@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- MailTemplate for sending email to sms gateway-->
+<MailTemplate uuid="634f3a7b-c72b-43af-946d-7ce59c860110" 
+    xmlns="http://www.petrolink.com/mbe/rules"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../src/main/resources/xsd/templates.xsd">
+	<Connection>
+		<Host>localhost</Host>
+		<Port>1025</Port>
+	</Connection>
+	<Params>
+	</Params>
+	<From><![CDATA[Event Mailflow <mbe@petrolink.com>]]></From>
+	<Subject></Subject>
+	<Body>
+	            <![CDATA[You have an alert!
+	            Index = ${index!"unknown"}
+	            Value = ${value!"unknown"}
+	            ]]>
+	</Body>
+	<!--Use "text/html" for HTML email and "text/plain" for SMS -->
+         <ContentType>text/plain</ContentType>
+	<!--Set Principal Guid mapping to retrieve Email OR SmsPhone-->
+	<GuidMapping>SmsPhone</GuidMapping>
+</MailTemplate>

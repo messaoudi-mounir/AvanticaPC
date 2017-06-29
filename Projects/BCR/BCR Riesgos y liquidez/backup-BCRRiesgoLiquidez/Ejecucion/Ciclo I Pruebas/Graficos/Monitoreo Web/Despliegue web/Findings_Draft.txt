@@ -1,0 +1,36 @@
+-Iniciando sesion
+	entre 10 y poco mas de 20 segundos en todos los minutos de la prueba
+-Login
+	constante en menos de 1 segundo
+	picos en 4min 1.8s y 104min 1.3s
+-Cargar archivo
+	Presenta bastantes irregularidades.
+	pico mas bajo es de 11.3 seg y el mas alto 11.9
+-Cargar archivo popup
+	Menos de 1s en todos los min	
+-Cerrar sesion
+	presenta picos mayores a 10s en los min: 6,13,18,21,24,29,37
+-Generar reporte activo y pasivo
+	al min 116 hay un pico hasta 1 segundo
+-Generar reporte pasivo
+	min90 y min 110 picos de mas de 1 segundo
+-Ir a pagina ordenes
+	
+-Ir a pagina plantillas
+	min 62 pico 2.5s y al min 153
+-ir a pagina reportes
+-ir a pagina solicitudes
+	min 140 pico 14s
+-Seleccionar reporte activo y pasivo
+
+-Seleccionar reporte pasivo
+-Seleccionar reporte backtesting
+-Seleccionar reporte efectivo
+
+
+tenemos unas cuantas dudas, 
+-Vemos que hay graficas para 5 servidores, sin embargo nos estarian haciendo falta los dos servidores de balanceo de carga.
+-Los datos representados en los graficos, son equivalentes a los valores promedio, maximos, minimos ?
+-Cada cuanto se encuentran ubicados los puntos de control? En las graficas se puede intuir que se encuentran separados por intervalos de 30min, sin embargo es mejor tener certeza de esto.
+
+-Observando las graficas podemos interpretar que los puntos de control se encuentran separados por intervalos de 30 minutos, estos puntos de control representan los valores promedio, maximos o minimos? 

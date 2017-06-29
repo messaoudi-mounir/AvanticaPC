@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules">
+  <Rule name="Sine wave_c157dee4-26c0-4158-bb57-3f86697a8ef5" uuid="c157dee4-26c0-4158-bb57-3f86697a8ef5" well="a60b7f12-1a6c-427f-b4cc-007996cde369" wellName="platform_mbe" ruleId="c157dee4-26c0-4158-bb57-3f86697a8ef5" ruleName="Sine wave" evaluationStrategy="IndexAlignment">
+    <Dependencies defaultType="buffered">
+      <Channel alias="sine_wave_corrected" type="buffered" indexType="datetime" scope="condition" indexUnit="" gap="0" id="8212a6c6-eddd-49cc-8897-9cff3482f207" sequence="10" />
+    </Dependencies>
+    <Variables />
+    <FilteringCondition />
+    <Condition><![CDATA[sine_wave_corrected == 100]]></Condition>
+    <RuleActions>
+      <EvaluationLog sequence="10" name="926101d1-12a7-4fbc-8808-3c6f4fa9f0b7">
+        <Channel id="926101d1-12a7-4fbc-8808-3c6f4fa9f0b7" />
+      </EvaluationLog>
+    </RuleActions>
+    <AlertSettings className="Sine wave is 100" class="c157dee4-26c0-4158-bb57-3f86697a8ef5">
+      <ProcessingLogic type="PetrolinkAutoClear" />
+      <Template>
+        <Domain>Production</Domain>
+        <Classification>Process Safety</Classification>
+        <Severity>1</Severity>
+        <Priority>1</Priority>
+        <Description source="static" />
+        <Details contentType="json" source="context" />
+      </Template>
+      <Actions>
+        <OnCreateActions>
+          <SendUINotification sequence="20">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <User id="4995f1c2-2f88-40af-a1ef-55e86ea53197" />
+            <User id="ee80408b-9d68-4a6c-80b6-32151b074c0e" />
+            <InlineTemplate>
+              <Title>Sine wave is 100</Title>
+              <Body>Sine current value: ${sine_wave_corrected.value}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+          <SendMailNotification sequence="30" template="c13818bb-95b2-44a1-bc4a-8ef692f41c02">
+            <To>4995f1c2-2f88-40af-a1ef-55e86ea53197,ee80408b-9d68-4a6c-80b6-32151b074c0e</To>
+            <Subject>There's a problem on the rig</Subject>
+            <Body><![CDATA[<h1>Look out! Watch Out!</h1>]]></Body>
+          </SendMailNotification>
+        </OnCreateActions>
+        <OnUpdateActions />
+        <OnCommentActions>
+          <SendUINotification sequence="40">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <User id="4995f1c2-2f88-40af-a1ef-55e86ea53197" />
+            <User id="ee80408b-9d68-4a6c-80b6-32151b074c0e" />
+            <InlineTemplate>
+              <Title>Sine wave is 100</Title>
+              <Body>Sine current value: ${sine_wave_corrected.value}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+          <SendMailNotification sequence="50" template="c13818bb-95b2-44a1-bc4a-8ef692f41c02">
+            <To>4995f1c2-2f88-40af-a1ef-55e86ea53197,ee80408b-9d68-4a6c-80b6-32151b074c0e</To>
+            <Subject>There's a problem on the rig</Subject>
+            <Body><![CDATA[<h1>Look out! Watch Out!</h1>]]></Body>
+          </SendMailNotification>
+        </OnCommentActions>
+        <OnAcknowledgeActions>
+          <SendUINotification sequence="60">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <User id="4995f1c2-2f88-40af-a1ef-55e86ea53197" />
+            <User id="ee80408b-9d68-4a6c-80b6-32151b074c0e" />
+            <InlineTemplate>
+              <Title>Sine wave is 100</Title>
+              <Body>Sine current value: ${sine_wave_corrected.value}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+          <SendMailNotification sequence="70" template="c13818bb-95b2-44a1-bc4a-8ef692f41c02">
+            <To>4995f1c2-2f88-40af-a1ef-55e86ea53197,ee80408b-9d68-4a6c-80b6-32151b074c0e</To>
+            <Subject>There's a problem on the rig</Subject>
+            <Body><![CDATA[<h1>Look out! Watch Out!</h1>]]></Body>
+          </SendMailNotification>
+        </OnAcknowledgeActions>
+        <OnStatusChangeActions>
+          <SendUINotification sequence="80">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <User id="4995f1c2-2f88-40af-a1ef-55e86ea53197" />
+            <User id="ee80408b-9d68-4a6c-80b6-32151b074c0e" />
+            <InlineTemplate>
+              <Title>Sine wave is 100</Title>
+              <Body>Sine current value: ${sine_wave_corrected.value}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+          <SendMailNotification sequence="90" template="c13818bb-95b2-44a1-bc4a-8ef692f41c02">
+            <To>4995f1c2-2f88-40af-a1ef-55e86ea53197,ee80408b-9d68-4a6c-80b6-32151b074c0e</To>
+            <Subject>There's a problem on the rig</Subject>
+            <Body><![CDATA[<h1>Look out! Watch Out!</h1>]]></Body>
+          </SendMailNotification>
+        </OnStatusChangeActions>
+        <OnJournalEntryActions>
+          <EventLog sequence="100">
+            <Channel id="1e2cf023-b349-4d10-b65e-290e14cb0e1a" />
+          </EventLog>
+        </OnJournalEntryActions>
+      </Actions>
+    </AlertSettings>
+  </Rule>
+</Flows>

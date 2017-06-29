@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<TraceMessages xmlns="http://www.petrolink.com/mbe/query" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<!--
+	Please also note that TraceMessages  is merely container for expressing examples. The actual message sent between peer should be the query itself, not the messages.
+	So in practice every Query must have namespace  xmlns="http://www.petrolink.com/mbe/query" 
+	Query is designed to be able to pass multiple similar request in a package, with same category
+	-->
+	<!--Query Message-->
+	<Query type="get" from="xxx@nodename" category="mbe:query:flow" >
+		<!--For getting all active flow-->
+		<Request requestId="96ae8d3-647c-4fa5-9712-fdad4b790f89" requestTimestamp="2016-11-09T23:42:57.9855650Z" requestBy="xxx">
+			<FlowStatusListRequest>
+				<Statuses>
+					<Status>Started</Status>
+				</Statuses>
+				<Types>
+					<Type>RuleFlow</Type>
+				</Types>
+			</FlowStatusListRequest>
+		</Request>
+		<!--For getting specific flow-->
+		<Request requestId="936DA01F-9ABD-4d9d-80C7-02AF85C822A8" requestTimestamp="2016-11-09T23:42:57.9855650Z" requestBy="xxx">
+			<FlowStatusListRequest>
+				<UUIDs>
+					<UUID>11111111-1111-1111-1111-111111111111</UUID>
+					<UUID>33333333-3333-3333-3333-333333333333</UUID>
+				</UUIDs>
+			</FlowStatusListRequest>
+		</Request>
+	</Query >
+	<!--Success Message-->
+	<Query type="result" to="xxx@nodename" category="mbe:query:flow">
+		<!-- Result for all active flow-->
+		<Result requestId="96ae8d3-647c-4fa5-9712-fdad4b790f89" requestBy="xxx" requestTimestamp="2016-11-09T23:42:57.9855650Z" responseBy="serverNodeName" responseTimestamp="2016-11-09T23:42:58.9855650Z">
+			<FlowStatusList>
+				<FlowStatus type="RuleFlow" uuid="11111111-1111-1111-1111-111111111111" lastEvaluationIndex = "2016-11-09T23:42:57.9855650Z" lastRunning = "2016-11-09T23:42:57.9855650Z" status="Started"/>
+				<FlowStatus type="RuleFlow" uuid="22222222-2222-2222-2222-222222222222" lastEvaluationIndex = "2016-11-09T23:42:57.9855650Z" lastRunning  = "2016-11-09T23:42:57.9855650Z" status="Started"/>
+			</FlowStatusList>
+		</Result>
+		<!--Result for getting specific flow-->
+		<Result requestId="936DA01F-9ABD-4d9d-80C7-02AF85C822A8" requestBy="xxx" requestTimestamp="2016-11-09T23:42:57.9855650Z" responseBy="serverNodeName" responseTimestamp="2016-11-09T23:42:58.9855650Z">
+			<FlowStatusList>
+				<FlowStatus uuid="11111111-1111-1111-1111-111111111111" status="Started" type="RuleFlow" lastEvaluationIndex = "2016-11-09T23:42:57.9855650Z" lastRunning = "2016-11-09T23:42:57.9855650Z"/>
+				<FlowStatus uuid="33333333-3333-3333-3333-333333333333" status="NotAvailable"/>
+			</FlowStatusList>
+		</Result>
+		<!--If Error-->
+		<Error code="500" requestId="F9168C5E-CEB2-4faa-B6BF-329BF39FA1E4" requestBy="xxx" requestTimestamp="2016-11-09T23:42:57.9855650Z" responseBy="serverNodeName" responseTimestamp="2016-11-09T23:42:58.9855650Z">
+			<Message>Error message, if any</Message>
+			<StackTrace>Stacktrace, if any</StackTrace>
+		</Error>
+	</Query >
+</TraceMessages>

@@ -1,0 +1,22 @@
+Label,# Samples,Average,Median,90% Line,95% Line,99% Line,Min,Max,Error %,Throughput,KB/sec
+01 - frmIngresoUsuarios.aspx,64,410,53,1714,1988,2425,24,2461,0.00%,.2,.7
+02 - frmGeneral.aspx/ObtenerMensajes,64,347,31,1136,1861,2595,20,3333,0.00%,.2,5.6
+03 - frmIngresoUsuarios.aspx/ValidarUsuario,64,501,292,1133,1552,2293,161,2628,0.00%,.2,.1
+04 - frmIngresoUsuarios.aspx/ValidarContrasena,64,21308,1406,62688,63066,63632,806,122835,1.56%,.2,.1
+05 - frmIngresoUsuarios.aspx,64,7947,119,61718,61954,63647,41,63827,0.00%,.2,.7
+06 - frmSeleccionNegocioCorresponsal.aspx,64,246,118,422,1242,1575,50,2363,98.44%,.2,.1
+07 - frmInicio.aspx,64,1118,80,458,1030,1190,43,60910,0.00%,.2,.5
+08 - frmGeneral.aspx/ObtenerMensajes,64,98,29,275,340,354,14,1170,0.00%,.3,7.2
+09 - frmGeneral.aspx/ObtenerMenu,64,1121,88,460,786,1137,51,60881,0.00%,.3,.1
+10 - frmGeneral.aspx/ObtenerMenuPagoServicios,64,143,98,285,436,460,45,548,0.00%,.3,.2
+11 - frmGeneral.aspx/RedireccionaMenu,64,89,46,193,390,419,24,561,100.00%,.3,.1
+12 - frmInicio.aspx,64,127,70,277,345,800,44,881,0.00%,.4,.9
+13 - frmTransferenciasBCR.aspx,64,174,97,442,620,724,49,781,100.00%,.4,.1
+14 - frmGeneral.aspx/ObtenerMensajes,64,105,31,258,449,597,17,694,0.00%,.4,9.1
+15 - frmGeneral.aspx/ObtenerMenu,64,132,99,242,351,439,52,503,0.00%,.4,.2
+16 - frmTransferenciasBCR.aspx/ObtenerMonedaCuenta,64,83,57,99,155,346,36,937,100.00%,.4,.1
+17 - frmTransferenciasBCR.aspx/ValidarCuentaSICC,64,143,103,229,404,482,43,693,0.00%,.4,.2
+18 - frmGeneral.aspx/CerrarSesion,64,61,28,136,253,448,13,530,100.00%,.4,.1
+19 - frmIngresoUsuarios.aspx,64,53,30,65,170,223,19,719,0.00%,.4,1.1
+20 - frmGeneral.aspx/ObtenerMensajes,64,70,26,237,247,295,16,372,0.00%,.4,9.2
+TOTAL,1280,1714,77,746,1361,62216,13,122835,25.00%,4.3,26.1

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Triggers>
+	<PetrolinkRouter name="T_Router">
+<!--  		<Connection><![CDATA[amqp://TGDev:G4!#zccW5-@10.20.27.221:15672]]></Connection> -->
+ 		<Connection><![CDATA[amqp://guest:guest@localhost]]></Connection>
+
+ 		<!-- default Exchange type is direct and default durability is true -->
+		<Exchange type="topic" durable="true">PetroVault.Realtime.Raw</Exchange>
+
+		<!-- RoutinkKey is optional -->
+<!-- 		<RoutingKey>ad802940-7b4b-11e6-bdf4-0800200c9a66</RoutingKey> -->
+		<Queue>Q-b5ee4320-8062-11e6-bdf4-0800200c9a66</Queue>
+		<ConcurrentListeners>2</ConcurrentListeners>
+		<Routes>
+			<WellRouter>
+				<Wells headerKey="uuid">81549d90-7a99-11e6-bdf4-0800200c9a66,ad802940-7b4b-11e6-bdf4-0800200c9a66</Wells>
+				<Exchange type="direct" durable="true">MBE.WellExchange.ChannelDataAppended</Exchange>
+				<HeaderRoutingKey type="uuid">uuid</HeaderRoutingKey>
+			</WellRouter>
+		</Routes>
+	</PetrolinkRouter>
+</Triggers>

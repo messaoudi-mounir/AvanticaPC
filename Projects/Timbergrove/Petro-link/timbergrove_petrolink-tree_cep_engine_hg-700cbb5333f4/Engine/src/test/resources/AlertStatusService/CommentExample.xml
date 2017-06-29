@@ -1,0 +1,9 @@
+<AlertStatusRequest xmlns="http://www.petrolink.com/mbe/alertstatus"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/alertstatus AlertStatusRequest.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Action>COMMENT</Action>
+	<UUID>4618aa7a-9170-461d-90f2-68b5410114a5</UUID>
+	<Comment>Lorem Ipsum 2</Comment>
+	<By>Jonh Doe</By>
+	<Timestamp>2016-11-09T23:42:57.9855650Z</Timestamp>
+</AlertStatusRequest>

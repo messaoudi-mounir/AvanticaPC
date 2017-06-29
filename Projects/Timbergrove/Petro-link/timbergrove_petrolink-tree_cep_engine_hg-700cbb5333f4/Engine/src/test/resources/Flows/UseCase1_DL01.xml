@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../../main/resources/xsd/flows.xsd">
+  <Rule name="Triangle is less than 50_91be1c1d-afc4-4e7e-8bb7-7d5f6bffcefc" uuid="91be1c1d-afc4-4e7e-8bb7-7d5f6bffcefc" wellId="e93b6a61-85a1-45be-8f53-8e5802bcbcad" wellboreId="d712c504-bdc7-4320-aa56-94b68cca12a8" wellName="Synthetic_Data" ruleId="91be1c1d-afc4-4e7e-8bb7-7d5f6bffcefc" ruleName="Triangle is less than 50" evaluationStrategy="IndexAlignment">
+    <Dependencies defaultType="buffered">
+      <Channel alias="triangle_wave_corrected" type="buffered" indexType="datetime" scope="condition" indexUnit="" gap="0" id="24562e6a-72b7-4cb1-9e8d-624d91ebdb4b" sequence="10" />
+    </Dependencies>
+    <Variables>
+      <Static alias="Threshold" type="integer" scope="reference" sequence="20">50</Static>
+    </Variables>
+    <FilteringCondition />
+    <Condition><![CDATA[triangle_wave_corrected < Threshold]]></Condition>
+    <RuleActions>
+      <EvaluationLog sequence="30" name="2b0b8771-0ac7-480c-b351-94a5b11e33a9">
+        <Channel id="2b0b8771-0ac7-480c-b351-94a5b11e33a9" />
+      </EvaluationLog>
+    </RuleActions>
+    <AlertSettings className="Triangle is less than 50" class="91be1c1d-afc4-4e7e-8bb7-7d5f6bffcefc">
+      <ProcessingLogic type="PetrolinkAutoClear" />
+      <Template>
+        <Domain>Testing</Domain>
+        <Classification>Geosteering</Classification>
+        <Severity>2</Severity>
+        <Priority>2</Priority>
+        <Description source="templated">The triangle is too low
+${$triangle_wave_corrected.value}</Description>
+        <Details contentType="json" source="context" />
+        <Metadata></Metadata>
+      </Template>
+      <Actions>
+        <OnCreateActions>
+          <SendUINotification sequence="40">
+            <User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+            <User id="2df89184-edc4-44ea-94eb-a419e6b476b8" />
+            <InlineTemplate>
+              <Title>Triangle is less than 50</Title>
+              <Body>${$triangle_wave_corrected.value}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnCreateActions>
+        <OnUpdateActions />
+        <OnCommentActions>
+          <SendUINotification sequence="50">
+            <User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+            <User id="2df89184-edc4-44ea-94eb-a419e6b476b8" />
+            <InlineTemplate>
+              <Title>Triangle is less than 50</Title>
+              <Body>${$triangle_wave_corrected.value}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnCommentActions>
+        <OnAcknowledgeActions>
+          <SendUINotification sequence="60">
+            <User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+            <User id="2df89184-edc4-44ea-94eb-a419e6b476b8" />
+            <InlineTemplate>
+              <Title>Triangle is less than 50</Title>
+              <Body>${$triangle_wave_corrected.value}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnAcknowledgeActions>
+        <OnStatusChangeActions>
+          <Switch sequence="70">
+            <Case condition="alert.snoozed == false">
+              <SendUINotification sequence="80">
+                <User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+                <User id="2df89184-edc4-44ea-94eb-a419e6b476b8" />
+                <InlineTemplate>
+                  <Title>Triangle is less than 50</Title>
+                  <Body>${$triangle_wave_corrected.value}</Body>
+                </InlineTemplate>
+              </SendUINotification>
+            </Case>
+          </Switch>
+          <Switch sequence="90">
+            <!-- ACTIVE = 0, INACTIVE = 1, CLOSED = 2 -->
+            <Case condition="alert.status == 2">
+              <ClosedAlertLog sequence="100">
+                <Channel id="a1fea25e-b670-4a70-81dd-a4e1c3caf0a2" />
+              </ClosedAlertLog>
+            </Case>
+          </Switch>
+        </OnStatusChangeActions>
+        <OnJournalEntryActions>
+          <Switch sequence="110">
+            <Case condition="journal.type != &quot;alertchange&quot;">
+              <EventLog sequence="120">
+                <Channel id="2f5378e8-d5d3-49c5-a61b-9302efa53fbc" />
+                <Channel id="fcfdb9c7-29f5-4006-9049-d0761de76ddb" />
+              </EventLog>
+            </Case>
+          </Switch>
+        </OnJournalEntryActions>
+      </Actions>
+    </AlertSettings>
+  </Rule>
+</Flows>

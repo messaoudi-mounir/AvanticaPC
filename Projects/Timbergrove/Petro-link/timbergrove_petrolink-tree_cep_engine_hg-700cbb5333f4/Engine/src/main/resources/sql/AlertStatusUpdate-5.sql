@@ -1,0 +1,1 @@
+ALTER TABLE alerts ALTER COLUMN description VARCHAR(8192)

@@ -1,0 +1,5 @@
+Etiqueta,# Muestras,Media,Mediana,90% Line,95% Line,99% Line,Mín,Máx,% Error,Rendimiento,Kb/sec,Sent KB/sec
+Petición Soap/XML-RPC,300,506,368,641,1389,2870,252,3249,0.00%,0.99962,1.42,0
+Petición Soap/XML-RPC,600,488,375,616,784,3311,230,4633,0.00%,2.00038,2.46,0
+Petición Soap/XML-RPC,900,915,411,2635,3805,5737,215,6980,0.00%,2.99792,3.68,0
+Total,300,506,368,641,1389,2870,252,3249,0.00%,0.99962,1.42,0

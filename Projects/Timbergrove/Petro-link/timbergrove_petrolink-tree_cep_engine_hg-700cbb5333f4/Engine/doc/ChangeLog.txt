@@ -1,0 +1,75 @@
+Version 1.1.0
+- Improving internal memory structure, it now use less memory than previous version for same data
+- Improve sending alert's UI notification speed
+- logging update for alert
+- Add features required by OPS monitoring tool, such as grouped alert, previous value, and investigate workflow
+- Fix looping LastKnownValue strategy and batch update 
+- Update Apache Commons Lang to 3.5
+
+Upgrade notes:
+1. There are changes in root-app-context.xml and new file cluster.properties for node configuration. Connected ignite node need to be specified in cluster.properties
+2. smartnow.cfg.xml has been changed:
+2.a AlertProcessorDirectory setting is added to smartnow.cfg.xml
+2.b AlertStatusService , MBEFlowsManagementService, InstrumentationService, TriggersManagementService and notificationTemplateService queue has been changed in smartnow.cfg.xml
+2.c AlertStatusService has setting for delay publishing added to smartnow.cfg.xml
+2.d AmqpChannelService is added to smartnow.cfg.xml
+2.e activating Clustering service by default
+
+
+Version 1.0.5-31
+- Fix initialization of Channel buffer/Last known value, it should have latest value from Chronos
+- Add Spring beans mapping because in isolated environment, engine init throws exception 503 accessing spring-beans-4.3.xsd
+- now ignore channel writing to illegal/GUID.Empty channel, log warning instead
+- Make evaluation channel update in batch
+- Add ability to allow store/comparison to curve's previous value
+- Fix gap and filetring behaviour
+
+Upgrade notes:
+1. smartnow.cfg.xml needs to update <ConcurrentListeners>15</ConcurrentListeners> section to only one instead of 15 connection for CDA triggers by default.
+2. smartnow.cfg.xml needs additional clock channel setting section
+
+Version 1.0.4
+- Fix for failure to start engine in complete isolated server which does not have access to internet
+- Add in memory variables which can be accessed across multiple evaluation in condition. Use "persistent." as prefix and use getString(variableName), getDouble(variableName), getLong(variableName), getDateTime(variableName), to retrieve, while use putString(variableName,string),putDouble(variableName,Double), putLong(variableName,Long), putDateTime(variableName,OffsetDateTime)
+- Ability to schedule periodic evaluation
+- Now should not log error on updating channel with empty UUID
+- Now flow loaded when starting up engine, is saved as local files
+- Auto dismissal of Alert which is caused by event beyond certain time before processing time (see detail at https://jira.petrolink.net/browse/TREE-32)
+
+Upgrade notes:
+1. smartnow.cfg.xml needs to be updated due to reorder of services
+
+Version 1.0.3-28
+- Fix for When stopping rule, raised alerts don't get written to historical channel
+
+Version 1.0.3-24
+- Fix for email sending fails for all users if SMTP returns 550 (email address doesn't exist)
+- Fix for template processing in SendUiNotification which does not handle default text when template object is null
+- Now Lower raised alert when Rule is removed/stopped, be aware there is still bug which cause Alert is not saved to historical Log when it is stopped
+
+Upgrade notes:
+1. smartnow.cfg.xml needs to be updated as there is new configuration to enable/disable retrieval of flow from the engine (RequestActiveFlows). AlertActionTemplate worker also by default increased to 25.
+
+Version 1.0.2-51
+- In smartnow.cfg.xml there is major changes. A new setting BufferedChannelMaxSize is added, which by default set to 4000. this value indicates maximum size of data point held in a single channel buffer before the oldest one is thrown out
+This will prevent out of memory dues to waiting for a very late data point in one of channel.
+- Fix WindowAlignement bug which makes process do unnecessary loop
+- Fixing unsnooze does not start if alert class snoozed prior engine is restarted
+- Logging is updated to prevent unlimited log size which is also caused by the logback library. 
+- Alert snoozeby now keep last information on who snoozed the alert
+- Now flows is retrieved from PVHD instead of local file when engine is restarted
+- Now support in memory database version upgrade
+
+Upgrade notes:
+1. smartnow.cfg.xml needs to be updated. you may want to customize BufferedChannelMaxSize , say to 8000 for example to accomodate 1 hour in channel with 1 dps
+2. In templates there is a change and additional file, if you need to configure email you may need redo 
+3. There is new section petrolinksmtp in Connections.xml
+4. Logging is changed to prevent unlimited log size, please check logback.xml to reconfigure
+5. please replace root-app-context.xml when upgrading
+
+Version 1.0.1-27
+
+- MBE 378 add more logging and configuration for Alert Service cleanup process 
+- Add script to install and uninstall service, and get version in linux and windows
+- Fix Major problem when clearing Alerts from the in memory db of the engine, which can cause crash (need Database clearing)
+- Add initial instrumentation to get current active rule

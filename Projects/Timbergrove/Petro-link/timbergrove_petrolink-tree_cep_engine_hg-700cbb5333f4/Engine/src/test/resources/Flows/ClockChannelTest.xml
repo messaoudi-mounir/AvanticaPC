@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../src/main/resources/xsd/flows.xsd">
+	<Rule uuid="c1dea7e0-7510-11e6-bdf4-0800200c9a77"
+	      wellId="81549d90-7a99-11e6-bdf4-0800200c9a66"
+	      evaluationStrategy="LastKnownValue"
+	      expireAt="2017-12-30T09:00:00"
+	      ruleId="c1dea7e0-7510-11e6-bdf4-0800200c9a77"
+	      ruleName="Clock Channel">
+		<Dependencies defaultType="lastknownvalue">
+			<Channel alias="clock" type="lastknownvalue" scope="condition" indexType="datetime" valueUnit="" indexUnit="" id="0000abcd-0100-000f-0000-000000000000" />
+			<Channel alias="x" type="lastknownvalue" scope="reference" indexType="datetime" valueUnit="" indexUnit="" id="48c0b7c0-7c56-11e6-bdf4-0800200c9a66" gap="2000"/>
+		</Dependencies>
+		<Variables/>
+		<FilteringCondition/>
+		<Condition><![CDATA[($clock.indexNumber - $x.indexNumber > 10000)]]></Condition>
+		<RuleActions>
+			<EvaluationLog sequence="10" name="action1"
+				defaultMode="test" testFileName="ClockChannelTest-EVLog">
+				<Channel id="a476b54d-c963-4818-a69b-174352c9edf0" />
+			</EvaluationLog>
+<!-- 			<Script sequence="20">System.out.println("Use Case 0 Evaluation result was " + result + " at index " + index); -->
+<!-- 				System.out.println($rop.value);</Script> -->
+		</RuleActions>
+		<AlertSettings class="c1dea7e0-7510-11e6-bdf4-0800200c9a66" className="c1dea7e0-7510-11e6-bdf4-0800200c9a66UseCase0">
+			<ProcessingLogic type="PetrolinkAutoClear" resourceGroup="Group1"/>
+			<Template>
+				<Domain>Y</Domain>
+				<Classification>ClassMajor</Classification>
+				<Severity>0</Severity>
+				<Priority>3</Priority>
+				<Description source="templated">Time stop description</Description>
+				<Details contentType="json" source="context"/>
+				<Metadata contentType="json" source="context"/>
+			</Template>
+			<Actions>
+				<OnCreateActions>
+					<Script sequence="5">System.out.println("Clock channel test executing on Create Actions");</Script>
+				</OnCreateActions>
+				<OnUpdateActions>
+					<Switch sequence="10">
+						<Case condition="alert.severity>5">
+							
+						</Case>
+					</Switch>
+				</OnUpdateActions>
+				<OnCommentActions />
+				<OnAcknowledgeActions />
+				<OnStatusChangeActions>
+					<Switch sequence="10">
+						<Case condition="alert.status == 1">
+							<Script sequence="10">System.out.println("Alert with uuid " + alert.uuid + " was inactivated");</Script>
+						</Case>
+						<Case condition="alert.status == 2">
+							<ClosedAlertLog sequence="05" defaultMode="test" testFileName="UseCase1-ClosedAlert">
+								<Channel id="47248808-81bd-4142-ac8e-96441cf66357" />
+							</ClosedAlertLog>
+							<Script sequence="10">System.out.println("Alert with uuid " + alert.uuid + " was closed");</Script>
+						</Case>
+					</Switch>
+				</OnStatusChangeActions>
+				<OnJournalEntryActions>
+					<Script sequence="30">
+						System.out.println("I was here on clock channel test on the Journal Entry Actions!!");
+						System.out.println("Type: " + journal.type);
+						System.out.println("Principal: " + journal.principal);
+					</Script>
+				</OnJournalEntryActions>
+			</Actions>
+		</AlertSettings>
+	</Rule>
+</Flows>

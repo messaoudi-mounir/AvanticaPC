@@ -1,0 +1,48 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+    attributeFormDefault="unqualified" elementFormDefault="qualified">  
+    <xs:include schemaLocation="baseService.xsd"/>
+    <xs:complexType name="petroVaultPrincipalService">
+        <xs:annotation>
+            <xs:documentation>
+                A service to handle principal (user/group) in PetroVault.
+                Can do resolution of id to principal
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="Connection" type="httpClientConnection" minOccurs="1" maxOccurs="1"/>
+          <xs:element name="CacheOption" type="cacheOptions" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attributeGroup ref="attgrp_commonServiceAttribute"/>
+    </xs:complexType>
+    <xs:complexType name="petroVaultMbeOrchestrationService">
+        <xs:annotation>
+            <xs:documentation>
+                A service to handle MBE Orchestration
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="Connection" type="httpClientConnection" minOccurs="1" maxOccurs="1"/>
+          <xs:element name="CacheOption" type="cacheOptions" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attributeGroup ref="attgrp_commonServiceAttribute"/>
+    </xs:complexType>
+    <xs:complexType name="petroVaultResourceService">
+        <xs:annotation>
+            <xs:documentation>
+                A service to handle resource in PetroVault.
+            </xs:documentation>
+        </xs:annotation>
+        <xs:sequence>
+          <xs:element name="Connection" type="httpClientConnection" minOccurs="1" maxOccurs="1"/>
+          <xs:element name="CacheOption" type="cacheOptions" minOccurs="0" maxOccurs="1"/>
+        </xs:sequence>
+        <xs:attributeGroup ref="attgrp_commonServiceAttribute"/>
+    </xs:complexType>
+	<xs:complexType name="service_ChronosClientService">
+		<xs:all>
+          <xs:element name="Connection" type="httpClientConnection" minOccurs="1" maxOccurs="1"/>
+		</xs:all>
+		<xs:attributeGroup ref="attgrp_commonServiceAttribute"/>
+	</xs:complexType>
+</xs:schema>

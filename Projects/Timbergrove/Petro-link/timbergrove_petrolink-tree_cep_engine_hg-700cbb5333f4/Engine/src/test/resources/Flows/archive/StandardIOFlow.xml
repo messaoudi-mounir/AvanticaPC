@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../../main/resources/xsd/flows.xsd"
+	   >
+    <ActionsFlow name="StandardIOFlow" load="true">
+        <Actions>
+            <Script sequence="10">
+			    
+				Object eventContent =  event.getContent();
+				System.out.println("Flow: StandardIOFlow " );
+				if(eventContent != null )
+				{
+				    if((eventContent instanceof com.petrolink.mbe.model.operation.DataPointsAppended))
+				    {
+				    	com.petrolink.mbe.model.operation.DataPointsAppended newInput = (com.petrolink.mbe.model.operation.DataPointsAppended)eventContent;
+						foreach(channel: newInput.getAllChannelData())
+						{
+							com.petrolink.mbe.model.channel.DataPoint lkv = channel.getLastDataPoint();
+							System.out.println("Channel:"+channel.getChannelId());
+							System.out.println("Index:"+lkv.getIndex());
+							System.out.println("Value:"+lkv.getValue());
+						}
+				    }
+				    else
+				    {
+				    	System.out.println("Ignored Update");
+				    }
+			    }
+			    else
+			    {
+			    	System.out.println("Event Source: " +event.source);
+			    	System.out.println("Content Type: " +event.contentType);
+			    	System.out.println("Properties: " +event.properties);
+			    	System.out.println("Event has no content: " +event);
+			    }
+			</Script>
+        </Actions>
+    </ActionsFlow>
+</Flows>

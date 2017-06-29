@@ -1,0 +1,11 @@
+{
+	"type": "enum",
+	"namespace": "Petrolink.WITSML.Datatypes",
+	"name": "ChannelIndexDirection",
+	"symbols":
+	[
+		"Decreasing",
+		"Increasing",
+		"Unknown"
+	]
+}

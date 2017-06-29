@@ -1,0 +1,273 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified"
+	targetNamespace="http://www.petrolink.com/mbe/rules" xmlns:rul="http://www.petrolink.com/mbe/rules">
+	<xs:include schemaLocation="definitions.xsd" />
+	<xs:include schemaLocation="actions.xsd" />
+	<xs:complexType name="type_dependencies">
+		<xs:choice>
+			<xs:element type="rul:type_channel" name="Channel"
+				maxOccurs="unbounded" minOccurs="0" />
+			<xs:element type="rul:type_alertClass" name="AlertClass"
+				maxOccurs="unbounded" minOccurs="0" />
+		</xs:choice>
+		<xs:attribute type="xs:string" name="defaultType" />
+	</xs:complexType>
+	<xs:complexType name="type_baseVariable" mixed="true">
+		<xs:attribute type="xs:string" name="alias" use="required" />
+		<xs:attribute type="xs:int" name="sequence" use="required">
+			<xs:annotation>
+				<xs:documentation>The sequence of variables. It is required
+					especially for scripted type where order may change value.
+				</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute type="rul:type_variableScope" name="scope"
+			use="optional" />
+		<xs:attribute name="valueUnit" type="xs:string" use="optional" />
+		<xs:attribute name="indexUnit" type="xs:string" use="optional" />
+	</xs:complexType>
+	<xs:complexType name="type_lookupVariable" mixed="true">
+		<xs:complexContent>
+			<xs:extension base="rul:type_baseVariable">
+				<xs:sequence>
+					<xs:element type="rul:ParamType" name="Param" />
+				</xs:sequence>
+				<xs:attribute type="xs:string" name="type" />
+				<xs:attribute type="xs:string" name="uuid" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="type_staticVariable" mixed="true">
+		<xs:complexContent>
+			<xs:extension xmlns:rul="http://www.petrolink.com/mbe/rules"
+				base="rul:type_baseVariable">
+				<xs:attribute name="type">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="string" />
+							<xs:enumeration value="integer" />
+							<xs:enumeration value="long" />
+							<xs:enumeration value="float" />
+							<xs:enumeration value="double" />
+							<xs:enumeration value="boolean" />
+							<xs:enumeration value="date" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="type_variables">
+		<xs:choice maxOccurs="unbounded">
+			<xs:element type="rul:type_lookupVariable" name="Lookup"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xs:element type="rul:type_staticVariable" name="Static"
+				minOccurs="0" maxOccurs="unbounded" />
+			<xs:element type="rul:type_baseVariable" name="Scripted"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xs:choice>
+	</xs:complexType>
+	<xs:complexType name="type_filteringCondition">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute type="xs:boolean" name="validateDependecyAvailability" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="flow_ProcessRule">
+		<xs:complexContent>
+			<xs:extension base="rul:flow_BaseFlow">
+				<xs:sequence>
+					<xs:element type="rul:type_properties" name="Properties"
+						minOccurs="0" maxOccurs="1" />
+					<xs:element type="rul:type_dependencies" name="Dependencies" />
+					<xs:element type="rul:type_variables" name="Variables" />
+					<xs:element type="rul:type_filteringCondition" name="FilteringCondition" />
+					<xs:element type="xs:string" name="Condition" />
+					<xs:element type="rul:type_actions" name="RuleActions">
+						<xs:annotation>
+							<xs:documentation> Clear Rule base cache action should be here
+							</xs:documentation>
+						</xs:annotation>
+					</xs:element>
+					<xs:element xmlns:rul="http://www.petrolink.com/mbe/rules"
+						type="rul:AlertSettingsType" name="AlertSettings" />
+				</xs:sequence>
+				<xs:attribute type="xs:string" name="uuid">
+					<xs:annotation>
+						<xs:documentation>The id of flow in MBE engine. Should be
+							generated like {Rule_ID}_Test or something.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute type="xs:string" name="wellId">
+					<xs:annotation>
+						<xs:documentation>The Well Resource id (in graph NOT Witsml's Well ID). Required as this is partitioner in the Engine.</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute type="xs:string" name="wellboreId">
+					<xs:annotation>
+						<xs:documentation>The Wellbore Resource id (in graph NOT Witsml's Well ID).</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute type="xs:string" name="wellName" use="optional" />
+				<xs:attribute type="xs:string" name="ruleId" use="optional">
+					<xs:annotation>
+						<xs:documentation>The id of flow in Orchestration, which is the
+							master rule. This is needed as a single Rule may have multiple
+							RuleFlow.
+						</xs:documentation>
+					</xs:annotation>
+				</xs:attribute>
+				<xs:attribute type="xs:string" name="ruleName" use="optional" />
+				<xs:attribute type="xs:string" name="rigName" use="optional" />
+				<xs:attribute name="evaluationStrategy">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="LastKnownValue" />
+							<xs:enumeration value="RuleLevelCache" />
+							<xs:enumeration value="IndexAlignment" />
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+				<xs:attribute type="xs:dateTime" name="expireAt" use="optional" />
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	<xs:complexType name="ParamType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute type="xs:string" name="id" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="ProcessingLogicType">
+		<xs:sequence>
+			<xs:element type="rul:type_globalChannel" name="Channel" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element name="DeduplicationScript" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="xs:string">
+								<xs:attribute type="xs:boolean" name="executeDefault"></xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>						
+			</xs:element>
+		</xs:sequence>
+		<xs:attribute type="xs:string" name="type" use="required"/>
+		<xs:attribute type="xs:string" name="resourceGroup" use="optional" />
+	</xs:complexType>
+	<xs:complexType name="DescriptionType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute type="xs:string" name="source" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="DyamicContentType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute type="xs:string" name="contentType" />
+				<xs:attribute name="source">
+					<xs:simpleType>
+						<xs:restriction base="xs:string">
+							<xs:enumeration value="context"/>
+							<xs:enumeration value="scripted"/>
+							<xs:enumeration value="templated"/>
+							<xs:enumeration value="static"/>
+						</xs:restriction>
+					</xs:simpleType>
+				</xs:attribute>
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="TemplateType">
+		<xs:sequence>
+			<xs:element type="xs:string" name="Domain" />
+			<xs:element type="xs:string" name="Classification" />
+			<xs:element type="xs:int" name="Severity" />
+			<xs:element type="xs:int" name="Priority" />
+			<xs:element xmlns:rul="http://www.petrolink.com/mbe/rules"
+				type="rul:DescriptionType" name="Description" />
+			<xs:element xmlns:rul="http://www.petrolink.com/mbe/rules"
+				type="rul:DyamicContentType" name="Details" />
+			<xs:element xmlns:rul="http://www.petrolink.com/mbe/rules" name="Metadata" minOccurs="0" maxOccurs="1">
+				<xs:complexType>
+					<xs:simpleContent>
+						<xs:extension base="rul:DyamicContentType">
+							<xs:attribute type="xs:boolean" name="includeRuleProperties"></xs:attribute>
+						</xs:extension>
+					</xs:simpleContent>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="AutoAlertDismissalType">	
+		<xs:choice minOccurs="1" maxOccurs="unbounded">
+			<xs:element type="rul:duration" name="EventToProcessingDeltaTime" minOccurs="0" maxOccurs="1">
+				<xs:annotation>
+					<xs:documentation>Duration compared to processing time where an alert's event should be dismissed automatically
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+		</xs:choice>
+	</xs:complexType>
+	
+	<xs:complexType name="ActionsType">
+		<xs:choice minOccurs="1" maxOccurs="unbounded">
+			<xs:element name="OnCreateActions"
+				minOccurs="0" maxOccurs="1" >
+				<xs:complexType>
+					<xs:complexContent>
+						<xs:extension base="rul:type_actions">
+							<xs:attribute name="delay" type="xs:long"/>
+						</xs:extension>
+					</xs:complexContent>
+				</xs:complexType>
+			</xs:element>
+			<xs:element type="rul:type_actions" name="OnUpdateActions"
+				minOccurs="0" maxOccurs="1" />
+			<xs:element type="rul:type_actions" name="OnCommentActions"
+				minOccurs="0" maxOccurs="1" />
+			<xs:element type="rul:type_actions" name="OnAcknowledgeActions"
+				minOccurs="0" maxOccurs="1" />
+			<xs:element type="rul:type_actions" name="OnSnoozeActions"
+				minOccurs="0" maxOccurs="1" />
+			<xs:element type="rul:type_actions" name="OnUnSnoozeActions"
+				minOccurs="0" maxOccurs="1" />
+			<xs:element type="rul:type_actions" name="OnStatusChangeActions"
+				minOccurs="0" maxOccurs="1" />
+			<xs:element type="rul:type_actions" name="OnJournalEntryActions"
+				minOccurs="0" maxOccurs="1" />
+		</xs:choice>
+	</xs:complexType>
+	
+	
+	<xs:complexType name="AlertSettingsType">
+		<xs:sequence>
+			<xs:element xmlns:rul="http://www.petrolink.com/mbe/rules"
+				type="rul:ProcessingLogicType" name="ProcessingLogic">
+				<xs:annotation>
+					<xs:documentation> Processing logic for the Alert
+						Pluggable alert
+						processing logic is supported
+						Default processing logic types
+						include:
+						- Default Auto Clear
+						- Default No-Auto Clear
+						- Clear
+						- Script
+						(Script Text in the ProcessingLogic Tag)
+					</xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element type="rul:TemplateType" name="Template" />
+			<xs:element type="rul:AutoAlertDismissalType" name="AutoDismiss" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="rul:ActionsType" name="Actions" />
+		</xs:sequence>
+		<xs:attribute type="xs:string" name="className" use="required" />
+		<xs:attribute type="xs:string" name="class" use="required" />
+	</xs:complexType>
+</xs:schema>

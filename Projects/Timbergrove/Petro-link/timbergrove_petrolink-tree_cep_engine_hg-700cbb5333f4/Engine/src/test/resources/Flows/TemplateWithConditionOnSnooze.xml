@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../../main/resources/xsd/flows.xsd">
+	<Rule
+		name="Triangle wave is less than 20_43c56eda-12bd-4dd8-af74-e310edf88a71"
+		uuid="43c56eda-12bd-4dd8-af74-e310edf88a71" wellId="e93b6a61-85a1-45be-8f53-8e5802bcbcad"
+		wellboreId="d712c504-bdc7-4320-aa56-94b68cca12a8" wellName="Synthetic_Data"
+		ruleId="43c56eda-12bd-4dd8-af74-e310edf88a71" ruleName="Triangle wave is less than 20"
+		evaluationStrategy="IndexAlignment">
+		<Dependencies defaultType="buffered">
+			<Channel alias="triangle_wave_corrected" type="buffered"
+				indexType="datetime" scope="condition" indexUnit="" gap="0"
+				id="5701c1cc-fa92-4b44-b680-eac140d2c63a" sequence="10" />
+		</Dependencies>
+		<Variables />
+		<FilteringCondition />
+		<Condition><![CDATA[triangle_wave_corrected < 20]]></Condition>
+		<RuleActions>
+			<EvaluationLog sequence="20"
+				name="587eaab9-ac5f-43e6-8bc3-03e37417aa29">
+				<Channel id="587eaab9-ac5f-43e6-8bc3-03e37417aa29" />
+			</EvaluationLog>
+		</RuleActions>
+		<AlertSettings className="Triangle wave is less than 20"
+			class="43c56eda-12bd-4dd8-af74-e310edf88a71">
+			<ProcessingLogic type="PetrolinkAutoClear">
+				<!-- Alert channels type is by default as globalbuffered and 
+					used as Last Known Value previous to the  
+					alert primary Index. Alternatively they can be last known value
+				 -->
+				<Channel alias="bitDepth" type="globalbuffered"
+					id="aa76b54d-c963-4818-a69b-174352c9edf0" gap="750"></Channel>
+				<Channel alias="holeDepth" type="globalbuffered"
+					id="3af0b7cf-6c6a-4c95-8d17-1a770581eceb" gap="750"></Channel>
+				<Channel alias="rigState" type="globalbuffered"
+					id="a140c139-fb6c-4828-ab74-2c6d14641e86" gap="750"></Channel>
+				<Channel alias="sampleCurve" type="globalbuffered"
+					id="c08532c4-65e7-463e-ba6e-20d35e43ba8b" gap="750"></Channel>
+			</ProcessingLogic>
+			<Template>
+				<Domain>Production</Domain>
+				<Classification>NPT Avoidance</Classification>
+				<Severity>2</Severity>
+				<Priority>2</Priority>
+				<Description source="templated">${$triangle_wave_corrected.value}</Description>
+				<Details contentType="json" source="context" />
+				<Metadata></Metadata>
+			</Template>
+			<Actions>
+				<OnCreateActions>
+					<!-- On Create Actions are not executed if the new Alert is already snoozed (meaning the Alert Class for the Well 
+					is Snoozed. These actions will be invoked if the alert is still active and the Class/Well is Un Snoozed  -->
+					<SendUINotification sequence="30">
+						<User id="a00fe916-14de-495f-a86b-dcacb3d6c9f5" />
+						<User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+						<InlineTemplate>
+							<Title>Triangle wave is less than 20</Title>
+							<Body>${$triangle_wave_corrected.value}</Body>
+						</InlineTemplate>
+					</SendUINotification>
+				</OnCreateActions>
+				<OnUpdateActions />
+				<OnCommentActions>
+					<Switch sequence="10">
+						<Case condition="alert.snoozed == false">
+							<SendUINotification sequence="40">
+								<User id="a00fe916-14de-495f-a86b-dcacb3d6c9f5" />
+								<User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+								<InlineTemplate>
+									<Title>Triangle wave is less than 20</Title>
+									<Body>${$triangle_wave_corrected.value}</Body>
+								</InlineTemplate>
+							</SendUINotification>
+						</Case>
+					</Switch>
+				</OnCommentActions>
+				<OnAcknowledgeActions>
+					<Switch sequence="10">
+						<Case condition="alert.snoozed == false">
+							<SendUINotification sequence="50">
+								<User id="a00fe916-14de-495f-a86b-dcacb3d6c9f5" />
+								<User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+								<InlineTemplate>
+									<Title>Triangle wave is less than 20</Title>
+									<Body>${$triangle_wave_corrected.value}</Body>
+								</InlineTemplate>
+							</SendUINotification>
+						</Case>
+					</Switch>
+				</OnAcknowledgeActions>
+				<OnStatusChangeActions>
+					<Switch sequence="10">
+						<Case condition="alert.snoozed == false">
+							<SendUINotification sequence="60">
+								<User id="a00fe916-14de-495f-a86b-dcacb3d6c9f5" />
+								<User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+								<InlineTemplate>
+									<Title>Triangle wave is less than 20</Title>
+									<Body>${$triangle_wave_corrected.value}</Body>
+								</InlineTemplate>
+							</SendUINotification>
+						</Case>
+					</Switch>
+					<Switch sequence="70">
+						<!-- ACTIVE = 0, INACTIVE = 1, CLOSED = 2 -->
+						<Case condition="alert.status == 2">
+							<ClosedAlertLog sequence="80">
+								<Channel id="a1fea25e-b670-4a70-81dd-a4e1c3caf0a2" />
+							</ClosedAlertLog>
+						</Case>
+					</Switch>
+				</OnStatusChangeActions>
+				<OnJournalEntryActions>
+					<Switch sequence="90">
+						<Case condition="journal.type != &quot;alertchange&quot;">
+							<EventLog sequence="100">
+								<Channel id="2f5378e8-d5d3-49c5-a61b-9302efa53fbc" />
+								<Channel id="792bf488-f67b-4fd9-84a9-769061a71bd2" />
+							</EventLog>
+						</Case>
+					</Switch>
+				</OnJournalEntryActions>
+				<OnSnoozeActions>
+					<!-- Include here actions to be executed when the alert is Snoozed -->
+				</OnSnoozeActions>
+				<OnUnSnoozeActions>
+					<!-- Include here actions to be executed when the alert is Un Snoozed -->				
+				</OnUnSnoozeActions>
+			</Actions>
+		</AlertSettings>
+	</Rule>
+</Flows>

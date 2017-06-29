@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified"
+	targetNamespace="http://www.petrolink.com/mbe/rules"
+	xmlns:rul="http://www.petrolink.com/mbe/rules"
+	>
+	<xs:include schemaLocation="flows/definitions.xsd" />
+	<xs:include schemaLocation="flows/mailTemplate.xsd" />
+	<xs:include schemaLocation="flows/smsTemplate.xsd" />
+	<xs:include schemaLocation="flows/uiNotificationTemplate.xsd" />
+  	
+	<xs:complexType name="type_Templates">
+		<xs:choice minOccurs="0" maxOccurs="unbounded">
+			<xs:element type="rul:type_templateSMS" name="SMSTemplate" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element type="rul:type_templateEmail" name="MailTemplate" minOccurs="0" maxOccurs="unbounded"/>
+			<xs:element type="rul:type_templateUiNotification" name="UINotificationTemplate" minOccurs="0" maxOccurs="unbounded"/>
+		</xs:choice>
+	</xs:complexType>
+	
+	<xs:complexType name="type_TemplatesUUIDList">
+        <xs:choice>
+            <xs:element type="rul:type_UUID" name="UUID" minOccurs="0" maxOccurs="unbounded"/>
+        </xs:choice>
+    </xs:complexType>
+	
+	<xs:element name="Templates" type="rul:type_Templates"/>   
+	
+ 	<xs:element name="TemplatesDelete" type="rul:type_TemplatesUUIDList"/>	
+ 	<xs:element name="TemplatesGetAll" type="xs:anySimpleType"/>	
+ 	<xs:element name="TemplatesGet" type="rul:type_TemplatesUUIDList"/>	
+	
+</xs:schema>

@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.petrolink.com/mbe/alertstatus/list">
+  <xs:include schemaLocation="alert.xsd"/>
+  
+   <xs:complexType name="type_AlertError">
+    <xs:simpleContent>
+     <xs:extension base="xs:string">
+    	<xs:attribute type="xs:string" name="code" use="optional"/>
+	</xs:extension>
+	</xs:simpleContent>
+  </xs:complexType>
+  
+  <xs:complexType name="type_AlertCount">
+  	<xs:simpleContent>
+  		<xs:extension base="xs:int">
+  			<xs:attribute name="classId" use="optional" />
+  		</xs:extension>
+  	</xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="AlertStatusResponseType">
+    <xs:choice minOccurs="0" maxOccurs="unbounded">
+      <xs:element type="alertlist:type_Alert" name="Alert" maxOccurs="unbounded" minOccurs="0" xmlns:alertlist="http://www.petrolink.com/mbe/alertstatus/list"/>
+      <xs:element type="alertlist:type_AlertError" name="AlertError" maxOccurs="unbounded" minOccurs="0" xmlns:alertlist="http://www.petrolink.com/mbe/alertstatus/list"/>
+	  <xs:element type="alertlist:type_SnoozeRecord" name="SnoozeRecord" maxOccurs="unbounded" minOccurs="0" xmlns:alertlist="http://www.petrolink.com/mbe/alertstatus/list"/>
+      <xs:element type="alertlist:type_AlertCount" name="AlertCount" maxOccurs="unbounded" minOccurs="0" xmlns:alertlist="http://www.petrolink.com/mbe/alertstatus/list"/>
+    </xs:choice>
+  </xs:complexType>
+  <xs:element name="AlertStatusResponse" type="alertlist:AlertStatusResponseType" xmlns:alertlist="http://www.petrolink.com/mbe/alertstatus/list"/>
+</xs:schema>

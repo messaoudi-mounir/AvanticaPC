@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules" 
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../../main/resources/xsd/flows.xsd">
+	<Rule uuid="c1dea7e0-7510-11e6-bdf4-0800200c9a66UseCase5" wellId="81549d90-7a99-11e6-bdf4-0800200c9a66"
+		evaluationStrategy="LastKnownValue" expireAt="2016-12-30T09:00:00">
+		<Dependencies defaultType="LastKnownValue">
+			<Channel alias="rop" scope="condition" gap="10" id="5037f119-2d45-4106-a3c7-2fed671c1dcc"/>
+			<Channel alias="rop" scope="condition" startIndex="0" endIndex="1500" gap="20" id="5037f119-2d45-4106-a3c7-2fed671c1dcc"/>
+		</Dependencies>
+		<Variables>
+			<Static alias="DRILLING" type="integer" scope="global" sequence="10">3</Static>
+		</Variables>
+		<FilteringCondition></FilteringCondition>
+		<Condition><![CDATA[
+		(rop>15)
+		]]>
+		</Condition>
+		<RuleActions>
+			<EvaluationLog sequence="10" name="action1" defaultMode="test" testFileName="UseCase0-EVLog">
+				<Channel id="aa76b54d-c963-4818-a69b-174352c9edf0"/>
+			</EvaluationLog>
+			<Script sequence="20">
+				System.out.println("Use Case 0 Evaluation result was " + result + " at index " + index);
+				System.out.println($rop.value);
+			</Script>
+		</RuleActions>
+		<AlertSettings class="c1dea7e0-7510-11e6-bdf4-0800200c9a66" className="c1dea7e0-7510-11e6-bdf4-0800200c9a66UseCase0">
+			<ProcessingLogic type="PetrolinkAutoClear"></ProcessingLogic>
+			<Template>
+				<Domain>Y</Domain>
+				<Classification>ClassMajor</Classification>
+				<Severity>5</Severity>
+				<Priority>3</Priority>
+				<Description source="static">ROP is too High</Description>
+				<Details contentType="json" source="context"></Details>
+			</Template>
+			<Actions>
+				<OnCreateActions>
+<!-- 			    	  <SendSMSNotification sequence="20" template="ea3ae2bc-dd6d-4a9f-89af-4a9a0dc86327"> -->
+<!-- 				        <To>12821812, 86279043</To> -->
+<!-- 				        <Message><![CDATA[${opening},<br/> -->
+<!-- 					            <br/> -->
+<!-- 					            <p> -->
+<!-- 					            This sms came from MBESMSFlow. -->
+<!-- 					            The parameters are : -->
+<!-- 					            </p> -->
+<!-- 					            <p> -->
+<!-- 						            P1 = ${p1} <br/>  -->
+<!-- 						            P2 = ${p2} <br/> -->
+<!-- 					            </p> -->
+<!-- 					            <p> -->
+<!-- 						            If variables are missing, for example, you can do like<br/> -->
+<!-- 						            P3 = ${p3} <br/> -->
+<!-- 						            P3 = ${p3! "Unknown value"} <br/> -->
+<!-- 					            </p> -->
+<!-- 					            <p> -->
+<!-- 						            Others<br/> -->
+<!-- 						            P3 = ${details! "No Details"} <br/> -->
+<!-- 						            P3 = ${alert! "No Alert"} <br/> -->
+<!-- 					            </p> -->
+<!-- 					            ${closing}]]></Message> -->
+<!-- 				        <Subject>SMS test</Subject> -->
+<!-- 				      </SendSMSNotification> -->
+				</OnCreateActions>
+
+				<OnUpdateActions />
+
+				<OnCommentActions />
+
+				<OnAcknowledgeActions />
+
+				<OnStatusChangeActions />
+			</Actions>
+		</AlertSettings>
+	</Rule>
+</Flows>

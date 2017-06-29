@@ -1,0 +1,23 @@
+Label,# Samples,Average,Median,90% Line,95% Line,99% Line,Min,Max,Error %,Throughput,Received KB/sec,Sent KB/sec
+01 - frmIngresoUsuarios.aspx,10,28,24,37,37,41,20,41,0.000%,.03700,0.12,0.02
+02 - frmGeneral.aspx/ObtenerMensajes,10,51,31,39,39,231,24,231,0.000%,.03701,0.97,0.02
+03 - frmIngresoUsuarios.aspx/ValidarUsuario,10,234,201,281,281,383,175,383,0.000%,.03686,0.02,0.02
+04 - frmIngresoUsuarios.aspx/ValidarContrasena,10,796,743,959,959,1053,612,1053,0.000%,.03666,0.02,0.02
+05 - frmIngresoUsuarios.aspx,10,35,31,50,50,68,21,68,0.000%,.03707,0.02,0.02
+06 - frmSeleccionNegocioCorresponsal.aspx,10,980,963,1115,1115,1194,806,1194,0.000%,.03700,0.02,0.03
+07 - frmInicio.aspx,10,418,402,494,494,517,315,517,0.000%,.03710,0.55,0.02
+08 - frmGeneral.aspx/ObtenerMensajes,10,64,35,73,73,295,25,295,0.000%,.03745,0.98,0.02
+09 - frmGeneral.aspx/ObtenerMenu,10,478,379,782,782,834,282,834,0.000%,.03762,2.79,0.02
+10 - frmGeneral.aspx/ObtenerMenuPagoServicios,10,420,382,520,520,594,337,594,0.000%,.03795,2.40,0.03
+11 - frmGeneral.aspx/RedireccionaMenu,10,314,294,353,353,453,225,453,0.000%,.03845,0.02,0.03
+12 - frmInicio.aspx,10,97,68,165,165,171,58,171,0.000%,.03825,0.03,0.02
+13 - frmPagoTarjetas.aspx,10,1802,1763,1984,1984,1999,1660,1999,0.000%,.03753,0.74,0.02
+14 - frmGeneral.aspx/ObtenerMensajes,10,101,42,252,252,255,20,255,0.000%,.03779,0.99,0.02
+15 - frmGeneral.aspx/ObtenerMenu,10,580,462,676,676,1559,284,1559,0.000%,.03780,2.80,0.03
+16 - frmPagoTarjetas.aspx/ObtenerListaTarjetas,10,1126,1101,1402,1402,1430,904,1430,0.000%,.03746,0.09,0.03
+17 - frmPagoTarjetas.aspx/ObtenerDetalleTarjeta,10,1015,921,1084,1084,1813,790,1813,0.000%,.03717,0.02,0.03
+18 - frmPagoTarjetas.aspx/ValidarPagoTarjeta,10,1556,1418,1992,1992,2137,1278,2137,0.000%,.03729,0.03,0.03
+19 - frmGeneral.aspx/CerrarSesion,10,104,90,163,163,170,70,170,0.000%,.03693,0.01,0.03
+20 - frmIngresoUsuarios.aspx,10,27,22,31,31,75,13,75,0.000%,.03753,0.12,0.02
+21 - frmGeneral.aspx/ObtenerMensajes,10,57,36,57,57,253,20,253,0.000%,.03730,0.98,0.02
+TOTAL,210,490,294,1321,1685,1992,13,2137,0.000%,.62689,10.89,0.42

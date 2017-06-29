@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules">
+  <Rule name="Use Case 2-3_f76facbe-19ad-4ba9-a54d-2b52e2a9ae7f" uuid="f76facbe-19ad-4ba9-a54d-2b52e2a9ae7f" wellId="2702072d-36ea-4745-a753-8cfca6b685e0" wellboreId="3a44c33f-f0c1-4e52-84f1-705b543a8bf6" wellName="Use_Case_Testing" ruleId="f76facbe-19ad-4ba9-a54d-2b52e2a9ae7f" ruleName="Use Case 2-3" evaluationStrategy="IndexAlignment">
+    <Dependencies defaultType="buffered">
+      <Channel alias="modelROP" type="buffered" indexType="datetime" scope="condition" indexUnit="" gap="5" id="2dc594ba-3cf4-4403-ba16-3418e08977e1" sequence="10" />
+      <Channel alias="rigstate" type="buffered" indexType="datetime" scope="filtering" indexUnit="" gap="5" id="878e5792-8eeb-480d-b946-f00af5f623a2" sequence="20">
+        <ValueNames rigStateSource="04632de0-1d70-4174-b7cd-68237d487d99" />
+      </Channel>
+      <Channel alias="ROP" type="buffered" indexType="datetime" scope="condition" indexUnit="" gap="5" id="1d11563c-2cea-47a1-b12e-54e36edf60c8" sequence="30" />
+    </Dependencies>
+    <Variables>
+      <Static alias="DRILLING" scope="filtering" sequence="40">3</Static>
+    </Variables>
+    <FilteringCondition>rigstate == DRILLING</FilteringCondition>
+    <Condition><![CDATA[ROP > modelROP]]></Condition>
+    <RuleActions>
+      <EvaluationLog sequence="10" name="f1235f06-383b-466e-aa7c-3a9f6f0274b2">
+        <Channel id="f1235f06-383b-466e-aa7c-3a9f6f0274b2" />
+      </EvaluationLog>
+    </RuleActions>
+    <AlertSettings className="Use Case 2-3" class="f76facbe-19ad-4ba9-a54d-2b52e2a9ae7f">
+      <ProcessingLogic type="PetrolinkAutoClear">
+        <Channel alias="rigstate" type="globalbuffered" indexType="datetime" scope="globalreference" indexUnit="" gap="0" id="878e5792-8eeb-480d-b946-f00af5f623a2" sequence="50" />
+      </ProcessingLogic>
+      <Template>
+        <Domain>Production</Domain>
+        <Classification>Drilling Optimization</Classification>
+        <Severity>1</Severity>
+        <Priority>1</Priority>
+        <Description source="static">${ROP.value} ${ROP.valueUnit}</Description>
+        <Details contentType="json" source="context" />
+      </Template>
+      <Actions>
+        <OnCreateActions>
+          <SendUINotification sequence="60">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <User id="09ee0a12-5e02-4c63-8080-eda9084e9903" />
+            <InlineTemplate>
+              <Title>Use Case 2-3</Title>
+              <Body>${ROP.value} ${ROP.valueUnit}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnCreateActions>
+        <OnUpdateActions />
+        <OnCommentActions>
+          <SendUINotification sequence="70">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <User id="09ee0a12-5e02-4c63-8080-eda9084e9903" />
+            <InlineTemplate>
+              <Title>Use Case 2-3</Title>
+              <Body>${ROP.value} ${ROP.valueUnit}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnCommentActions>
+        <OnAcknowledgeActions>
+          <SendUINotification sequence="80">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <User id="09ee0a12-5e02-4c63-8080-eda9084e9903" />
+            <InlineTemplate>
+              <Title>Use Case 2-3</Title>
+              <Body>${ROP.value} ${ROP.valueUnit}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnAcknowledgeActions>
+        <OnStatusChangeActions>
+          <SendUINotification sequence="90">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <User id="09ee0a12-5e02-4c63-8080-eda9084e9903" />
+            <InlineTemplate>
+              <Title>Use Case 2-3</Title>
+              <Body>${ROP.value} ${ROP.valueUnit}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+          <Switch sequence="100">
+            <!-- ACTIVE = 0, INACTIVE = 1, CLOSED = 2 -->
+            <Case condition="alert.status == 2">
+              <ClosedAlertLog sequence="110">
+                <Channel id="73bbc054-3fd1-4d53-8451-5a4bd6eafaed" />
+              </ClosedAlertLog>
+            </Case>
+          </Switch>
+        </OnStatusChangeActions>
+        <OnJournalEntryActions>
+          <EventLog sequence="120">
+            <Channel id="d47c70d4-f64e-4f70-9dd6-f378c5eda2c1" />
+          </EventLog>
+        </OnJournalEntryActions>
+      </Actions>
+    </AlertSettings>
+  </Rule>
+</Flows>

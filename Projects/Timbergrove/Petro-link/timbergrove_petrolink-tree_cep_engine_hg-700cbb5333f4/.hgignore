@@ -1,0 +1,16 @@
+# use glob syntax.
+syntax: glob
+*.class
+*.orig
+
+
+# use regexp syntax.
+Engine/runtime/log/
+Engine/runtime/h2/
+Engine/runtime/wells/
+Engine/src/test/resources/logs/
+syntax: regexp
+^[a-zA-Z\. ]+/[Tt]arget/
+^\.[Ss]ettings/
+^Other/
+

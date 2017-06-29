@@ -1,0 +1,11 @@
+<AlertStatusRequest xmlns="http://www.petrolink.com/mbe/alertstatus"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/alertstatus AlertStatusRequest.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Action>ACKNOWLEDGE</Action>
+	<!-- One or multiple UUIDs can be included at once -->
+	<UUID>e6c5ea19-11a1-4218-ae16-b6a8ac2a0ee9</UUID>
+	<UUID>e025726e-9b42-409a-bf6a-bddf757cf3cb</UUID>
+	<UUID>8a10b49b-c8ee-42d3-ad75-24650da8ce5d</UUID>
+	<By>Paul Solano</By>
+	<Timestamp>2016-11-09T23:42:57.9855650Z</Timestamp>
+</AlertStatusRequest>

@@ -1,0 +1,10 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.WITSML.Events",	
+	"name": "ChannelDataAppended",
+	
+	"fields":
+	[
+		{ "name": "data", "type": { "type": "array", "items": "Petrolink.WITSML.Datatypes.ChannelDataItem" } }
+	]
+}

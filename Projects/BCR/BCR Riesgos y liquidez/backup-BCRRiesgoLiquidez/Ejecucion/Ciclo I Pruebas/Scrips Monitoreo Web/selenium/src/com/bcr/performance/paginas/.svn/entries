@@ -1,0 +1,84 @@
+10
+
+dir
+0
+http://miravalles/DivisionQA/Performance%20Testing/Proyecto%2039%20-%20Performance%20Riesgo%20Liquidez/Ejecucion/Ciclo%20I%20Pruebas/Scrips%20Monitoreo%20Web/selenium/src/com/bcr/performance/paginas
+http://miravalles/DivisionQA
+add
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+04cf2c4b-6267-ad48-ab5a-9c31d3877c64
+
+PaginaSolicitud.java
+file
+
+
+
+add
+
+PaginaPrincipal.java
+file
+
+
+
+add
+
+Login.java
+file
+
+
+
+add
+
+PaginaBase.java
+file
+
+
+
+add
+
+PaginaTodasLasOrdenes.java
+file
+
+
+
+add
+
+PaginaTodosLosReportes.java
+file
+
+
+
+add
+
+PaginaBacktesting.java
+file
+
+
+
+add
+
+PaginaTodasLasPlantillas.java
+file
+
+
+
+add
+

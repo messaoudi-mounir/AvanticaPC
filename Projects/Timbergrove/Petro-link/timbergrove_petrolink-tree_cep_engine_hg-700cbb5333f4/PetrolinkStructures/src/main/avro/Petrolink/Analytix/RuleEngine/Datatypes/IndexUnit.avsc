@@ -1,0 +1,13 @@
+{
+	"type": "enum",
+	"namespace": "Petrolink.Analytix.RuleEngine.Datatypes",
+	"name": "IndexUnit",
+	"symbols":
+	[
+		"unitless",
+		"m",
+		"ft",
+		"s",
+		"UnixMilis"
+	]
+}

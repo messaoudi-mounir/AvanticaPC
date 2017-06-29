@@ -1,0 +1,6 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.Datatypes",	
+	"name": "DataValue",
+	"fields": [{"name": "item", "type": [ "string",  "bytes",  "long",  "double",  "boolean",  "Petrolink.Datatypes.UUID",  "Petrolink.Datatypes.DateTime", "Petrolink.Datatypes.ArrayOfDouble", "Petrolink.Datatypes.ArrayOfString"] }]
+}

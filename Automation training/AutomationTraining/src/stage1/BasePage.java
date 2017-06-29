@@ -15,35 +15,48 @@ public class BasePage {
 		this.driver = driver;		
 	}
 	
-	public boolean clickElement(By by){	
+	public boolean clickElement(WebElement element){	
 		try{
-			waitElementClickable(by);
-			driver.findElement(by).click();
+			waitElementClickable(element);
+			element.click();
 			return true;
 		}catch(Exception e){
 			return false;
 		}
 	}
 	
-	public boolean waitElementVisible (By by){
+	public boolean waitElementVisible (WebElement element){
 		try{
-			return wait.until(ExpectedConditions.visibilityOfElementLocated(by)) != null;			
+			wait.until(ExpectedConditions.visibilityOf(element));
+			return true;
 		}catch(Exception ex){
 			return false;
 		}					
 	}
 	
-	public boolean waitElementClickable(By by){
+	public boolean waitElementClickable(WebElement element){
 		try{
-		return wait.until(ExpectedConditions.elementToBeClickable(by)) != null;				
-		
+			wait.until(ExpectedConditions.elementToBeClickable(element));
+			return true;
 		}catch(Exception ex){
 			return false;
 		}
+		
+	}
+	
+	public boolean waitElementEnabled(String locator){
+		try{
+			wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(locator)));
+			return true;
+		}catch(Exception ex){
+			return false;
+		}
+		
 	}
 	
 	public WebElement findElementBy(By by){
 		try{
+		// Agregar una espera a que el elemento este presente en el html
 		return driver.findElement(by);				
 		
 		}catch(Exception ex){
@@ -53,23 +66,29 @@ public class BasePage {
 	
 	public boolean sendKeysBy(By by, String text){
 		try{
-			waitElementVisible(by);
+			waitElementVisible(by);	// aca seria solo enabled
 			driver.findElement(by).clear();
 			driver.findElement(by).sendKeys(text);
+			
 			return true;
 		}catch (Exception ex){
 			return false;
 		}
 	}
 	
+	// waitfortextonElement(webeleemt string txt)
+	// va a esperar hasta que el elemento tenga el texto
+	// element.getText().equals(txt);
+	
 	public String getTextBy(By by){
 		try{
+			// agregar espera por presente
 			return driver.findElement(by).getText();			
 		}catch (Exception ex){
 			return null;
 		}
 	}
-	
+
 	public String getAttributeBy(By by, String attribute){
 		try{
 			return driver.findElement(by).getAttribute(attribute);			
@@ -77,6 +96,4 @@ public class BasePage {
 			return null;
 		}
 	}
-	
-	
 }

@@ -1,0 +1,16 @@
+<AlertStatusResponse xmlns="http://www.petrolink.com/mbe/alertstatus/list">
+	<SnoozeRecord>
+		<ClassId>c1dea7e0-7510-11e6-bdf4-0800200c9a66</ClassId>
+		<Well>81549d90-7a99-11e6-bdf4-0800200c9a66</Well>
+		<SnoozedBy>John Doe</SnoozedBy>
+		<SnoozedAt>2016-11-10 23:42:57.985565</SnoozedAt>
+		<ExpireAt>2016-12-18 23:42:57.985565</ExpireAt>
+	</SnoozeRecord>
+	<SnoozeRecord>
+		<ClassId>b5e532f5-3fca-47fa-9abe-ed4c744a5fdf</ClassId>
+		<Well>81549d90-7a99-11e6-bdf4-0800200c9a66</Well>
+		<SnoozedBy>Andres</SnoozedBy>
+		<SnoozedAt>2016-11-15 23:42:57.985565</SnoozedAt>
+		<ExpireAt>2016-12-18 23:42:57.985565</ExpireAt>
+	</SnoozeRecord>
+</AlertStatusResponse>

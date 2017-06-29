@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules">
+  <Rule name="Sine is greater than 50_35d72cd1-8c29-475a-8778-148d5849b109" uuid="35d72cd1-8c29-475a-8778-148d5849b109" well="a60b7f12-1a6c-427f-b4cc-007996cde369" wellName="platform_mbe" ruleId="35d72cd1-8c29-475a-8778-148d5849b109" ruleName="Sine is greater than 50" evaluationStrategy="IndexAlignment">
+    <Dependencies defaultType="buffered">
+      <Channel alias="sine_wave_corrected" type="buffered" indexType="datetime" scope="condition" indexUnit="" gap="0" id="8212a6c6-eddd-49cc-8897-9cff3482f207" sequence="10" />
+    </Dependencies>
+    <Variables />
+    <FilteringCondition />
+    <Condition><![CDATA[sine_wave_corrected > 50]]></Condition>
+    <RuleActions>
+      <EvaluationLog sequence="10" name="3c880efa-7e91-4413-a004-ada2b910be79">
+        <Channel id="3c880efa-7e91-4413-a004-ada2b910be79" />
+      </EvaluationLog>
+    </RuleActions>
+    <AlertSettings className="Sine is greater than 50" class="35d72cd1-8c29-475a-8778-148d5849b109">
+      <ProcessingLogic type="PetrolinkAutoClear" />
+      <Template>
+        <Domain>Production</Domain>
+        <Classification>NPT Avoidance</Classification>
+        <Severity>1</Severity>
+        <Priority>1</Priority>
+        <Description source="static" />
+        <Details contentType="json" source="context" />
+        <Metadata contentType="json" source="script">
+        	json.put("createdByRule", rule.getId());
+        	json.put("wellId", rule.getWellId());
+        	json.put("wellName", WellDirectory.getWell(rule.getWellId()).getName());
+        </Metadata>
+      </Template>
+      <Actions>
+        <OnCreateActions>
+          <SendUINotification sequence="20">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <Group id="c76499fa-eb7d-4c68-8557-641b28cbca1e" />
+            <InlineTemplate>
+              <Title>Sine is greater than 50</Title>
+              <Body>Sine current value: ${sine_wave_corrected.value}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnCreateActions>
+        <OnUpdateActions />
+        <OnCommentActions>
+          <SendUINotification sequence="30">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <Group id="c76499fa-eb7d-4c68-8557-641b28cbca1e" />
+            <InlineTemplate>
+              <Title>Sine is greater than 50</Title>
+              <Body>Sine current value: ${sine_wave_corrected.value}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnCommentActions>
+        <OnAcknowledgeActions>
+          <SendUINotification sequence="40">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <Group id="c76499fa-eb7d-4c68-8557-641b28cbca1e" />
+            <InlineTemplate>
+              <Title>Sine is greater than 50</Title>
+              <Body>Sine current value: ${sine_wave_corrected.value}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnAcknowledgeActions>
+        <OnStatusChangeActions>
+          <SendUINotification sequence="50">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <Group id="c76499fa-eb7d-4c68-8557-641b28cbca1e" />
+            <InlineTemplate>
+              <Title>Sine is greater than 50</Title>
+              <Body>Sine current value: ${sine_wave_corrected.value}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnStatusChangeActions>
+        <OnJournalEntryActions>
+          <EventLog sequence="60">
+            <Channel id="1e2cf023-b349-4d10-b65e-290e14cb0e1a" />
+          </EventLog>
+        </OnJournalEntryActions>
+      </Actions>
+    </AlertSettings>
+  </Rule>
+</Flows>

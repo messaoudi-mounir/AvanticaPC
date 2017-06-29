@@ -1,0 +1,41 @@
+BCR0683AWCI41
+	-CPU
+		~Consumo promedio a lo largo de la prueba fue de un 12%
+		~El pico mas alto lo presenta cercano a la marca del 90% a las 12:10pm
+		~Presenta picos a las 10:15am y a las 3:20pm de aproximadamente un 30%
+
+	-Memory
+		~Consumo promedio a lo largo de la prueba fue de un 15%
+		~Cercano a las 9:45am y 10:45am el consumo de memoria alcanza el 20% 
+		~Aproximadamente a las 12md se tiene el pico mas alto en consumo de memoria, superando la marca del 24% de 		 uso
+		~Cercano a las 2:50pm existe un pico que supera el 20% pero no alcanza la marca del 24%
+BCR0683AWCI42
+	-CPU
+		~Consumo promedio a lo largo de la prueba fue de un 54%
+		~El pico mas alto que presenta, supera la marca del 90% desde las 12pm hasta pasadas las 3pm
+
+	-Memory
+		~Consumo promedio a lo largo de la prueba fue de un 22%
+		~A las 12md se presenta el pico mas alto de consumo de memoria, llegando a un 34%
+BCR0106WIT25
+	-CPU
+		~Consumo promedio a lo largo de la prueba fue de un 38%
+		~aproximadamente a las 9:15, 9:45am y 11:15 se alcanza un 60% de uso del cpu
+		~Cerca de las 12:00md se utiliza un 40% del cpu
+	-Memory
+		~
+BCR0106WIT26
+	-CPU
+		~
+	-Memory
+		~
+BCR0106ACL41
+	-CPU
+		~
+	-Memory
+		~
+BCR0106ACL42
+	-CPU
+		~
+	-Memory
+		~

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Connections encrypted="false">
+  <Connection id="rmqLocal">
+    <User encrypt="true">mbe</User>
+    <Password encrypt="true">mbe</Password>
+    <Host>10.20.27.221</Host>
+  </Connection>
+  <Connection id="petrovault">
+    <URL>https://pvcloud2.petrolink.net/PetroVaultHD/</URL>
+    <User encrypt="true">Replicator</User>
+    <Lock encrypt="true">Password1</Lock>
+  </Connection>
+  <Connection id="petrolinksmtp">
+	<Host>mail3.petrolink.net</Host>
+	<Port>25</Port>
+	<!--
+	<User>testUser</User>
+	<Password>testPassword</Password>
+	<sslEnabled>true</sslEnabled>
+	<sslCheckServerIdentity>true</sslCheckServerIdentity>
+	<startTlsEnabled>true</startTlsEnabled>
+	-->
+  </Connection>
+</Connections>

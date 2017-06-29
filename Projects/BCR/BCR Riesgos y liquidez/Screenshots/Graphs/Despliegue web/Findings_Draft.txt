@@ -1,0 +1,64 @@
+preguntas para Manuel:
+Es valido referenciar la propuesta en la seccion de flujos en el documento de resultados?
+
+-Iniciando sesion
+	entre 10 y poco mas de 20 segundos en todos los minutos de la prueba
+-Login
+	constante en menos de 1 segundo
+	picos en 4min 1.8s y 104min 1.3s
+-Cargar archivo
+	Presenta bastantes irregularidades.
+	pico mas bajo es de 11.3 seg y el mas alto 11.9
+-Cargar archivo popup
+	Menos de 1s en todos los min	
+-Cerrar sesion
+	presenta picos mayores a 10s en los min: 6,13,18,21,24,29,37
+-Generar reporte activo y pasivo
+	al min 116 hay un pico hasta 1 segundo
+-Generar reporte pasivo
+	min90 y min 110 picos de mas de 1 segundo
+-Ir a pagina ordenes
+	
+-Ir a pagina plantillas
+	min 62 pico 2.5s y al min 153
+-ir a pagina reportes
+-ir a pagina solicitudes
+	min 140 pico 14s
+-Seleccionar reporte activo y pasivo
+-Seleccionar reporte pasivo
+-Seleccionar reporte backtesting
+-Seleccionar reporte efectivo
+
+
+Cola de reportes: 
+
+-Iniciando sesion*
+	Muy irregular, valores maximos 40s+
+-Login
+	pico maximo 3s al iniciar
+-Cargar archivo
+	al min 138 20s, min 178 pico max 45s
+-Cargar archivo popup
+	min 56 max pico casi 1.6s
+-Cerrar sesion*
+	mas de 20s muy irregular
+-Generar reporte activo y pasivo
+	varia en 1.5s aprox
+-Generar reporte pasivo
+	inicia lento, varia en 1.5s aprox
+-Ir a pagina ordenes
+	min 79 max pico 2s+
+-Ir a pagina plantillas
+	max pico al min 252, 16s+
+-ir a pagina reportes
+	max pico al min 249, 10s+
+-ir a pagina solicitudes*
+	muy irregular, pico max 12s min 250
+-Seleccionar reporte activo y pasivo
+	Se mueve en alrededor de 1 seg de variacion 
+-Seleccionar reporte pasivo
+	
+-Seleccionar reporte backtesting
+	Se mueve en alrededor de 2s de variacion 
+-Seleccionar reporte efectivo
+	Al min 137 comienza a aumentar el tiempo de duracion del paso con un maximo de casi 9s al min 151

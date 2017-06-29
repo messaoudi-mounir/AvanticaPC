@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Flows xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://www.petrolink.com/mbe/rules">
+	<Rule uuid="c1dea7e0-7510-11e6-bdf4-0800200c9a66UseCase0WAC" wellId="81549d90-7a99-11e6-bdf4-0800200c9a66"
+		evaluationStrategy="IndexAlignment" disableAt="2016-12-30T09:00:00"
+		ruleId="c1dea7e0-7510-11e6-bdf4-0800200c9a66" ruleName="Use Case 0"
+		logger="$name" logpath="./log/flows/"/>
+</Flows>

@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration debug="false" scan="true">
+    <include file="logback/spring/base.xml"/>
+    <property name="LOG_PATH" value="./log"/>
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+    </appender>
+    <appender name="FILE-DEBUG" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/debug.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/archived/debug.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <appender name="AlertServiceFileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/AlertService.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/archived/AlertService.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>1MB</maxFileSize>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>500MB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <appender name="CacheFileLog" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/CacheFileLog.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/archived/CacheFileLog.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>1MB</maxFileSize>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>500MB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <appender name="FILE-ERROR" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/error.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/archived/error.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>5MB</maxFileSize>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <appender name="FILE-FRAMEWORK" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/framework.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/archived/framework.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>5MB</maxFileSize>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <appender name="FILE-CLUSTER" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/cluster.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</Pattern>
+        </encoder>
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily -->
+            <fileNamePattern>${LOG_PATH}/archived/cluster.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+            <maxFileSize>10MB</maxFileSize>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>1GB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
+    <logger name="ch.qos.logback" level="OFF" additivity="true"/>
+    <!-- Send logs to both console and file audit -->
+    <logger name="org.quartz" level="ERROR" additivity="true">
+        <appender-ref ref="FILE-ERROR"/>
+    </logger>
+    <logger name="com.petrolink.mbe" level="TRACE" additivity="false">
+        <appender-ref ref="FILE-DEBUG"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="com.petrolink.mbe.pvclient" level="ERROR" additivity="false">
+        <appender-ref ref="FILE-DEBUG"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="com.petrolink.mbe.alertstatus.impl" level="INFO" additivity="true">
+        <appender-ref ref="AlertServiceFileLog"/>
+    </logger>
+    <logger name="com.petrolink.mbe.cache" level="TRACE" additivity="true">
+        <appender-ref ref="CacheFileLog"/>
+    </logger>
+    <logger name="org.apache.http" level="ERROR" additivity="true">
+        <appender-ref ref="FILE-ERROR"/>
+    </logger>
+    <logger name="com.smartnow.engine" level="TRACE" additivity="false">
+        <appender-ref ref="FILE-DEBUG"/>
+        <appender-ref ref="STDOUT"/>
+    </logger>
+    <logger name="com.smartnow.engine.cluster.ClusteringService" level="TRACE" additivity="true">
+        <appender-ref ref="FILE-CLUSTER"/>
+    </logger>
+    <logger name="com.smartnow.engine.util.EngineContext" level="OFF" additivity="false"/>
+    <logger name="com.smartnow.engine.Factory" level="DEBUG" additivity="true">
+        <appender-ref ref="FILE-FRAMEWORK"/>
+    </logger>
+    <logger name="org.apache.ignite" level="INFO" additivity="true">
+        <appender-ref ref="FILE-CLUSTER"/>
+    </logger>
+    <logger name="org.springframework" level="INFO" additivity="false">
+        <appender-ref ref="FILE-FRAMEWORK"/>
+    </logger>
+    <root level="INFO">
+        <appender-ref ref="FILE-DEBUG"/>
+        <appender-ref ref="STDOUT"/>
+    </root>
+</configuration>

@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules">
+  <Rule name="Alfonso Rule_1ae2f52a-9ecc-475f-9529-d5310b4c9f99" uuid="1ae2f52a-9ecc-475f-9529-d5310b4c9f99" well="f856c2bf-be3a-4513-8b16-97c0508787e1" wellName="Well A" ruleId="1ae2f52a-9ecc-475f-9529-d5310b4c9f99" ruleName="Alfonso Rule" evaluationStrategy="IndexAlignment">
+    <Dependencies defaultType="buffered">
+      <Channel alias="ROP" type="buffered" indexType="datetime" scope="condition" valueUnit="ft/h" indexUnit="DateTime" gap="0" id="2424c41e-cac1-4909-a38d-1b9603d647cb" sequence="10" />
+      <Channel alias="rigstate" type="lastknownvalue" indexType="datetime" scope="reference" indexUnit="DateTime" gap="0" id="bc487684-28ca-4eea-9631-782ccae33333" sequence="20" />
+      <Channel alias="holedepth" type="lastknownvalue" indexType="datetime" scope="reference" indexUnit="DateTime" gap="0" id="dcc1275a-efbf-44e9-a3c0-5af391dff566" sequence="30" />
+      <Channel alias="bitdepth" type="lastknownvalue" indexType="datetime" scope="reference" indexUnit="DateTime" gap="0" id="83f1e1e8-40ee-45c2-8f6a-414c3892657d" sequence="40" />
+    </Dependencies>
+    <Variables />
+    <FilteringCondition />
+    <Condition><![CDATA[ROP > 40]]></Condition>
+    <RuleActions>
+      <EvaluationLog sequence="10" name="7dc93f96-cdea-4de9-8581-4423f19b6f4b">
+        <Channel id="7dc93f96-cdea-4de9-8581-4423f19b6f4b" />
+      </EvaluationLog>
+    </RuleActions>
+    <AlertSettings className="Alert Alfonso" class="1ae2f52a-9ecc-475f-9529-d5310b4c9f99">
+      <ProcessingLogic type="PetrolinkAutoClear" />
+      <Template>
+        <Domain>Production</Domain>
+        <Classification>Process Safety</Classification>
+        <Severity>1</Severity>
+        <Priority>1</Priority>
+        <Description source="static" />
+        <Details contentType="json" source="context" />
+      </Template>
+      <Actions>
+        <OnCreateActions>
+          <SendUINotification sequence="50">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <Group id="c76499fa-eb7d-4c68-8557-641b28cbca1e" />
+            <User id="a00fe916-14de-495f-a86b-dcacb3d6c9f5" />
+            <InlineTemplate>
+              <Title>Alert Alfonso</Title>
+              <Body>ROP: ${ROP.value} ${ROP.valueUnit}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnCreateActions>
+        <OnUpdateActions />
+        <OnCommentActions>
+          <SendUINotification sequence="60">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <Group id="c76499fa-eb7d-4c68-8557-641b28cbca1e" />
+            <User id="a00fe916-14de-495f-a86b-dcacb3d6c9f5" />
+            <InlineTemplate>
+              <Title>Alert Alfonso</Title>
+              <Body>ROP: ${ROP.value} ${ROP.valueUnit}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnCommentActions>
+        <OnAcknowledgeActions>
+          <SendUINotification sequence="70">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <Group id="c76499fa-eb7d-4c68-8557-641b28cbca1e" />
+            <User id="a00fe916-14de-495f-a86b-dcacb3d6c9f5" />
+            <InlineTemplate>
+              <Title>Alert Alfonso</Title>
+              <Body>ROP: ${ROP.value} ${ROP.valueUnit}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnAcknowledgeActions>
+        <OnStatusChangeActions>
+          <SendUINotification sequence="80">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <Group id="c76499fa-eb7d-4c68-8557-641b28cbca1e" />
+            <User id="a00fe916-14de-495f-a86b-dcacb3d6c9f5" />
+            <InlineTemplate>
+              <Title>Alert Alfonso</Title>
+              <Body>ROP: ${ROP.value} ${ROP.valueUnit}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnStatusChangeActions>
+        <OnJournalEntryActions>
+          <EventLog sequence="90">
+            <Channel id="1323b6a5-6378-40a9-860f-9fe2398e906f" />
+          </EventLog>
+        </OnJournalEntryActions>
+      </Actions>
+    </AlertSettings>
+  </Rule>
+</Flows>

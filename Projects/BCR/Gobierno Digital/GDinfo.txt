@@ -1,0 +1,8 @@
+lanzaron una Version a produccion - lentitud en el ambiente, conversiones(huellas, imagenes)
+rollback - Anterior - Produccion
+
+Mejoras en infraestructura y en rendimiento
+
+Tramites que se quedaban pegados en la version anterior y que ahora no suceda
+Tiempos de atencion a transacciones haya mejorado
+

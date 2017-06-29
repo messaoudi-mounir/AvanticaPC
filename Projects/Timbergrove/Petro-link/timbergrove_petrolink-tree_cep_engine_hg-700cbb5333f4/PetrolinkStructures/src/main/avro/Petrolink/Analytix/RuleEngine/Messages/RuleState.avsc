@@ -1,0 +1,11 @@
+{
+	"type": "enum",
+	"namespace": "Petrolink.Analytix.RuleEngine.Messages",
+	"name": "RuleState",
+	"symbols":
+	[
+		"None",
+		"Lowered",
+		"Raised"
+	]
+}

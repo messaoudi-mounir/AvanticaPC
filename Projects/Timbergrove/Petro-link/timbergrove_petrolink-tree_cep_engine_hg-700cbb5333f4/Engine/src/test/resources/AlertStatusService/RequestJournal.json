@@ -1,0 +1,17 @@
+[{
+	"action":"getEntries"
+},
+{
+	"action":"getEntriesOfType",
+	"type":"Comment"
+},
+{
+	"action":"getEntriesByPrincipal",
+	"principal":"John Doe"
+},
+{
+	"action":"getEntriesBetween",
+	"start":"2016-10-02",
+	"end":"2016-11-02"
+}
+]

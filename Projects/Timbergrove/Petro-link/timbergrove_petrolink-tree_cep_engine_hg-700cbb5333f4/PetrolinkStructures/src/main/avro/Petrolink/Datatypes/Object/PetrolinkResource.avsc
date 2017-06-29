@@ -1,0 +1,13 @@
+{
+   "type": "record",
+   "namespace": "Petrolink.Datatypes.Object",   
+   "name": "PetrolinkResource", 
+   "fields":
+   [
+      { "name": "resourceMetadata", "type": "Petrolink.Datatypes.Object.ResourceMetadata" },
+      { "name": "contentType", "type": "string" },
+      { "name": "contentEncoding", "type": "string" },
+      { "name": "data", "type": "bytes" },
+      { "name": "linkrefs", "type": { "type": "map", "values": "string" } }
+   ]
+}

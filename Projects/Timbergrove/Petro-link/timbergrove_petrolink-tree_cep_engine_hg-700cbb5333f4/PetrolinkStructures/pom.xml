@@ -1,0 +1,114 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.petrolink</groupId>
+	<artifactId>petrolink-mbe-structures</artifactId>
+	<version>1.1.0-SNAPSHOT</version>
+	<name>PetrolinkStructures</name>
+
+	<distributionManagement>
+		<repository>
+			<id>central</id>
+			<name>296a77b2b96c-releases</name>
+			<url>https://artifactory.dev.petrolink.net/artifactory/mvn-release</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>296a77b2b96c-snapshots</name>
+			<url>https://artifactory.dev.petrolink.net/artifactory/mvn-snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<properties>
+		<java.version>1.8</java.version>
+		<avro.version>1.7.7</avro.version>
+		<maven.assembly.version>2.6</maven.assembly.version>
+		<maven.compiler.version>3.6.0</maven.compiler.version>
+	</properties>
+
+	<build>
+		<plugins>
+<!-- 			<plugin> -->
+<!-- 				<groupId>org.apache.avro</groupId> -->
+<!-- 				<artifactId>avro-maven-plugin</artifactId> -->
+<!-- 				<version>${avro.version}</version> -->
+<!-- 				<executions> -->
+<!-- 					<execution> -->
+<!-- 						<phase>generate-sources</phase> -->
+<!-- 						<goals> -->
+<!-- 							<goal>schema</goal> -->
+<!-- 							<goal>protocol</goal> -->
+<!-- 							<goal>idl-protocol</goal> -->
+<!-- 						</goals> -->
+<!-- 						<configuration> -->
+<!-- 							<sourceDirectory>${project.basedir}/src/main/avro/</sourceDirectory> -->
+<!-- 							<outputDirectory>${project.basedir}/src/main/java/</outputDirectory> -->
+<!-- 							<testSourceDirectory>${project.basedir}/src/main/avro/</testSourceDirectory> -->
+<!-- 							<testOutputDirectory>${project.basedir}/src/test/java/</testOutputDirectory> -->
+<!-- 							<fieldVisibility>PRIVATE</fieldVisibility> -->
+<!-- 							<includes> -->
+<!-- 								<include>**/*.avsc</include> -->
+<!-- 							</includes> -->
+<!-- 							<testIncludes> -->
+<!-- 								<testInclude>**/*.test</testInclude> -->
+<!-- 							</testIncludes> -->
+<!-- 						</configuration> -->
+<!-- 					</execution> -->
+<!-- 				</executions> -->
+<!-- 			</plugin> -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.version}</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>${maven.assembly.version}</version>
+                <configuration>
+                    <outputDirectory>
+                        ${basedir}/target/package
+                    </outputDirectory>
+                    <archive>
+                        <manifest>
+                            <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+                            <addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>${avro.version}</version>
+		</dependency>
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.apache.avro</groupId> -->
+<!-- 			<artifactId>avro-maven-plugin</artifactId> -->
+<!-- 			<version>${avro.version}</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.apache.avro</groupId> -->
+<!-- 			<artifactId>avro-compiler</artifactId> -->
+<!-- 			<version>${avro.version}</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.apache.avro</groupId> -->
+<!-- 			<artifactId>avro-ipc</artifactId> -->
+<!-- 			<version>${avro.version}</version> -->
+<!-- 		</dependency> -->
+<!-- 		<dependency> -->
+<!-- 			<groupId>org.apache.avro</groupId> -->
+<!-- 			<artifactId>avro-tools</artifactId> -->
+<!-- 			<version>${avro.version}</version> -->
+<!-- 		</dependency> -->
+	</dependencies>
+	<description>Petrolink data structures for Avro Serialization/Deserialization</description>
+</project>

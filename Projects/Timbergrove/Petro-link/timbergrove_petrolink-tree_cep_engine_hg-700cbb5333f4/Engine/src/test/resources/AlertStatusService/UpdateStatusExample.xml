@@ -1,0 +1,7 @@
+<AlertStatusRequest xmlns="http://www.petrolink.com/mbe/alertstatus"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/alertstatus AlertStatusRequest.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Action>UPDATESTATUS</Action>
+	<UUID>a52b7a95-444c-404e-9f40-d5e712e19531</UUID>
+	<NewStatus>2</NewStatus>
+</AlertStatusRequest>

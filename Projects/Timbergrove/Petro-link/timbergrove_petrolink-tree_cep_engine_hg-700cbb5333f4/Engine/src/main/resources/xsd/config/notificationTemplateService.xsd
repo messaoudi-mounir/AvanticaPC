@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified">	
+	<xs:include schemaLocation="baseService.xsd" />    
+	<xs:include schemaLocation="rabbitMQSettings.xsd" />	
+	
+	<xs:complexType name="notificationTemplateService">
+		<xs:sequence>
+			<xs:element type="fileSystemPath" name="Path" />
+			<xs:element type="xs:string" name="DefaultNamespace" minOccurs="0" maxOccurs="1"/>			
+			<xs:element type="rmq_settings" name="RabbitMQRestfulServices" />
+		</xs:sequence>
+		<xs:attributeGroup ref="attgrp_commonServiceAttribute"/>
+	</xs:complexType>
+</xs:schema>

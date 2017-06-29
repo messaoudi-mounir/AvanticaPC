@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified">		
+	<xs:include schemaLocation="baseService.xsd" /> 
+	<xs:complexType name="resourcegroups_type">
+		<xs:sequence>
+			<xs:element name="ResourceGroup" minOccurs="1" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:attribute name="name" type="xs:string"></xs:attribute>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="heartbeat_type">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute type="xs:int" name="time"></xs:attribute>	
+				<xs:attribute type="xs:int" name="timeout"></xs:attribute>	
+				<xs:attribute type="xs:int" name="masterRefresh"></xs:attribute>	
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="clustering_service">
+		<xs:sequence>
+			<xs:element type="xs:string" name="PrimaryNode"/>
+			<xs:element type="resourcegroups_type" name="ResourceGroups" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="xs:string" name="SharedCacheId" />
+			<xs:element type="heartbeat_type" name="HeartBeat" />
+		</xs:sequence>
+		<xs:attributeGroup ref="attgrp_commonServiceAttribute"/>
+	</xs:complexType>
+</xs:schema>

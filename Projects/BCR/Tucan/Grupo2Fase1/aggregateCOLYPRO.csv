@@ -1,0 +1,22 @@
+Label,# Samples,Average,Median,90% Line,95% Line,99% Line,Min,Max,Error %,Throughput,Received KB/sec,Sent KB/sec
+01 - frmIngresoUsuarios.aspx,10,39,24,63,63,107,18,107,0.000%,.03704,0.12,0.02
+02 - frmGeneral.aspx/ObtenerMensajes,10,63,32,160,160,228,20,228,0.000%,.03710,0.97,0.02
+03 - frmIngresoUsuarios.aspx/ValidarUsuario,10,189,186,229,229,264,117,264,0.000%,.03701,0.02,0.02
+04 - frmIngresoUsuarios.aspx/ValidarContrasena,10,749,732,856,856,1100,566,1100,0.000%,.03743,0.02,0.03
+05 - frmIngresoUsuarios.aspx,10,30,27,41,41,41,24,41,0.000%,.03756,0.02,0.03
+06 - frmSeleccionNegocioCorresponsal.aspx,10,963,928,1107,1107,1158,769,1158,0.000%,.03782,0.02,0.03
+07 - frmInicio.aspx,10,454,437,535,535,605,312,605,0.000%,.03770,0.56,0.03
+08 - frmGeneral.aspx/ObtenerMensajes,10,79,40,237,237,252,31,252,0.000%,.03769,0.99,0.02
+09 - frmGeneral.aspx/ObtenerMenu,10,518,379,833,833,1008,307,1008,0.000%,.03731,2.76,0.02
+10 - frmGeneral.aspx/ObtenerMenuPagoServicios,10,443,426,566,566,668,275,668,0.000%,.03758,2.38,0.02
+11 - frmGeneral.aspx/RedireccionaMenu,10,354,357,412,412,415,248,415,0.000%,.03731,0.02,0.03
+12 - frmInicio.aspx,10,100,86,172,172,181,60,181,0.000%,.03798,0.03,0.02
+13 - frmPagoColegiosProfesionales.aspx,10,1306,1222,1648,1648,1805,1043,1805,0.000%,.03765,0.75,0.02
+14 - frmGeneral.aspx/ObtenerMensajes,10,75,35,241,241,248,27,248,0.000%,.03790,0.99,0.02
+15 - frmGeneral.aspx/ObtenerMenu,10,474,439,581,581,692,313,692,0.000%,.03727,2.76,0.03
+16 - frmPagoColegiosProfesionales.aspx/CargarConvenio,10,1243,1245,1392,1392,1471,1025,1471,0.000%,.03730,0.07,0.03
+17 - frmPagoColegiosProfesionales.aspx/TraerRecibosPendientes,10,51604,50565,55152,55152,64932,44313,64932,0.000%,.03013,0.02,0.03
+18 - frmGeneral.aspx/CerrarSesion,10,127,98,111,111,420,76,420,0.000%,.03536,0.01,0.03
+19 - frmIngresoUsuarios.aspx,10,26,21,39,39,52,12,52,0.000%,.03502,0.11,0.02
+20 - frmGeneral.aspx/ObtenerMensajes,10,76,34,240,240,246,21,246,0.000%,.03455,0.90,0.02
+TOTAL,200,2946,264,1224,1805,51871,12,64932,0.000%,.50237,9.13,0.34

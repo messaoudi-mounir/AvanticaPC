@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified"
+	targetNamespace="http://www.petrolink.com/mbe/rules" xmlns:rul="http://www.petrolink.com/mbe/rules">
+	<xs:include schemaLocation="definitions.xsd" />
+	<xs:complexType name="JMSProviderType" xmlns="http://www.petrolink.com/mbe/rules">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute type="xs:string" name="type" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="action_JMSSendMessage" xmlns="http://www.petrolink.com/mbe/rules">
+		<xs:sequence>
+			<xs:element type="JMSProviderType" name="JMSProvider"/>
+			<xs:element type="xs:string" name="Script" />
+		</xs:sequence>
+		<xs:attribute type="xs:byte" name="sequence" use="required"/>
+		<xs:attribute type="xs:string" name="queueName" use="required" />
+	</xs:complexType>
+</xs:schema>

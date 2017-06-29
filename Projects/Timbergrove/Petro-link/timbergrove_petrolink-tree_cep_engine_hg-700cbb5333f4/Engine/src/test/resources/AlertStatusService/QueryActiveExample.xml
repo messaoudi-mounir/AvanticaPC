@@ -1,0 +1,5 @@
+<AlertStatusRequest xmlns="http://www.petrolink.com/mbe/alertstatus"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/alertstatus AlertStatusRequest.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Action>QUERYACTIVE</Action>
+</AlertStatusRequest>

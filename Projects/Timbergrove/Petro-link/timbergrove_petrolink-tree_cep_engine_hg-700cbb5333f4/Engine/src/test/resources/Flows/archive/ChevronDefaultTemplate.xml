@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../../main/resources/xsd/flows.xsd">
+	<Rule uuid="00000000-0000-0000-0000-000000000000"
+		  wellId="00000000-0000-0000-0000-000000000000" 
+		  evaluationStrategy="LastKnownValue"
+		  ruleId="00000000-0000-0000-0000-000000000000"
+		  ruleName="Use Case 0">
+		<Dependencies defaultType="LastKnownValue">
+			<!--
+			<Channel alias="rigState" scope="filtering">48c0b7c0-7c56-11e6-bdf4-0800200c9a66</Channel>
+			<Channel alias="rop" scope="condition" valueUnit="ft/hr" indexUnit="datetime">5037f119-2d45-4106-a3c7-2fed671c1dcc</Channel>
+		         <Channel alias="other" scope="condition">c9f14a80-8c1e-11e6-bdf4-0800200c9a66</Channel>
+			-->
+			<!-- Referenced channels can be used for condition evaluation but will not fire the evaluation themselves -->
+			<!--<Channel alias="modelROP" scope="reference">b83ae260-7f8a-11e6-bdf4-0800200c9a66</Channel>-->
+		</Dependencies>
+		<Variables>
+			<!-- For Static Variable , based on Workflow/Data/Definitions/Rule/Variables/StaticVariables
+			<Static alias="DRILLING" type="integer" scope="global" sequence="10">3</Static>
+			-->
+			<!-- For LookupChannel
+			<HistoricalChannel alias="rop" scope="condition" startIndex="0" endIndex="1500" gap="20">5037f119-2d45-4106-a3c7-2fed671c1dcc</HistoricalChannel>
+			-->
+		</Variables>
+		<FilteringCondition>
+			<!-- Filtering condition
+				rigState==DRILLING
+			-->
+		</FilteringCondition>
+		<Condition>
+			<!--
+    			<![CDATA[(rop>modelROP)]]>
+			-->
+		</Condition>
+		<RuleActions>
+			<EvaluationLog sequence="10" name="00000000-0000-0000-0000-000000000000" >
+				<!-- Evaluation Log (the binary Curve, make sure to create channel first -->
+				<Channel id="00000000-0000-0000-0000-000000000000"/>
+			</EvaluationLog>
+		</RuleActions>
+		<!--AlertSettings' name is Workflow/Metadata/ID  -->
+		<AlertSettings class="00000000-0000-0000-0000-000000000000" className="00000000-0000-0000-0000-000000000000">
+			<ProcessingLogic type="PetrolinkAutoClear"/>
+			<Template>
+				<Domain><!--Workflow/Data/Definitions/Metadata/Domain--></Domain>
+				<Classification><!--Workflow/Data/Definitions/Metadata/Class--></Classification>
+				<Severity><!--Workflow/Data/Definitions/Metadata/Severity-->5</Severity>
+				<Priority><!--Workflow/Data/Definitions/Metadata/Priority-->5</Priority>
+				<Description source="static"><!--Workflow/Data/Definitions/Metadata/AlertDescription--></Description>
+				<Details contentType="json" source="context"></Details>
+			</Template>
+			<Actions>
+				<OnCreateActions>
+					<SendUINotification sequence="10">
+						<!--
+						<Channel id="00000000-0000-0000-0000-000000000000"/>
+						<User id="00000000-0000-0000-0000-000000000000"/>
+						<Group id="00000000-0000-0000-0000-000000000000"/>
+						-->
+						<InlineTemplate>
+							<Title><!--Workflow/Data/Definitions/Metadata/AlertName--></Title>
+							<Body><!--Workflow/Data/Definitions/Alerts/ActivityStream/Template--></Body>
+						</InlineTemplate>
+					</SendUINotification>
+					<!-- Originally from  template="MailTemplateChevron". The UID here is for MailTemplateChevron c13818bb-95b2-44a1-bc4a-8ef692f41c02"-->
+					<SendMailNotification sequence="20"
+						template="c13818bb-95b2-44a1-bc4a-8ef692f41c02"
+						>
+						<To>
+							<!-- Fill with CSV of principal Guid or email Address based on Workflow/Data/Definitions/Alerts/Recipients-->
+						</To>
+						<CC></CC>
+						<BCC></BCC>
+						<Params>
+							<!-- Additional Paramereters, when needed
+							<Param name="subjectParam" type="String">Mailflow</Param>
+							-->
+						</Params>
+						<Subject>
+							<!-- Fill Based on Workflow/Data/Definitions/Alerts/Email/Subject -->
+							Alert: ${alert.description!""}
+						</Subject>
+						<Body>
+							 <!-- Fill Based on Workflow/Data/Definitions/Alerts/Email/Template -->
+                                                	            <![CDATA[
+                                                <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+                                                <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+                                                <head></head>
+                                                <body>
+                                                	            ${salutation}<br/>
+                                                	            <br/>
+                                                	            
+                                                	            <h2>You have an alert!</h2>
+                                                	            Class: ${alert.classification!"Unknown"}<br/>
+                                                	            ${alert.description!"None"}<br/>
+                                                	            
+                                                	            <h2>Details</h2>
+                                                	            Index = ${index!"unknown"}<br/> 
+                                                	            Value = ${value!"unknown"}<br/>
+                                                	            <br/>
+                                                	            
+                                                	            ${closing}
+                                                		   ${disclaimer}
+                                                
+                                                <br clear="all">
+                                                <div class="ipost-opt-out"><p></p></div>
+                                                </body>
+                                                </html>	            
+                                                	            ]]>
+                                                	</Body>
+					</SendMailNotification>
+				</OnCreateActions>
+
+				<OnUpdateActions >
+					<SendUINotification sequence="10" >
+						<!--
+						<Channel id="00000000-0000-0000-0000-000000000000"/>
+						<User id="00000000-0000-0000-0000-000000000000"/>
+						<Group id="00000000-0000-0000-0000-000000000000"/>
+						-->
+						<InlineTemplate>
+							<Title><!--Workflow/Data/Definitions/Metadata/AlertName--></Title>
+							<Body><!--Workflow/Data/Definitions/Alerts/ActivityStream/Template--></Body>
+						</InlineTemplate>
+					</SendUINotification>
+				</OnUpdateActions >
+
+				<OnCommentActions >
+					<SendUINotification sequence="10">
+						<!--
+						<Channel id="00000000-0000-0000-0000-000000000000"/>
+						<User id="00000000-0000-0000-0000-000000000000"/>
+						<Group id="00000000-0000-0000-0000-000000000000"/>
+						-->
+						<InlineTemplate>
+							<Title><!--Workflow/Data/Definitions/Metadata/AlertName--></Title>
+							<Body><!--Workflow/Data/Definitions/Alerts/ActivityStream/Template--></Body>
+						</InlineTemplate>
+					</SendUINotification>
+				</OnCommentActions >
+
+				<OnAcknowledgeActions >
+					<SendUINotification sequence="10">
+						<!--
+						<Channel id="00000000-0000-0000-0000-000000000000"/>
+						<User id="00000000-0000-0000-0000-000000000000"/>
+						<Group id="00000000-0000-0000-0000-000000000000"/>
+						-->
+						<InlineTemplate>
+							<Title><!--Workflow/Data/Definitions/Metadata/AlertName--></Title>
+							<Body><!--Workflow/Data/Definitions/Alerts/ActivityStream/Template--></Body>
+						</InlineTemplate>
+					</SendUINotification>
+				</OnAcknowledgeActions >
+
+				<OnStatusChangeActions>
+					<SendUINotification sequence="10">
+						<!--
+						<Channel id="00000000-0000-0000-0000-000000000000"/>
+						<User id="00000000-0000-0000-0000-000000000000"/>
+						<Group id="00000000-0000-0000-0000-000000000000"/>
+						-->
+						<InlineTemplate>
+							<Title><!--Workflow/Data/Definitions/Metadata/AlertName--></Title>
+							<Body><!--Workflow/Data/Definitions/Alerts/ActivityStream/Template--></Body>
+						</InlineTemplate>
+					</SendUINotification>
+				</OnStatusChangeActions>
+			</Actions>
+		</AlertSettings>
+	</Rule>
+</Flows>

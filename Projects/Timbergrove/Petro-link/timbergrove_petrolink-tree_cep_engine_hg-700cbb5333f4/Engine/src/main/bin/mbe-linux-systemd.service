@@ -1,0 +1,15 @@
+[Unit]
+Description=Petrolink MBE Engine Service
+
+[Service]
+Type=idle
+User=root
+
+# The configuration file application.properties should be here:
+WorkingDirectory=/opt/mbe
+ExecStart=/usr/bin/java -Duser.dir=/opt/mbe -DlogPath=log -Dmq.data=amq -DIGNITE_PERFORMANCE_SUGGESTIONS_DISABLED=true -Xmx4G -XX:+HeapDumpOnOutOfMemoryError -cp /opt/mbe/petrolink-mbe-engine.jar:. com.petrolink.mbe.engine.ComplexEventProcessor
+SuccessExitStatus=143
+
+[Install]
+WantedBy=multi-user.target
+

@@ -1,0 +1,13 @@
+create table if not exists alertStatusVersion (component varchar(10), version double);
+create table if not exists alerts (uuid VARCHAR(64) primary key, status int, lastStatusChange TIMESTAMP, created TIMESTAMP, lastOccurrence TIMESTAMP, acknowledgeBy VARCHAR(64), acknowledgeAt TIMESTAMP, comment VARCHAR(500), commentBy VARCHAR(64), commentedAt TIMESTAMP, commentedCount int, tally int, name VARCHAR(255), classId VARCHAR(128), description VARCHAR(2048), domain VARCHAR(255), classification VARCHAR(255), severity int, priority int, detailsContentType VARCHAR(255), details VARCHAR(4096), metadata VARCHAR(4096), createdIndex VARCHAR(64), lastIndex VARCHAR(64), wellId VARCHAR(64), holeDepth double, finalHoleDepth double, bitDepth double, finalBitDepth double, rigState int, finalRigState int, notificationsSent BOOLEAN, snoozed BOOLEAN, unSnoozedAt TIMESTAMP, unSnoozedBy VARCHAR(64));
+create index if not exists alertStatusIdx on alerts (status);
+create index if not exists nameIdx on alerts (name);
+create index if not exists classWellIdx on alerts (classId, wellId);
+create index if not exists closedIdx on alerts (status, lastStatusChange);
+create table if not exists snoozedAlerts (alertClassId VARCHAR(255), well VARCHAR(255), snoozedBy VARCHAR(255), snoozedAt TIMESTAMP, unSnoozeAt TIMESTAMP, PRIMARY KEY(alertClassId, well));
+create index if not exists snoozedAlertsIdx on snoozedAlerts (alertClassId, well);
+create index if not exists unSnoozedAlertsIdx on snoozedAlerts (unSnoozeAt);
+create table if not exists snoozedHistory (alertClassId VARCHAR(255), wellId VARCHAR(255), snoozedAt TIMESTAMP, unSnoozedAt TIMESTAMP, snoozedBy VARCHAR(255));
+create table if not exists alertsJournal (alertUUID VARCHAR(255), alertClassId VARCHAR(255), well VARCHAR(255), type VARCHAR(255), timestamp TIMESTAMP, principal VARCHAR(255), details TEXT);
+create index if not exists alertsJournalbyAlertIdx on alertsJournal (alertUUID);
+create index if not exists alertsJournalbyClassWellIdx on alertsJournal (alertClassId, well);

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Triggers>
+	<DirectoryMonitor name="LATDIRMON2">
+		<Path relative="true">/monitors/</Path>
+		<Match pattern=".*" eventClassId="BasicTest" class="xlsx"
+			hasHeadings="true">
+			<DefaultDateFormat>dd/MM/yyyy hh:mm:ss</DefaultDateFormat>
+			<DefaultNullValue>-</DefaultNullValue>
+			<EventProperties>
+				<TableId>D151</TableId>
+			</EventProperties>
+			<ErrorHandler classId="BasicTest">
+				<Properties>
+					<TableId>D151</TableId>
+				</Properties>
+			</ErrorHandler>
+			<Columns>
+				<Column name="Col1" dataType="String" isNullable="false"></Column>
+				<Column name="Col2" dataType="Integer" isNullable="false"></Column>
+				<Column name="Col3" dataType="Date" isNullable="false"></Column>
+			</Columns>
+			<BatchSize>10000</BatchSize>
+			<DeleteProcessedFiles>false</DeleteProcessedFiles>
+		</Match>
+	</DirectoryMonitor>
+</Triggers>

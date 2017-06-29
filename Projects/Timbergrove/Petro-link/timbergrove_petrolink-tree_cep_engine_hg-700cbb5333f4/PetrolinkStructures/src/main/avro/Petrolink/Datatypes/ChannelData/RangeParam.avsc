@@ -1,0 +1,11 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.Datatypes.ChannelData",	
+	"name": "RangeParam",
+	"fields":
+	[
+		{ "name": "startIndex",  "type": "double"  },
+		{ "name": "endIndex",  "type": "double"  },
+		{ "name": "value",  "type": "double"  }
+	]
+}

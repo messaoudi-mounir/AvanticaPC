@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<MailTemplate uuid="7c18e624-e611-4e4f-b35f-f091a5138361" 
+    xmlns="http://www.petrolink.com/mbe/rules"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../xsd/templates.xsd">
+	<Connection>
+		<Host>127.0.0.1</Host>
+		<Port>1025</Port>
+	</Connection>
+	<Params>
+		<Param name="p1" type="Integer">3</Param>
+		<Param name="p2" type="Integer">15</Param>
+		<Param name="opening" type="String">Dear Sir/Madam,</Param>
+		<Param name="closing" type="String">Thanks</Param>
+	</Params>
+	<From><![CDATA[Event Mailflow <mbe@petrolink.com>]]></From>
+	<Subject>(Severity:${alert.severity!""}) Alert from Petrolink: ${alert.description!""}</Subject>
+	<Body>
+	            <![CDATA[
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head></head>
+<body>
+	            ${opening}<br/>
+	            <br/>
+	            
+	            <h2>You have an alert!</h2>
+	            Class: ${alert.classification!"No Classification for the alert"}<br/>
+	            ${alert.description!"No Description for the alert"}<br/>
+	            
+	            <h2>Details</h2>
+	            Index = ${index!"unknown"}<br/> 
+	            Value = ${value!"unknown"}<br/>
+	            <br/>
+	            The DEBUG parameters are :
+	            
+		            <pre>
+Event = ${eventDebug! "No Event"} 
+
+Alert = ${alertDebug! "No Alert"} 
+		            </pre>
+	            
+	            ${closing}
+	            
+<small>Disclaimer: The information contained in this report is based on sound engineering practices, and data quality received by Petrolink Services, Inc. The copyright owner does not accept any responsibility partial or complete, for
+negligence or the guaranteeing the quality of the data. Any loss or damage arising from the possession or use of the information contained in the report whether in terms of correctness or otherwise is solely under the responsibility of
+the users decision. Petrolink Services, Inc. advises, recommends, and provides opinions based on the assumption that all data received is qualified under the owner's policies and data control procedures. The application, therefore, by
+the user of this report or any part thereof, is solely at the user's own risk.</small>
+
+<br clear="all">
+<div class="ipost-opt-out"><p></p></div>
+</body>
+</html>	            
+	            ]]>
+	</Body>
+</MailTemplate>

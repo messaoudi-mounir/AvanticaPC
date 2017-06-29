@@ -1,0 +1,13 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.Analytix.RuleEngine.Messages",
+	"name": "DataContext",
+	"fields":
+	[
+		{ "name": "wellUid", "type": "string" },
+		{ "name": "wellName", "type": "string" },
+		{ "name": "wellboreUid", "type": "string" },
+		{ "name": "wellboreName", "type": "string" },
+		{ "name": "uri", "type": "string" }
+	]
+}

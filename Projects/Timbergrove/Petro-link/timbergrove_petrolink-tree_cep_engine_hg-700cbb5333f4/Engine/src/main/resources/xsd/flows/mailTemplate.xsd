@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified"
+	targetNamespace="http://www.petrolink.com/mbe/rules"
+	 xmlns:rul="http://www.petrolink.com/mbe/rules"
+	 >
+    <xs:include schemaLocation="definitions.xsd"/>
+    <xs:complexType name="type_templateEmail">
+        <xs:annotation>
+            <xs:documentation>Mail Template which can be shared /overriden by action, eg SendMailNotification.  </xs:documentation>
+        </xs:annotation>
+        <xs:group ref="rul:grp_email" minOccurs="0" maxOccurs="1">
+            <xs:annotation>
+                <xs:documentation>The non-contextual common setting of Email.</xs:documentation>
+            </xs:annotation>
+        </xs:group>
+        <xs:attribute name="uuid" type="rul:type_UUID" use="required"/>
+    </xs:complexType>
+    
+    <xs:element name="MailTemplate" type="rul:type_templateEmail"/>
+ </xs:schema>

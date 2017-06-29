@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified">
+	<xs:include schemaLocation="baseService.xsd"/>
+	<xs:include schemaLocation="alertProcessorDirectoryService.xsd" />	
+	<xs:include schemaLocation="clusteringService.xsd" />	
+	<xs:include schemaLocation="schedulerService.xsd" />	
+	<xs:include schemaLocation="alertStatusService.xsd" />	
+	<xs:include schemaLocation="wellDirectoryService.xsd" />	
+	<xs:include schemaLocation="rmqMgmtServices.xsd" />
+	<xs:include schemaLocation="amqpSettings.xsd"/>
+	<xs:include schemaLocation="petrovaultServices.xsd" />
+	<xs:include schemaLocation="notificationTemplateService.xsd" />
+	
+	<xs:complexType name="FlowsFileLoaderType">
+		<xs:sequence>
+			<xs:element type="fileSystemPath" name="Path" />
+		</xs:sequence>
+		<xs:attributeGroup ref="attgrp_commonServiceAttribute"/>
+	</xs:complexType>
+	<xs:complexType name="TriggersFileLoaderType">
+		<xs:sequence>
+			<xs:element type="fileSystemPath" name="Path" />
+		</xs:sequence>
+		<xs:attributeGroup ref="attgrp_commonServiceAttribute"/>
+	</xs:complexType>
+	
+	<xs:complexType name="service_InstrumentationService" >
+		<xs:sequence>
+			<xs:element type="rmq_settings" name="RMQConnectionSettings" />
+		</xs:sequence>
+		<xs:attributeGroup ref="attgrp_commonServiceAttribute"/>
+	</xs:complexType>
+	
+	<xs:complexType name="service_MBEFlowsManagementService">
+		<xs:complexContent>
+			<xs:extension base="RMQ_ManagementService">
+				<xs:sequence>
+					<xs:element name="RequestActiveFlows" type="xs:boolean" default="false" minOccurs="1" maxOccurs="1"/>
+				</xs:sequence>
+			</xs:extension>
+		</xs:complexContent>
+	</xs:complexType>
+	
+	<xs:complexType name="service_PropertyStoreService">
+		<xs:attributeGroup ref="attgrp_commonServiceAttribute"/>
+	</xs:complexType>
+	
+	<xs:complexType name="service_AmqpChannelService" >
+		<xs:sequence>
+			<xs:element type="rmq_settings" name="DefaultSetting" />
+			<xs:element name="Exchanges">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AmqpExchange" type="type_AmqpExchange" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+				<xs:unique name="uniqueExchange">
+				  <xs:selector xpath="AmqpExchange"/>
+				  <xs:field xpath="@exchange"/>
+				</xs:unique>
+			</xs:element>
+			<xs:element name="Queues">
+				<xs:complexType>
+					<xs:sequence>
+						<xs:element name="AmqpQueue" type="type_AmqpQueue" minOccurs="0" maxOccurs="unbounded"/>
+					</xs:sequence>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+		<xs:attributeGroup ref="attgrp_commonServiceAttribute"/>
+	</xs:complexType>
+	
+	<xs:complexType name="config_services">
+		<xs:choice maxOccurs="unbounded">
+			<xs:element type="FlowsFileLoaderType" name="FlowsFileLoader" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="TriggersFileLoaderType" name="TriggersFileLoader" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="clustering_service" name="ClusteringService" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="scheduler_service" name="SchedulerService" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="alertstatus_service" name="AlertStatusService" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="service_WellDirectory" name="WellDirectoryService" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="service_AlertProcessorDirectory" name="AlertProcessorDirectory" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="petroVaultMbeOrchestrationService" name="PetroVaultMbeOrchestrationService" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="petroVaultPrincipalService" name="PetroVaultPrincipalService" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="petroVaultResourceService" name="PetroVaultResourceService" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="service_MBEFlowsManagementService" name="MBEFlowsManagementService" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="RMQ_ManagementService" name="TriggersManagementService" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="service_AmqpChannelService" name="AmqpChannelService" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="notificationTemplateService" name="NotificationTemplateService" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="service_ChronosClientService" name="ChronosClientService" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="service_InstrumentationService" name="InstrumentationService" minOccurs="0" maxOccurs="1"/>
+			<xs:element type="service_PropertyStoreService" name="PropertyStoreService" minOccurs="0" maxOccurs="1"/>
+		</xs:choice>
+	</xs:complexType>
+</xs:schema>	

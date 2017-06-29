@@ -1,0 +1,11 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.Datatypes",	
+	"name": "DateTime",
+	
+	"fields":
+	[
+		{ "name": "time", "type": "long" },
+		{ "name": "offset", "type": "double" }
+	]
+}

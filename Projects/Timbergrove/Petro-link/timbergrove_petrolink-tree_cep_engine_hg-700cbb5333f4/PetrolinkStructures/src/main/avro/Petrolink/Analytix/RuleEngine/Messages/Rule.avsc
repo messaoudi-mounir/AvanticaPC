@@ -1,0 +1,20 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.Analytix.RuleEngine.Messages",
+	"name": "Rule",
+	"fields":
+	[
+		{ "name": "id", "type": "Petrolink.Datatypes.UUID" },
+		{ "name": "name", "type": "string" },
+		{ "name": "description", "type": "string" },
+		{ "name": "filterTags", "type": { "type": "array", "items": "string" } },
+		{ "name": "createdUser", "type": "Petrolink.Datatypes.UUID" },
+		{ "name": "createdTime", "type": "Petrolink.Datatypes.DateTime" },
+		{ "name": "modifiedUser", "type": "Petrolink.Datatypes.UUID" },
+		{ "name": "modifiedTime", "type": "Petrolink.Datatypes.DateTime" },
+	    { "name": "definition", "type": "Petrolink.Analytix.RuleEngine.Messages.RuleDefinition" },
+	    { "name": "templateId", "type": "Petrolink.Datatypes.UUID" },
+	    { "name": "dataContext", "type": "Petrolink.Analytix.RuleEngine.Messages.DataContext" },
+	    { "name": "isRunning", "type": "boolean" }
+	]
+}

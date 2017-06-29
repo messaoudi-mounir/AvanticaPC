@@ -1,0 +1,11 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.Analytix.RuleEngine.Messages",
+	"name": "ConditionDefinition",
+	"fields":
+	[
+		{ "name": "conditionType", "type": "string" },
+		{ "name": "arguments", "type": { "type": "map", "values": "string" } },
+		{ "name": "or", "type": "boolean" }
+	]
+}

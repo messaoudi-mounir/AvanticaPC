@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Rule name="CloseActiveAlert_72a9a1b7-8453-47ca-908b-6237796d71d4" uuid="72a9a1b7-8453-47ca-908b-6237796d71d4" wellId="e93b6a61-85a1-45be-8f53-8e5802bcbcad" wellboreId="d712c504-bdc7-4320-aa56-94b68cca12a8" wellName="Synthetic_Data" ruleId="72a9a1b7-8453-47ca-908b-6237796d71d4" ruleName="CloseActiveAlert" evaluationStrategy="IndexAlignment">
+    <Dependencies defaultType="buffered">
+      <Channel alias="square_wave_corrected" type="buffered" indexType="datetime" scope="condition" indexUnit="" gap="0" id="e80a277b-c29a-46e8-bb2a-a76976aaad1d" sequence="10" />
+    </Dependencies>
+    <Variables />
+    <FilteringCondition />
+    <Condition><![CDATA[square_wave_corrected != 9999]]></Condition>
+    <RuleActions>
+      <EvaluationLog sequence="20" name="299f4c8b-76fc-4b42-af64-3e66c669ce78">
+        <Channel id="299f4c8b-76fc-4b42-af64-3e66c669ce78" />
+      </EvaluationLog>
+    </RuleActions>
+    <AlertSettings className="CloseActiveAlert" class="72a9a1b7-8453-47ca-908b-6237796d71d4">
+      <ProcessingLogic type="PetrolinkAutoClear" />
+      <Template>
+        <Domain>Domain 1</Domain>
+        <Classification>Drilling Optimization</Classification>
+        <Severity>4</Severity>
+        <Priority>1</Priority>
+        <Description source="templated">Rigstate: ${($rigState.valueName)!'N/A'}
+ModelROP: ${($modelROP.value)!'not applicable'} ${(modelROP.valueUnit)!''}</Description>
+        <Details contentType="json" source="context" />
+      </Template>
+      <AutoDismiss>
+        <EventToProcessingDeltaTime unit="minutes">30</EventToProcessingDeltaTime>
+      </AutoDismiss>
+      <Actions>
+        <OnCreateActions>
+          <SendUINotification sequence="30">
+            <User id="ee80408b-9d68-4a6c-80b6-32151b074c0e" />
+            <InlineTemplate>
+              <Title>CloseActiveAlert</Title>
+              <Body><![CDATA[Rigstate: ${($rigState.valueName)!'N/A'}
+ModelROP: ${($modelROP.value)!'not applicable'} ${(modelROP.valueUnit)!''}]]></Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnCreateActions>
+        <OnUpdateActions />
+        <OnCommentActions>
+          <SendUINotification sequence="40">
+            <User id="ee80408b-9d68-4a6c-80b6-32151b074c0e" />
+            <InlineTemplate>
+              <Title>CloseActiveAlert</Title>
+              <Body><![CDATA[Rigstate: ${($rigState.valueName)!'N/A'}
+ModelROP: ${($modelROP.value)!'not applicable'} ${(modelROP.valueUnit)!''}]]></Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnCommentActions>
+        <OnAcknowledgeActions>
+          <SendUINotification sequence="50">
+            <User id="ee80408b-9d68-4a6c-80b6-32151b074c0e" />
+            <InlineTemplate>
+              <Title>CloseActiveAlert</Title>
+              <Body><![CDATA[Rigstate: ${($rigState.valueName)!'N/A'}
+ModelROP: ${($modelROP.value)!'not applicable'} ${(modelROP.valueUnit)!''}]]></Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnAcknowledgeActions>
+        <OnStatusChangeActions>
+          <Switch sequence="60">
+            <Case condition="alert.snoozed == false &amp;&amp; alert.onCreateEventsExecuted == true">
+              <SendUINotification sequence="70">
+                <User id="ee80408b-9d68-4a6c-80b6-32151b074c0e" />
+                <InlineTemplate>
+                  <Title>CloseActiveAlert</Title>
+                  <Body><![CDATA[Rigstate: ${($rigState.valueName)!'N/A'}
+ModelROP: ${($modelROP.value)!'not applicable'} ${(modelROP.valueUnit)!''}]]></Body>
+                </InlineTemplate>
+              </SendUINotification>
+            </Case>
+          </Switch>
+          <Switch sequence="80">
+            <!-- ACTIVE = 0, INACTIVE = 1, CLOSED = 2 -->
+            <Case condition="alert.status == 2">
+              <ClosedAlertLog sequence="90">
+                <Channel id="98e18eda-60c3-41a6-86c9-f84f67283f97" />
+              </ClosedAlertLog>
+            </Case>
+          </Switch>
+        </OnStatusChangeActions>
+        <OnJournalEntryActions>
+          <Switch sequence="100">
+            <Case condition="journal.type != &quot;alertchange&quot;">
+              <EventLog sequence="110">
+                <Channel id="c5ae57c6-d349-4641-8028-ce207f085f5e" />
+                <Channel id="2b1c7508-3cfc-43af-ada1-554ff1b07ce0" />
+              </EventLog>
+            </Case>
+          </Switch>
+        </OnJournalEntryActions>
+      </Actions>
+    </AlertSettings>
+  </Rule>
+</Flows>

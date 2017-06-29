@@ -1,0 +1,11 @@
+<AlertStatusRequest xmlns="http://www.petrolink.com/mbe/alertstatus"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/alertstatus AlertStatusRequest.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Action>INVESTIGATE</Action>
+	<!-- One or multiple UUIDs can be included at once -->
+	<UUID>e6c5ea19-11a1-4218-ae16-b6a8ac2a0ee9</UUID>
+	<!-- One or multiple UUIDs can be included at once -->
+	<ClassId>e6c5ea19-11a1-4218-ae16-b6a8ac2a0ee9</ClassId>
+	<By>John Smith</By>
+	<Timestamp>2016-11-09T23:42:57.9855650Z</Timestamp>
+</AlertStatusRequest>

@@ -1,0 +1,6 @@
+<AlertStatusRequest xmlns="http://www.petrolink.com/mbe/alertstatus"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/alertstatus AlertStatusRequest.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Action>QUERYCOUNTWHERE</Action>
+	<Where>classId = '7d5f460-d55d-455d-8a22-5f2c6582bf93' AND acknowledgeAt IS NULL</Where>
+</AlertStatusRequest>

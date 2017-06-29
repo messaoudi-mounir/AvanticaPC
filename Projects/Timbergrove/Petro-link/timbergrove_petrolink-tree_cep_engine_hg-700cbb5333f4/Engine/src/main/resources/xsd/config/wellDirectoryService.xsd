@@ -1,0 +1,63 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified">
+	<xs:include schemaLocation="baseService.xsd"/>
+	<xs:include schemaLocation="rabbitMQSettings.xsd" />
+	<xs:include schemaLocation="executiongroups.xsd" />
+	<xs:complexType name="PredefinedWellsLocationType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute type="xs:string" name="relative" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="cda_trigger">
+		<xs:sequence>
+			<xs:element type="rmq_Connection" name="Connection" />
+			<xs:element type="rmq_Exchange" name="Exchange" />
+			<xs:element type="xs:string" name="RoutingKey"/>
+			<xs:element type="xs:string" name="Queue" />
+			<xs:element type="xs:integer" name="ConcurrentListeners" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="default_executionGroups">
+		<xs:sequence>
+			<xs:element type="xs:string" name="RuleActionsExecutionGroup" />
+			<xs:element type="xs:string" name="AlertActionsExecutionGroup" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="default_executionGroupTemplates">
+		<xs:sequence>
+			<xs:element type="executionGroup_Default" name="RuleActionTemplate" />
+			<xs:element type="executionGroup_Default" name="AlertActionTemplate" />
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="default_wellDefinition">
+		<xs:sequence>
+			<xs:element type="cda_trigger" name="ChannelDataAppendedSettings" minOccurs="1"/>
+			<xs:choice minOccurs="1" maxOccurs="1">
+				<xs:element type="default_executionGroups" name="ExecutionGroups" />
+				<xs:element type="default_executionGroupTemplates" name="ExecutionGroupTemplates" />			
+			</xs:choice>
+		</xs:sequence>	
+	</xs:complexType>
+	<xs:complexType name="clockChannelSettings">
+		<xs:sequence>
+			<xs:element name="ClockChannel" minOccurs="0" maxOccurs="unbounded">
+				<xs:complexType>
+					<xs:attribute name="id" type="xs:string"/>
+					<xs:attribute name="interval" type="xs:long"/>
+				</xs:complexType>
+			</xs:element>
+		</xs:sequence>
+	</xs:complexType>
+	<xs:complexType name="service_WellDirectory">
+		<xs:sequence>
+			<xs:element type="PredefinedWellsLocationType" name="PredefinedWellsLocation" />
+			<xs:element type="rmq_settings" name="RabbitMQRestfulServices" />
+			<xs:element type="default_wellDefinition" name="DefaultWellDefinition" />
+			<xs:element type="clockChannelSettings" name="ClockChannelSettings" minOccurs="0"/>
+		</xs:sequence>
+		<xs:attributeGroup ref="attgrp_commonServiceAttribute"/>
+	</xs:complexType>
+</xs:schema>	

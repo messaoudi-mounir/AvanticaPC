@@ -1,0 +1,6 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.Datatypes",	
+	"name": "AnyArray",
+	"fields": [{"name": "item", "type": [ "null",  "Petrolink.Datatypes.ArrayOfBoolean",  "bytes",  "Petrolink.Datatypes.ArrayOfInt",  "Petrolink.Datatypes.ArrayOfLong",  "Petrolink.Datatypes.ArrayOfFloat",  "Petrolink.Datatypes.ArrayOfDouble"] }]
+}

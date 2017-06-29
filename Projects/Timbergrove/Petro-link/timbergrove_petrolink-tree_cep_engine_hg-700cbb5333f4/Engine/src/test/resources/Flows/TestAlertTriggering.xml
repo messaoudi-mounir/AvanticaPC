@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../../main/resources/xsd/flows.xsd">
+	<Rule uuid="3ee034d6-c8db-4dc3-9a05-8174c760cd32" wellId="81549d90-7a99-11e6-bdf4-0800200c9a66"
+		evaluationStrategy="IndexAlignment" expireAt="2016-12-30T09:00:00"
+		ruleId="3ee034d6-c8db-4dc3-9a05-8174c760cd32" ruleName="Use Case 0">
+		<Dependencies defaultType="buffered">
+			<Channel alias="rop" type="buffered" scope="condition" indexType="datetime"
+				valueUnit="ft/hr" indexUnit="" id="5037f119-2d45-4106-a3c7-2fed671c1dcc"
+				gap="750"></Channel>
+		</Dependencies>
+		<Variables>
+			<Static alias="DRILLING" type="integer" scope="global"
+				sequence="10">3</Static>
+		</Variables>
+		<FilteringCondition></FilteringCondition>
+		<Condition><![CDATA[(rop>50)]]></Condition>
+		<RuleActions>
+			<EvaluationLog sequence="10" name="action1"
+				defaultMode="test" testFileName="TestAlertTriggering-EVLog">
+				<Channel id="aa76b54d-c963-4818-a69b-174352c9edf0" />
+			</EvaluationLog>
+			<Script sequence="20">System.out.println("Evaluation result was " + result + " at index " + index + " with curve value " + $rop.value);
+			</Script>
+		</RuleActions>
+		<AlertSettings class="3ee034d6-c8db-4dc3-9a05-8174c760cd32"
+			className="3ee034d6-c8db-4dc3-9a05-8174c760cd32UseCase0">
+			<ProcessingLogic type="PetrolinkAutoClear" />
+			<Template>
+				<Domain>Testing</Domain>
+				<Classification>ClassMajor</Classification>
+				<Severity>1</Severity>
+				<Priority>3</Priority>
+				<Description source="templated">ROP is too High with value ${value} at index {$index} </Description>
+				<Details contentType="json" source="context" />
+			</Template>
+			<Actions>
+				<OnCreateActions>
+					<Script sequence="30">System.out.println("ActionCreate alert "+ alert.uuid +" on index " + details.get("index") + " value: " + details.get("value") );
+					</Script>
+				</OnCreateActions>
+				<OnUpdateActions>
+					<Switch sequence="10">
+						<Case condition="alert.severity>5">
+							
+						</Case>
+					</Switch>
+				</OnUpdateActions>
+				<OnCommentActions />
+				<OnAcknowledgeActions />
+				<OnStatusChangeActions>
+					<Switch sequence="10">
+						<Case condition="alert.status == 1">
+							<Script sequence="10">System.out.println("Alert with uuid " + alert.uuid + " was inactivated");</Script>
+						</Case>
+						<Case condition="alert.status == 2">
+							<Script sequence="10">System.out.println("Alert with uuid " + alert.uuid + " was closed");</Script>
+						</Case>
+					</Switch>
+				</OnStatusChangeActions>
+				<OnJournalEntryActions>
+					<Script sequence="30">
+						System.out.println("OnJournal Entry Type: " + journal.type +" by principal "+journal.principal);
+					</Script>
+				</OnJournalEntryActions>
+			</Actions>
+		</AlertSettings>
+	</Rule>
+</Flows>

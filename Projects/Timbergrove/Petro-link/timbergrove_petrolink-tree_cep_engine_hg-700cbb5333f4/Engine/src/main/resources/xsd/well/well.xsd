@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified">
+  <xs:element name="Wells" type="type_wells"/>
+  <xs:complexType name="type_Variable">
+    <xs:simpleContent>
+      <xs:extension base="xs:byte">
+        <xs:attribute type="xs:string" name="id"/>
+        <xs:attribute type="xs:string" name="type"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="type_staticVariables">
+    <xs:sequence>
+      <xs:element type="type_Variable" name="Variable"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="type_channel">
+    <xs:simpleContent>
+      <xs:extension base="xs:short">
+        <xs:attribute type="xs:string" name="name" use="optional"/>
+        <xs:attribute type="xs:string" name="id" use="optional"/>
+        <xs:attribute type="xs:string" name="indexType" use="optional"/>
+        <xs:attribute type="xs:byte" name="index" use="optional"/>
+        <xs:attribute type="xs:string" name="valueType" use="optional"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="type_channels">
+    <xs:sequence>
+      <xs:element type="type_channel" name="Channel" maxOccurs="unbounded" minOccurs="0"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="type_well">
+    <xs:sequence>
+      <xs:element type="xs:string" name="WellURI"/>
+      <xs:element type="xs:string" name="RigName"/>
+      <xs:element type="xs:byte" name="ChannelDataAppendedListeners"/>
+      <xs:element type="xs:byte" name="RuleExecutionGroup"/>
+      <xs:element type="xs:byte" name="AlertExecutionGroup"/>
+      <xs:element type="type_staticVariables" name="StaticVariables"/>
+      <xs:element type="type_channels" name="Channels"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="uuid"/>
+    <xs:attribute type="xs:string" name="name"/>
+  </xs:complexType>
+  <xs:complexType name="type_wells">
+    <xs:sequence>
+      <xs:element type="type_well" name="Well"/>
+    </xs:sequence>
+  </xs:complexType>
+</xs:schema>

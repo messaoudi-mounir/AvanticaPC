@@ -1,0 +1,11 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.Microservice.DAE",	
+	"name": "ChannelDataValues",
+	
+	"fields":
+	[
+		{ "name": "channelId", "type": "Petrolink.Datatypes.UUID" },
+		{ "name": "data", "type": { "type": "array", "items": "Petrolink.WITSML.Datatypes.DataItem" } }
+	]
+}

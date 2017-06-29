@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../../main/resources/xsd/flows.xsd"
+	   >
+	<ActionsFlow name="CacheTestFlow" load="true">
+		<Actions>
+			<Script sequence="10">
+				// Prints the latest Cached Value
+				System.out.println(event.content.getData().getItem().getIndexes().get(0).getItem());
+				System.out.println(event.content.getData().getItem().getValue().getItem());
+
+				// Taking advantage of MVEL bean accessing capabilities
+				System.out.println(event.content.data.item.indexes[0].item);
+
+			</Script>
+		</Actions>
+	</ActionsFlow>
+</Flows>

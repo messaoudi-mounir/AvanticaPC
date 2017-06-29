@@ -1,0 +1,922 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.petrolink</groupId>
+	<artifactId>petrolink-mbe-engine</artifactId>
+	<version>1.1.0-SNAPSHOT</version>
+
+	<repositories>
+		<repository>
+			<id>Tree.read</id>
+			<url>https://mymavenrepo.com/repo/A67MkHqZSArtY7RSPxSw/</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+		<repository>
+			<id>repository-apache-org</id>
+			<name>Apache Repository</name>
+			<url>https://repository.apache.org/content/groups/public/</url>
+			<layout>default</layout>
+			<releases>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
+		</repository>
+	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<id>central</id>
+			<name>296a77b2b96c-releases</name>
+			<url>https://artifactory.dev.petrolink.net/artifactory/mvn-release</url>
+		</repository>
+		<snapshotRepository>
+			<id>snapshots</id>
+			<name>296a77b2b96c-snapshots</name>
+			<url>https://artifactory.dev.petrolink.net/artifactory/mvn-snapshot</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<properties>
+
+		<izpack.version>5.0.0</izpack.version>
+		<izpack.staging>${project.build.directory}/staging</izpack.staging>
+
+		<!-- Generic properties -->
+		<java.version>1.8</java.version>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+		<!-- Ignite Version -->
+		<ignite.version>1.8.0</ignite.version>
+
+		<!-- Spring -->
+		<spring-framework.version>4.3.4.RELEASE</spring-framework.version>
+
+		<!-- Spring Boot -->
+		<spring-boot.version>1.4.2.RELEASE</spring-boot.version>
+
+		<!-- Hibernate / JPA -->
+		<hibernate.version>5.2.1.Final</hibernate.version>
+
+		<!-- Logging -->
+		<logback.version>1.1.9</logback.version>
+		<slf4j.version>1.7.21</slf4j.version>
+		<commons-logging.version>1.2</commons-logging.version>
+
+		<!-- Test -->
+		<junit.version>4.12</junit.version>
+
+		<!-- Atomikos -->
+		<atomikos.version>4.0.4</atomikos.version>
+
+		<!-- SimpleFramework -->
+		<simple.version>6.0.1</simple.version>
+		
+		<!-- Metrics  -->
+		<metrics.version>3.2.2</metrics.version>
+
+		<!-- ActiveMQ -->
+		<activemq.version>5.13.3</activemq.version>
+
+		<poi.version>3.14</poi.version>
+
+		<maven.assembly.version>2.6</maven.assembly.version>
+		<jetty.version>9.3.11.v20160721</jetty.version>
+		<maven.install.plugin.version>2.5.2</maven.install.plugin.version>
+		<maven.compiler.version>3.6.0</maven.compiler.version>
+		
+		<!-- SmartNow -->
+		<smartnow.version>2.3.2-SNAPSHOT</smartnow.version>
+		<smartnow.rabbitmq.version>1.0.1-SNAPSHOT</smartnow.rabbitmq.version>
+		<smartnow.alertstatus.version>1.0.1-SNAPSHOT</smartnow.alertstatus.version>
+		<smartnow.cluster.version>1.0.1-SNAPSHOT</smartnow.cluster.version>
+		<smartnow.scheduler.version>1.0.1-SNAPSHOT</smartnow.scheduler.version>
+		<smartnow.rabbitmq.management.version>1.0.1-SNAPSHOT</smartnow.rabbitmq.management.version>
+	</properties>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.smartnow</groupId>
+			<artifactId>SmartNowEngine</artifactId>
+			<version>${smartnow.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.smartnow</groupId>
+			<artifactId>MediationEssentials</artifactId>
+			<version>${smartnow.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.smartnow</groupId>
+			<artifactId>SmartNowRabbitMQSupport</artifactId>
+			<version>1.0.1-20170228.205247-16</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.smartnow</groupId>
+			<artifactId>SmartNowAlertStatus</artifactId>
+			<version>${smartnow.alertstatus.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.petrolink</groupId>
+			<artifactId>petrolink-mbe-structures</artifactId>
+			<version>1.1.0-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.smartnow</groupId>
+			<artifactId>cluster</artifactId>
+			<version>${smartnow.cluster.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.smartnow</groupId>
+			<artifactId>Scheduler</artifactId>
+			<version>${smartnow.scheduler.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.smartnow</groupId>
+			<artifactId>RabbitMQManagementAPI</artifactId>
+			<version>1.0.1-20170302.225800-8</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.smartnow</groupId>
+					<artifactId>SmartNowRabbitMQSupport</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<!-- Spring Boot inclusion to handle Logging and other stand along spring 
+			related operations -->
+		<!-- Ignite dependencies -->
+		<dependency>
+			<groupId>org.apache.ignite</groupId>
+			<artifactId>ignite-core</artifactId>
+			<version>${ignite.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ignite</groupId>
+			<artifactId>ignite-spring</artifactId>
+			<version>${ignite.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.ignite</groupId>
+			<artifactId>ignite-slf4j</artifactId>
+			<version>${ignite.version}</version>
+		</dependency>
+		
+		<!-- Metrics framework -->
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-core</artifactId>
+			<version>${metrics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-logback</artifactId>
+			<version>${metrics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-jvm</artifactId>
+			<version>${metrics.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>io.dropwizard.metrics</groupId>
+			<artifactId>metrics-httpclient</artifactId>
+			<version>${metrics.version}</version>
+		</dependency>
+
+		<!-- Spring dependencies -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-core</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-beans</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-expression</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-aop</artifactId>
+			<version>${spring-framework.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/commons-logging/commons-logging -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot</artifactId>
+			<version>${spring-boot.version}</version>
+		</dependency>
+
+		<!-- Logging with SLF4J & LogBack -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-api</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>compile</scope>
+		</dependency>
+
+		<!-- Test Artifacts -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${spring-framework.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>${junit.version}</version>
+			<scope>test</scope>
+		</dependency>
+
+		<!-- Other Artifacts -->
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>1.4.192</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jdom</groupId>
+			<artifactId>jdom</artifactId>
+			<version>2.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-dbcp2</artifactId>
+			<version>2.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.2.3</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mvel</groupId>
+			<artifactId>mvel2</artifactId>
+			<version>2.2.8.Final</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-csv</artifactId>
+			<version>1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-collections4</artifactId>
+			<version>4.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-lang3</artifactId>
+			<version>3.5</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.5.2</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.mail</groupId>
+			<artifactId>javax.mail-api</artifactId>
+			<version>1.5.5</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>2.5</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.jms</groupId>
+			<artifactId>jms-api</artifactId>
+			<version>1.1-rev-1</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-core</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>ch.qos.logback</groupId>
+			<artifactId>logback-classic</artifactId>
+			<version>${logback.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.commons</groupId>
+			<artifactId>commons-email</artifactId>
+			<version>1.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.freemarker</groupId>
+			<artifactId>freemarker</artifactId>
+			<version>2.3.23</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.eclipse.jetty</groupId>
+			<artifactId>jetty-servlet</artifactId>
+			<version>${jetty.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+
+		<!-- http://mvnrepository.com/artifact/org.apache.poi/poi-ooxml -->
+		<dependency>
+			<groupId>org.apache.poi</groupId>
+			<artifactId>poi-ooxml</artifactId>
+			<version>${poi.version}</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.github.ben-manes.caffeine/caffeine -->
+		<dependency>
+			<groupId>com.github.ben-manes.caffeine</groupId>
+			<artifactId>caffeine</artifactId>
+			<version>2.3.3</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.rabbitmq</groupId>
+			<artifactId>amqp-client</artifactId>
+			<version>4.0.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/org.json/json -->
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20160810</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.apache.avro</groupId>
+			<artifactId>avro</artifactId>
+			<version>1.7.7</version>
+		</dependency>
+		
+		<!-- Encryption library -->
+		<dependency>
+			<groupId>org.jasypt</groupId>
+			<artifactId>jasypt</artifactId>
+			<version>1.9.2</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.thoughtworks.xstream/xstream -->
+		<dependency>
+		    <groupId>com.thoughtworks.xstream</groupId>
+		    <artifactId>xstream</artifactId>
+		    <version>1.4.9</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<sourceDirectory>src/main/java</sourceDirectory>
+		<!-- To define the plugin version in your parent POM -->
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-install-plugin</artifactId>
+					<version>${maven.install.plugin.version}</version>
+				</plugin>
+				<plugin>
+					<groupId>org.maven.apache.plugins</groupId>
+					<artifactId>maven-resources-plugin</artifactId>
+					<version>3.0.1</version>
+				</plugin>
+				<plugin>
+					<groupId>com.soebes.maven.plugins</groupId>
+					<artifactId>doxygen-maven-plugin</artifactId>
+					<version>1.1.0</version>
+				</plugin>
+				<plugin>
+					<groupId>org.codehaus.mojo</groupId>
+				    <artifactId>xml-maven-plugin</artifactId>
+				    <version>1.0.1</version>
+				</plugin>
+			</plugins>
+		</pluginManagement>
+		<resources>
+			<resource>
+				<directory>src/main/resources</directory>
+				<excludes>
+					<exclude>**/xsd/**</exclude>
+				</excludes>
+			</resource>
+		</resources>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>xml-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>Prepare Production Config</id>
+						<phase>package</phase>
+						<goals>
+							<goal>transform</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<transformationSets>
+						<transformationSet>
+							<dir>runtime</dir>
+							<includes>
+								<include>smartnow.cfg.xml</include>
+							</includes>
+							<outputDir>${basedir}/target/package</outputDir>
+							<stylesheet>src/main/assembly/smartnow.cfg.production.xsl</stylesheet>
+						</transformationSet>
+					</transformationSets>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-resources-plugin</artifactId>
+				<version>3.0.1</version>
+				<executions>
+					<execution>
+						<id>copy-resources</id>
+						<!-- here the phase you need -->
+						<phase>validate</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/classes</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/resources</directory>
+									<filtering>true</filtering>
+									<excludes>
+										<exclude>**/TestLogs/**</exclude>
+										<exclude>**/runtime/flows/*.xml</exclude>
+										<exclude>**/petrolink.mv.db</exclude>
+									</excludes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+					<execution>
+						<id>copy-resources-to-package</id>
+						<!-- here the phase you need -->
+						<phase>package</phase>
+						<goals>
+							<goal>copy-resources</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>${basedir}/target/package</outputDirectory>
+							<resources>
+								<resource>
+									<directory>src/main/bin</directory>
+									<targetPath>bin</targetPath>
+								</resource>
+								<resource>
+									<directory>doc</directory>
+									<targetPath>doc</targetPath>
+									<includes>
+										<include>**/*.md</include>
+										<include>**/*.txt</include>
+										<include>**/*.pdf</include>
+									</includes>
+								</resource>
+								<resource>
+									<directory>runtime</directory>
+									<includes>
+										<include>**/templates/*.xml</include>
+										<include>**/connections.xml</include>
+										<include>**/connections.xml.enccon.example</include>
+										<include>**/cluster.properties</include>
+										<include>**/logback.xml</include>
+										<!-- The inclusion here is moved to xml-maven-plugin, as there is a need to do transform on production --> 
+										<!-- <include>**/smartnow.cfg.xml</include>-->
+										<include>**/root-app-context.xml</include>
+									</includes>
+								</resource>
+							</resources>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>create-empty-directory</id>
+						<phase>package</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<tasks>
+								<echo message="Artifact ID: ${project.artifactId} ${project.version}"/>
+								<mkdir dir="${basedir}/target/package/flows" />
+								<mkdir dir="${basedir}/target/package/h2" />
+								<mkdir dir="${basedir}/target/package/triggers" />
+								<mkdir dir="${basedir}/target/package/wells" />
+								<replace file="${basedir}/target/package/bin/mbe-getVersion.bat"
+									token="${project.artifactId}.jar"
+									value="${project.artifactId}-${project.version}-jar-with-dependencies.jar" />
+								<replace file="${basedir}/target/package/bin/mbe-windows.bat"
+									token="${project.artifactId}.jar"
+									value="${project.artifactId}-${project.version}-jar-with-dependencies.jar" />
+								<replace file="${basedir}/target/package/bin/mbe-windows-enccon.bat"
+                                    token="${project.artifactId}.jar"
+                                    value="${project.artifactId}-${project.version}-jar-with-dependencies.jar" />
+                                <replace file="${basedir}/target/package/bin/mbe-installService.bat"
+									token="${project.artifactId}.jar"
+									value="${project.artifactId}-${project.version}-jar-with-dependencies.jar" />
+								<replace file="${basedir}/target/package/bin/mbe-uninstallService.bat"
+									token="${project.artifactId}.jar"
+									value="${project.artifactId}-${project.version}-jar-with-dependencies.jar" />
+                                <replace file="${basedir}/target/package/bin/mbe-getVersion.sh"
+									token="${project.artifactId}.jar"
+									value="${project.artifactId}-${project.version}-jar-with-dependencies.jar" />
+								<replace file="${basedir}/target/package/bin/mbe-linux.sh"
+									token="${project.artifactId}.jar"
+									value="${project.artifactId}-${project.version}-jar-with-dependencies.jar" />
+								<replace file="${basedir}/target/package/bin/mbe-linux-enccon.sh"
+                                    token="${project.artifactId}.jar"
+                                    value="${project.artifactId}-${project.version}-jar-with-dependencies.jar" />
+								<replace
+									file="${basedir}/target/package/bin/mbe-linux-systemd.service"
+									token="${project.artifactId}.jar"
+									value="${project.artifactId}-${project.version}-jar-with-dependencies.jar" />
+								<replace
+									file="${basedir}/target/package/bin/mbe-linux-upstart.conf"
+									token="${project.artifactId}.jar"
+									value="${project.artifactId}-${project.version}-jar-with-dependencies.jar" />
+							</tasks>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${maven.compiler.version}</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<version>${maven.assembly.version}</version>
+				<configuration>
+					<outputDirectory>
+						${basedir}/target/package
+					</outputDirectory>
+					<archive>
+						<manifest>
+							<mainClass>com.petrolink.mbe.engine.ComplexEventProcessor</mainClass>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>${maven.assembly.version}</version>
+				<configuration>
+					<!-- Replaced by custom descriptor due to spring problem -->
+					<!-- <descriptorRefs>
+						<descriptorRef>jar-with-dependencies</descriptorRef>
+					</descriptorRefs> -->
+					<descriptors>
+						<descriptor>src/main/assembly/zip.xml</descriptor>
+						<descriptor>src/main/assembly/jar-with-dependencies.xml</descriptor>
+					</descriptors>
+					<excludes>
+						<exclude>**/*.xml</exclude>
+					</excludes>
+					<archive>
+						<manifest>
+							<mainClass>com.petrolink.mbe.engine.ComplexEventProcessor</mainClass>
+							<addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+							<addDefaultSpecificationEntries>true</addDefaultSpecificationEntries>
+						</manifest>
+					</archive>
+					<outputDirectory>
+						${basedir}/target/package
+					</outputDirectory>
+				</configuration>
+				<executions>
+					<execution>
+						<id>make-assembly</id> <!-- this is used for inheritance merges -->
+						<phase>package</phase> <!-- bind to the packaging phase -->
+						<goals>
+							<goal>single</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<version>2.19</version>
+				<configuration>
+					<excludes>
+						<exclude>**/*IntegrationTest*</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<!-- To use the plugin goals in your POM or parent POM -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-install-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>install-external-petrolink.structures</id>
+						<phase>clean</phase>
+						<configuration>
+							<file>${project.basedir}/lib/petrolink-mbe-structures-1.0.jar</file>
+							<repositoryLayout>default</repositoryLayout>
+							<pomFile>${project.basedir}/lib/petrolink-mbe-structures-1.0.pom.xml</pomFile>
+						</configuration>
+						<goals>
+							<goal>install-file</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>com.soebes.maven.plugins</groupId>
+				<artifactId>doxygen-maven-plugin</artifactId>
+				<configuration>
+					<abbreviateBrief>"The $name class" \
+						"The $name widget" \
+						"The $name
+						file" \
+						is \
+						provides \
+						specifies \
+						contains \
+						represents \
+						a \
+						an \
+						the
+					</abbreviateBrief>
+					<allexternals>false</allexternals>
+					<alphabeticalIndex>true</alphabeticalIndex>
+					<alwaysDetailedSec>false</alwaysDetailedSec>
+					<autolinkSupport>true</autolinkSupport>
+					<basedir>.</basedir>
+					<binaryToc>false</binaryToc>
+					<briefMemberDesc>true</briefMemberDesc>
+					<builtinStlSupport>false</builtinStlSupport>
+					<callGraph>false</callGraph>
+					<callerGraph>false</callerGraph>
+					<caseSenseNames>true</caseSenseNames>
+					<classDiagrams>true</classDiagrams>
+					<classGraph>true</classGraph>
+					<collaborationGraph>true</collaborationGraph>
+					<colsInAlphaIndex>5</colsInAlphaIndex>
+					<compactLatex>false</compactLatex>
+					<compactRtf>false</compactRtf>
+					<cppCliSupport>false</cppCliSupport>
+					<createSubdirs>false</createSubdirs>
+					<destDir>doxygen</destDir>
+					<directoryGraph>true</directoryGraph>
+					<disableIndex>false</disableIndex>
+					<distributeGroupDoc>false</distributeGroupDoc>
+					<docbookOutput>docbook</docbookOutput>
+					<docsetBundleId>org.doxygen.Project</docsetBundleId>
+					<docsetFeedname>"Doxygen generated docs"</docsetFeedname>
+					<docsetPublisherId>org.doxygen.Publisher</docsetPublisherId>
+					<docsetPublisherName>Publisher</docsetPublisherName>
+					<dotCleanup>true</dotCleanup>
+					<dotFontname>Helvetica</dotFontname>
+					<dotFontsize>10</dotFontsize>
+					<dotGraphMaxNodes>50</dotGraphMaxNodes>
+					<dotImageFormat>png</dotImageFormat>
+					<dotMultiTargets>false</dotMultiTargets>
+					<dotNumThreads>8</dotNumThreads>
+					<dotPath>/usr/bin</dotPath>
+					<dotTransparent>false</dotTransparent>
+					<doxyfileEncoding>UTF-8</doxyfileEncoding>
+					<eclipseDocId>org.doxygen.Project</eclipseDocId>
+					<enablePreprocessing>true</enablePreprocessing>
+					<enumValuesPerLine>4</enumValuesPerLine>
+					<exampleRecursive>false</exampleRecursive>
+					<exclude>.svn</exclude>
+					<excludeSymlinks>false</excludeSymlinks>
+					<executable>doxygen</executable>
+					<expandOnlyPredef>false</expandOnlyPredef>
+					<externalGroups>true</externalGroups>
+					<externalPages>true</externalPages>
+					<externalSearch>false</externalSearch>
+					<externalSearchId></externalSearchId>
+					<extLinksInWindow>false</extLinksInWindow>
+					<extractAll>true</extractAll>
+					<extractAnonNspaces>false</extractAnonNspaces>
+					<extractLocalClasses>true</extractLocalClasses>
+					<extractLocalMethods>false</extractLocalMethods>
+					<extractPackage>false</extractPackage>
+					<extractPrivate>false</extractPrivate>
+					<extractStatic>false</extractStatic>
+					<filePatterns>*.c *.cc *.cxx *.cpp *.c++ *.java *.ii *.ixx *.ipp
+						*.i++ *.inl *.h *.hh *.hxx *.hpp *.h++ *.idl *.odl *.cs *.php
+						*.php3 *.inc *.m *.mm *.py *.f90</filePatterns>
+					<filterSourceFiles>false</filterSourceFiles>
+					<forceLocalIncludes>false</forceLocalIncludes>
+					<formulaFontsize>10</formulaFontsize>
+					<formulaTransparent>true</formulaTransparent>
+					<fullPathNames>true</fullPathNames>
+					<generateAutogenDef>false</generateAutogenDef>
+					<generateBuglist>true</generateBuglist>
+					<generateChi>false</generateChi>
+					<generateDeprecatedlist>true</generateDeprecatedlist>
+					<generateDocbook>false</generateDocbook>
+					<generateDocset>false</generateDocset>
+					<generateEclipsehelp>false</generateEclipsehelp>
+					<generateHtml>true</generateHtml>
+					<generateHtmlhelp>false</generateHtmlhelp>
+					<generateLatex>true</generateLatex>
+					<generateLegend>true</generateLegend>
+					<generateMan>true</generateMan>
+					<generatePerlmod>false</generatePerlmod>
+					<generateQhp>false</generateQhp>
+					<generateRtf>true</generateRtf>
+					<generateTestlist>true</generateTestlist>
+					<generateTodolist>true</generateTodolist>
+					<generateTreeview>ALL</generateTreeview>
+					<generateXml>false</generateXml>
+					<graphicalHierarchy>true</graphicalHierarchy>
+					<groupGraphs>true</groupGraphs>
+					<haveDot>false</haveDot>
+					<hideFriendCompounds>false</hideFriendCompounds>
+					<hideInBodyDocs>false</hideInBodyDocs>
+					<hideScopeNames>false</hideScopeNames>
+					<hideUndocClasses>false</hideUndocClasses>
+					<hideUndocMembers>false</hideUndocMembers>
+					<hideUndocRelations>true</hideUndocRelations>
+					<htmlColorstyleHue>220</htmlColorstyleHue>
+					<htmlColorstyleSat>100</htmlColorstyleSat>
+					<htmlColorstyleGamma>80</htmlColorstyleGamma>
+					<htmlDynamicSections>true</htmlDynamicSections>
+					<htmlFileExtension>.html</htmlFileExtension>
+					<htmlIndexNumEntries>100</htmlIndexNumEntries>
+					<htmlOutput>html</htmlOutput>
+					<htmlTimestamp>true</htmlTimestamp>
+					<idlPropertySupport>true</idlPropertySupport>
+					<includeGraph>true</includeGraph>
+					<includedByGraph>true</includedByGraph>
+					<inheritDocs>true</inheritDocs>
+					<inlineGroupedClasses>false</inlineGroupedClasses>
+					<inlineInfo>true</inlineInfo>
+					<inlineInheritedMemb>false</inlineInheritedMemb>
+					<inlineSources>false</inlineSources>
+					<inlineSimpleStructs>false</inlineSimpleStructs>
+					<input>src/main/java</input>
+					<inputEncoding>UTF-8</inputEncoding>
+					<internalDocs>false</internalDocs>
+					<interactiveSvg>false</interactiveSvg>
+					<javadocAutobrief>true</javadocAutobrief>
+					<latexBatchmode>false</latexBatchmode>
+					<latexBibStyle>plain</latexBibStyle>
+					<latexCmdName>latex</latexCmdName>
+					<latexHideIndices>false</latexHideIndices>
+					<latexOutput>latex</latexOutput>
+					<latexSourceCode>false</latexSourceCode>
+					<lookupCacheSize>0</lookupCacheSize>
+					<macroExpansion>false</macroExpansion>
+					<makeindexCmdName>makeindex</makeindexCmdName>
+					<manExtension>.3</manExtension>
+					<manLinks>false</manLinks>
+					<manOutput>man</manOutput>
+					<mathjaxFormat>html-css</mathjaxFormat>
+					<mathjaxRelpath>http://cdn.mathjax.org/mathjax/latest</mathjaxRelpath>
+					<markdownSupport>true</markdownSupport>
+					<maxDotGraphDepth>0</maxDotGraphDepth>
+					<maxInitializerLines>30</maxInitializerLines>
+					<multilineCppIsBrief>false</multilineCppIsBrief>
+					<optimizeForFortran>false</optimizeForFortran>
+					<optimizeOutputForC>false</optimizeOutputForC>
+					<optimizeOutputJava>true</optimizeOutputJava>
+					<optimizeOutputVhdl>false</optimizeOutputVhdl>
+					<outputDirectory>target/site</outputDirectory>
+					<outputLanguage>English</outputLanguage>
+					<paperType>letter</paperType>
+					<pdfHyperlinks>true</pdfHyperlinks>
+					<perlPath>/usr/bin/perl</perlPath>
+					<perlmodLatex>false</perlmodLatex>
+					<perlmodPretty>true</perlmodPretty>
+					<projectName>MBE Engine</projectName>
+					<projectBrief>Petrolink Manage By Example Engine</projectBrief>
+					<projectNumber>1.0</projectNumber>
+					<qhpNamespace>org.doxygen.Project</qhpNamespace>
+					<qhpVirtualFolder>doc</qhpVirtualFolder>
+					<qtAutobrief>false</qtAutobrief>
+					<quiet>false</quiet>
+					<recursive>true</recursive>
+					<referencedByRelation>false</referencedByRelation>
+					<referencesLinkSource>true</referencesLinkSource>
+					<referencesRelation>false</referencesRelation>
+					<repeatBrief>true</repeatBrief>
+					<reportOutputDirectory>target/site</reportOutputDirectory>
+					<rtfHyperlinks>false</rtfHyperlinks>
+					<rtfOutput>rtf</rtfOutput>
+					<searchBasedSearch>false</searchBasedSearch>
+					<searchIncludes>true</searchIncludes>
+					<searchengine>true</searchengine>
+					<searchengineUrl></searchengineUrl>
+					<searchdataFile>searchdata.xml</searchdataFile>
+					<separateMemberPages>false</separateMemberPages>
+					<serverBasedSearch>false</serverBasedSearch>
+					<shortNames>false</shortNames>
+					<showFiles>true</showFiles>
+					<showIncludeFiles>true</showIncludeFiles>
+					<showGroupedMembInc>false</showGroupedMembInc>
+					<showNamespaces>true</showNamespaces>
+					<showUsedFiles>true</showUsedFiles>
+					<sipSupport>false</sipSupport>
+					<skip>false</skip>
+					<skipFunctionMacros>true</skipFunctionMacros>
+					<sortBriefDocs>false</sortBriefDocs>
+					<sortByScopeName>false</sortByScopeName>
+					<sortGroupNames>false</sortGroupNames>
+					<sortMemberDocs>true</sortMemberDocs>
+					<sortMembersCtors1st>false</sortMembersCtors1st>
+					<sourceBrowser>true</sourceBrowser>
+					<sourceTooltips>true</sourceTooltips>
+					<strictProtoMatching>false</strictProtoMatching>
+					<stripCodeComments>true</stripCodeComments>
+					<subgrouping>true</subgrouping>
+					<tabSize>4</tabSize>
+					<templateRelations>false</templateRelations>
+					<tocExpand>false</tocExpand>
+					<treeviewWidth>250</treeviewWidth>
+					<typedefHidesStruct>false</typedefHidesStruct>
+					<umlLook>false</umlLook>
+					<umlLimitNumFields>10</umlLimitNumFields>
+					<useHtags>false</useHtags>
+					<useMathJax>false</useMathJax>
+					<usePdflatex>true</usePdflatex>
+					<verbatimHeaders>true</verbatimHeaders>
+					<warnFormat>"$file:$line: $text"</warnFormat>
+					<warnIfDocError>true</warnIfDocError>
+					<warnIfUndocumented>true</warnIfUndocumented>
+					<warnNoParamdoc>true</warnNoParamdoc>
+					<warnings>true</warnings>
+					<xmlOutput>xml</xmlOutput>
+					<xmlProgramlisting>true</xmlProgramlisting>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<organization>
+		<name>Petrolink</name>
+		<url>http://www.petrolink.com</url>
+	</organization>
+	<name>Petrolink MBE Engine</name>
+	<scm>
+		<url>https://bitbucket.org/timbergrove_petrolink/tree_cep_engine.git</url>
+	</scm>
+	<ciManagement>
+		<system>Jenkins</system>
+	</ciManagement>
+</project>

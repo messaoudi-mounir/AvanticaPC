@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../../main/resources/xsd/flows.xsd">
+	<Rule uuid="c1dea7e0-7510-11e6-bdf4-0800200c9a66UseCase1" wellId="81549d90-7a99-11e6-bdf4-0800200c9a66"
+		evaluationStrategy="LastKnownValue" expireAt="2016-12-30T09:00:00">
+		<Dependencies defaultType="LastKnownValue">
+			<Channel alias="rigState" scope="filtering"
+				id="48c0b7c0-7c56-11e6-bdf4-0800200c9a66">
+				<ValueNames>
+					<Name text="Drilling" value="3" />
+				</ValueNames>
+			</Channel>
+			<Channel alias="rop" scope="condition"
+				id="5037f119-2d45-4106-a3c7-2fed671c1dcc" />
+		</Dependencies>
+		<Variables>
+			<Static alias="DRILLING" type="integer" scope="global"
+				sequence="10">3</Static>
+		</Variables>
+		<FilteringCondition>rigState==DRILLING</FilteringCondition>
+		<Condition><![CDATA[
+		(rop>20)
+		]]>
+		</Condition>
+		<RuleActions>
+			<EvaluationLog sequence="10" testFileName="UseCase1-EVLog">
+				<Channel id="c7c61513-af84-4cec-aaf4-cfaff060ab72" />
+			</EvaluationLog>
+			<Script sequence="20">
+				System.out.println("Use Case 1 Evaluation result was " + result + " at index " + index);
+			</Script>
+		</RuleActions>
+		<AlertSettings class="c1dea7e0-7510-11e6-bdf4-0800200c9a66"
+			className="c1dea7e0-7510-11e6-bdf4-0800200c9a66UseCase0">
+			<ProcessingLogic type="PetrolinkAutoClear"></ProcessingLogic>
+			<Template>
+				<Domain>Y</Domain>
+				<Classification>ClassMajor</Classification>
+				<Severity>5</Severity>
+				<Priority>3</Priority>
+				<Description>I don't care</Description>
+				<Details contentType="json" source="context"></Details>
+			</Template>
+			<Actions>
+				<OnCreateActions>
+					<!-- Originally from template="MailTemplate01" -->
+					<SendMailNotification sequence="20"
+						template="7c18e624-e611-4e4f-b35f-f091a5138361">
+						<To>usecase1@example.com</To>
+						<CC></CC>
+						<BCC>test@test.com</BCC>
+						<Params>
+							<Param name="subjectParam" type="String">Mailflow</Param>
+							<Param name="p1" type="Integer">5</Param>
+							<Param name="closing" type="String">
+					<![CDATA[
+					<p>
+					Best Regards, <br/>
+					<br/>
+					Petrolink<br/>
+					</p>
+					]]>
+							</Param>
+						</Params>
+					</SendMailNotification>
+					<Script sequence="30">
+						System.out.println("I was here on Case 1!!");
+						System.out.println("Index: " + details.get("index"));
+						System.out.println("Value: " + details.get("value"));
+					</Script>
+				</OnCreateActions>
+
+				<OnUpdateActions />
+
+				<OnCommentActions />
+
+				<OnAcknowledgeActions />
+
+				<OnStatusChangeActions>
+					<Switch sequence="10">
+						<Case condition="alert.status == 1">
+							<AlertAuditLog sequence="05" testFileName="UseCase1">
+								<Channel id="47248808-81bd-4142-ac8e-96441cf66357" />
+							</AlertAuditLog>
+							<Script sequence="10">
+								System.out.println("Alert with uuid " + alert.uuid + " was inactivated");
+							</Script>
+						</Case>
+						<Case condition="alert.status == 2">
+							<Script sequence="10">
+								System.out.println("Alert with uuid " + alert.uuid + " was closed");
+							</Script>
+						</Case>
+					</Switch>
+				</OnStatusChangeActions>
+			</Actions>
+		</AlertSettings>
+	</Rule>
+</Flows>

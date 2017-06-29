@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified">
+	<xs:include schemaLocation="baseService.xsd" />   	
+	<xs:include schemaLocation="rabbitMQSettings.xsd" />	
+	
+	<xs:complexType name="H2ServerType">
+		<xs:simpleContent>
+			<xs:extension base="xs:string">
+				<xs:attribute type="xs:short" name="port" />
+			</xs:extension>
+		</xs:simpleContent>
+	</xs:complexType>
+	<xs:complexType name="alertstatus_service">
+		<xs:sequence>
+			<xs:element type="H2ServerType" name="H2Server">
+				<xs:annotation>
+					<xs:documentation> Required to enable external DB access through
+						JDBC  </xs:documentation>
+				</xs:annotation>
+			</xs:element>
+			<xs:element type="xs:string" name="ConnectionURL" />
+			<xs:element type="xs:short" name="CacheSize" />
+			<xs:element type="xs:byte" name="TimeToLive" />
+			<xs:element type="rmq_settings" name="RabbitMQRestfulServices" />
+		</xs:sequence>
+		<xs:attributeGroup ref="attgrp_commonServiceAttribute"/>
+	</xs:complexType>
+</xs:schema>

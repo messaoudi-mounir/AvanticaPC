@@ -1,0 +1,12 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.Datatypes",	
+	"name": "ArrayOfString",
+	"fields":
+	[
+		{ 
+		"name": "values", 
+		"type": { "type": "array", "items": "string" } 
+	}
+	]
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified">
+	<xs:include schemaLocation="baseService.xsd"/>
+	<xs:include schemaLocation="rabbitMQSettings.xsd" />
+	<xs:complexType name="service_AlertProcessorDirectory">
+		<xs:attributeGroup ref="attgrp_commonServiceAttribute"/>
+	</xs:complexType>
+</xs:schema>	

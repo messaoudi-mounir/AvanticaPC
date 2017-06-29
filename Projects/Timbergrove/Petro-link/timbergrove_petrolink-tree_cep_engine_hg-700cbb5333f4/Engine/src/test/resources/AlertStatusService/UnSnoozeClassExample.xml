@@ -1,0 +1,12 @@
+<AlertStatusRequest xmlns="http://www.petrolink.com/mbe/alertstatus"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/alertstatus AlertStatusRequest.xsd"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<Action>UNSNOOZE</Action>
+	<!-- Unsnooze just like snooze actions are taken on an specific alert  -->
+<!-- 	<UUID>77d5f460-d55d-455d-8a22-5f2c6582bf93</UUID> -->
+	<!-- or can be taken on a Class and Well -->
+	<Class>c1dea7e0-7510-11e6-bdf4-0800200c9a66</Class>
+	<Well>81549d90-7a99-11e6-bdf4-0800200c9a66</Well>
+	<By>Lorem Ipsum</By>
+	<Timestamp>2016-11-10T23:42:57.9855650Z</Timestamp>
+</AlertStatusRequest>

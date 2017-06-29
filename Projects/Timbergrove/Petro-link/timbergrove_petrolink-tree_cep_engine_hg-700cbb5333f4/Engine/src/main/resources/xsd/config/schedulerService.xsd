@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified">		
+	<xs:include schemaLocation="baseService.xsd" /> 
+	<xs:complexType name="scheduler_service">
+		<xs:choice minOccurs="0">
+			<xs:element type="xs:string" name="Properties"/>
+			<xs:element type="xs:string" name="PropertiesFile"/>
+		</xs:choice>
+		<xs:attributeGroup ref="attgrp_commonServiceAttribute"/>
+	</xs:complexType>
+</xs:schema>

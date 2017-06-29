@@ -1,0 +1,21 @@
+{
+	"type": "enum",
+	"namespace": "Petrolink.Analytix.RuleEngine.Messages",
+	"name": "Severity",
+	"symbols":
+	[
+		"None",
+		"Unused1",
+		"Unused2",
+		"Low",
+		"Unused4",
+		"Unused5",
+		"Medium",
+		"Unused7",
+		"Unused8",
+		"High",
+		"Unused10",
+		"Unused11",
+		"Critical"
+	]
+}

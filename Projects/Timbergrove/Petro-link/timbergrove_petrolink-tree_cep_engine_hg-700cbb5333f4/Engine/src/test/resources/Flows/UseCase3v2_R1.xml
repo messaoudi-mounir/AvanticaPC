@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules">
+  <Rule name="ROP Is Outside Threshold_c0902b1b-52ec-460f-b170-7633d3ea20ec" uuid="c0902b1b-52ec-460f-b170-7633d3ea20ec" wellId="7e09f953-1df2-4d32-8b1b-de71423c66be" wellboreId="ec9b114e-4f88-4833-9ba4-da3f8f4913fb" wellName="Timbergrove22" ruleId="c0902b1b-52ec-460f-b170-7633d3ea20ec" ruleName="ROP Is Outside Threshold" evaluationStrategy="IndexAlignment">
+    <Dependencies defaultType="buffered">
+      <Channel alias="rigstate" type="buffered" indexType="datetime" scope="filtering" indexUnit="DateTime" gap="0" id="7aacab4f-3384-4bce-8b30-94a853a91139" sequence="10">
+        <ValueNames rigStateSource="b3c924b4-1439-4bf3-8aea-3b793fc8dc13" />
+      </Channel>
+      <Channel alias="ROP" type="buffered" indexType="datetime" scope="condition" valueUnit="ft/h" indexUnit="DateTime" gap="0" id="f92500ac-b19c-415a-a86f-90a8ba191fff" sequence="20" />
+      <Channel alias="ROP_LOWER_THRESHOLD" type="buffered" indexType="datetime" scope="condition" valueUnit="ft/hr" indexUnit="DateTime" gap="0" id="083a0d56-fd52-4da8-8820-8801deceb987" sequence="30" />
+      <Channel alias="ROP_UPPER_THRESHOLD" type="buffered" indexType="datetime" scope="condition" valueUnit="ft/hr" indexUnit="DateTime" gap="0" id="84cf46be-1834-4e41-b4c7-1a363fa86c78" sequence="40" />
+    </Dependencies>
+    <Variables>
+      <Static alias="Drilling" scope="filtering" sequence="50">2</Static>
+    </Variables>
+    <FilteringCondition>rigstate == Drilling</FilteringCondition>
+    <Condition><![CDATA[(ROP > ROP_UPPER_THRESHOLD) || (ROP < ROP_LOWER_THRESHOLD)]]></Condition>
+    <RuleActions>
+      <EvaluationLog sequence="10" name="84ec1e85-cd44-41dc-803a-8c9eb766f434">
+        <Channel id="84ec1e85-cd44-41dc-803a-8c9eb766f434" />
+      </EvaluationLog>
+    </RuleActions>
+    <AlertSettings className="ROP Is Outside Threshold" class="c0902b1b-52ec-460f-b170-7633d3ea20ec">
+      <ProcessingLogic type="PetrolinkAutoClear" />
+      <Template>
+        <Domain>Testing</Domain>
+        <Classification>Process Safety</Classification>
+        <Severity>3</Severity>
+        <Priority>3</Priority>
+        <Description source="static" />
+        <Details contentType="json" source="context" />
+      </Template>
+      <Actions>
+        <OnCreateActions>
+          <SendUINotification sequence="60">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+            <InlineTemplate>
+              <Title>ROP Is Outside Threshold</Title>
+              <Body>ROP is not within Threshold!
+ROP: ${ROP.value} ${ROP.valueUnit}
+Upper threshold: ${ROP_UPPER_THRESHOLD.value} ${ROP_UPPER_THRESHOLD.valueUnit}
+Lower threshold: ${ROP_LOWER_THRESHOLD.value} ${ROP_LOWER_THRESHOLD.valueUnit}
+Rigstate: ${rigstate.valueName}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnCreateActions>
+        <OnUpdateActions />
+        <OnCommentActions>
+          <SendUINotification sequence="70">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+            <InlineTemplate>
+              <Title>ROP Is Outside Threshold</Title>
+              <Body>ROP is not within Threshold!
+ROP: ${ROP.value} ${ROP.valueUnit}
+Upper threshold: ${ROP_UPPER_THRESHOLD.value} ${ROP_UPPER_THRESHOLD.valueUnit}
+Lower threshold: ${ROP_LOWER_THRESHOLD.value} ${ROP_LOWER_THRESHOLD.valueUnit}
+Rigstate: ${rigstate.valueName}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnCommentActions>
+        <OnAcknowledgeActions>
+          <SendUINotification sequence="80">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+            <InlineTemplate>
+              <Title>ROP Is Outside Threshold</Title>
+              <Body>ROP is not within Threshold!
+ROP: ${ROP.value} ${ROP.valueUnit}
+Upper threshold: ${ROP_UPPER_THRESHOLD.value} ${ROP_UPPER_THRESHOLD.valueUnit}
+Lower threshold: ${ROP_LOWER_THRESHOLD.value} ${ROP_LOWER_THRESHOLD.valueUnit}
+Rigstate: ${rigstate.valueName}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+        </OnAcknowledgeActions>
+        <OnStatusChangeActions>
+          <SendUINotification sequence="90">
+            <Channel id="6327f8b6-47d7-406a-968e-7f62e8262e28" />
+            <!-- This hardcoded channel id is for demo purpose and should be removed.-->
+            <User id="2c80385f-7c80-4e01-be5c-85239d18c7a4" />
+            <InlineTemplate>
+              <Title>ROP Is Outside Threshold</Title>
+              <Body>ROP is not within Threshold!
+ROP: ${ROP.value} ${ROP.valueUnit}
+Upper threshold: ${ROP_UPPER_THRESHOLD.value} ${ROP_UPPER_THRESHOLD.valueUnit}
+Lower threshold: ${ROP_LOWER_THRESHOLD.value} ${ROP_LOWER_THRESHOLD.valueUnit}
+Rigstate: ${rigstate.valueName}</Body>
+            </InlineTemplate>
+          </SendUINotification>
+          <Switch sequence="100">
+            <!-- ACTIVE = 0, INACTIVE = 1, CLOSED = 2 -->
+            <Case condition="alert.status == 2">
+              <AlertAuditLog sequence="110">
+                <Channel id="aa4d3344-8fce-4cf0-9579-5cff6f8e7b5d" />
+              </AlertAuditLog>
+            </Case>
+          </Switch>
+        </OnStatusChangeActions>
+        <OnJournalEntryActions>
+          <EventLog sequence="120">
+            <Channel id="4a6e7887-db9c-4f3c-96ac-03617d29cee0" />
+          </EventLog>
+        </OnJournalEntryActions>
+      </Actions>
+    </AlertSettings>
+  </Rule>
+</Flows>

@@ -1,0 +1,10 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.Analytix.RuleEngine.Messages",
+	"name": "ActionDefinition",
+	"fields":
+	[
+		{ "name": "actionType", "type": "string" },
+		{ "name": "arguments", "type": { "type": "map", "values": "string" } }
+	]
+}

@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../src/main/resources/xsd/flows.xsd">
+	<Rule uuid="c1dea7e0-7510-11e6-bdf4-0800200c9a66" wellId="81549d90-7a99-11e6-bdf4-0800200c9a66"
+		evaluationStrategy="IndexAlignment" expireAt="2016-12-30T09:00:00"
+		ruleId="c1dea7e0-7510-11e6-bdf4-0800200c9a66" ruleName="Use Case 4">
+		<Dependencies defaultType="buffered">
+			<Channel alias="x" type="buffered" scope="condition" indexType="datetime" valueUnit="" indexUnit="" id="48c0b7c0-7c56-11e6-bdf4-0800200c9a66" gap="2000"/>
+			<Channel alias="y" type="buffered" scope="condition" indexType="datetime" valueUnit="ft/hr" indexUnit="" id="5037f119-2d45-4106-a3c7-2fed671c1dcc" gap="750"/>
+			<Channel alias="z" type="buffered" scope="condition" indexType="datetime" valueUnit="ft/hr" indexUnit="" id="b83ae260-7f8a-11e6-bdf4-0800200c9a66" gap="750"/>
+		</Dependencies>
+		<Variables>
+			<Static alias="DRILLING" type="integer" scope="global" sequence="10">3</Static>
+		</Variables>
+		<FilteringCondition></FilteringCondition>
+		<Condition><![CDATA[(x > 10000 || y > 10000 || z > 10000)]]></Condition>
+		<RuleActions>
+			<EvaluationLog sequence="10" name="action1"
+				defaultMode="test" testFileName="UseCase4-EVLog">
+				<Channel id="a476b54d-c963-4818-a69b-174352c9edf0" />
+			</EvaluationLog>
+<!-- 			<Script sequence="20">System.out.println("Use Case 0 Evaluation result was " + result + " at index " + index); -->
+<!-- 				System.out.println($rop.value);</Script> -->
+		</RuleActions>
+		<AlertSettings class="c1dea7e0-7510-11e6-bdf4-0800200c9a66" className="c1dea7e0-7510-11e6-bdf4-0800200c9a66UseCase0">
+			<ProcessingLogic type="PetrolinkAutoClear" resourceGroup="Group1">
+				<!-- Alert channels type is by default as globalbuffered and 
+					used as Last Known Value previous to the  
+					alert primary Index. Alternatively they can be last known value
+				 -->
+				<Channel alias="bitDepth" type="globalbuffered"
+					id="aa76b54d-c963-4818-a69b-174352c9edf0" gap="750"></Channel>
+				<Channel alias="holeDepth" type="globalbuffered"
+					id="3af0b7cf-6c6a-4c95-8d17-1a770581eceb" gap="750"></Channel>
+				<Channel alias="rigState" type="globalbuffered"
+					id="a140c139-fb6c-4828-ab74-2c6d14641e86" gap="750"></Channel>
+				<Channel alias="sampleCurve" type="globalbuffered"
+					id="c08532c4-65e7-463e-ba6e-20d35e43ba8b" gap="750"></Channel>
+				<DeduplicationScript executeDefault="true">
+					// Alerts to be deduplicated. 
+					// Existing alert is named alert and the new alert will be called new in the script environment.
+					if (alert.finalBitDepth - alert.bitDepth > 1000) {
+						alert.severity = 5;					
+					}
+				</DeduplicationScript>
+			</ProcessingLogic>
+			<Template>
+				<Domain>Y</Domain>
+				<Classification>ClassMajor</Classification>
+				<Severity>0</Severity>
+				<Priority>3</Priority>
+				<Description source="templated">ROP is too High with value ${value} at index {$index} on well ${wellName}</Description>
+				<Details contentType="json" source="scripted"><![CDATA[
+					details = alertContext;
+					// Add other information into the details like processor reference channels
+					sampleCurveDP = processor.getChannelCacheValue("sampleCurve", template.createdIndex);
+					dpJson = new JSONObject();
+					dpJson.put("value",sampleCurveDP.value);
+					dpJson.put("index",sampleCurveDP.index);
+					alertContext.put("sampleCurve", dpJson);
+				]]></Details>
+				<Metadata contentType="json" source="scripted"><![CDATA[
+		        	json.put("createdByRule", rule.getRuleId());
+		        	json.put("wellId", rule.getWellId());
+		        	
+				]]></Metadata>
+			</Template>
+			<Actions>
+				<OnCreateActions>
+					<Script sequence="5">System.out.println("Use Case 0 executing on Create Actions");</Script>
+<!-- 					<SendUINotification sequence="10" defaultMode="test" -->
+<!-- 						testFileName="UseCase0-Notification"> -->
+<!-- 						<Channel id="aa76b54d-c963-4818-a69b-174352c9abc0" /> -->
+<!-- 						<InlineTemplate> -->
+<!-- 							<Title>ROP Alert</Title> -->
+<!-- 							<Body>ROP: ${$rop.value} ${$rop.valueUnit}</Body> -->
+<!-- 						</InlineTemplate> -->
+<!-- 					</SendUINotification> -->
+<!-- 					<RunCommand sequence="12"> -->
+<!-- 						<CommandTemplate>cmd /C echo This is a test with ROP ${rop}</CommandTemplate> -->
+<!-- 					</RunCommand> -->
+<!-- 					Originally from template="MailTemplate01" -->
+<!-- 					<SendMailNotification sequence="20" -->
+<!-- 						template="c13818bb-95b2-44a1-bc4a-8ef692f41c02"> -->
+<!-- 						<To>user1@example.com,user2@example.com</To> -->
+<!-- 						<CC /> -->
+<!-- 						<BCC>test@test.com</BCC> -->
+<!-- 						<Params> -->
+<!-- 							<Param name="subjectParam" type="String">Mailflow</Param> -->
+<!-- 							<Param name="p1" type="Integer">5</Param> -->
+<!-- 							<Param name="closing" type="String"><![CDATA[<p> -->
+<!-- 					Best Regards, <br/> -->
+<!-- 					<br/> -->
+<!-- 					Petrolink<br/> -->
+<!-- 					</p>]]></Param> -->
+<!-- 						</Params> -->
+<!-- 					</SendMailNotification> -->
+					<!-- <SendSMSAction template="" gateway=""> -->
+
+					<!-- </SendSMSAction> -->
+					<Script sequence="30">System.out.println("I was here on Case 0!!");
+						System.out.println("Index: " + details.get("index"));
+						System.out.println("Value: " + details.get("value"));</Script>
+				</OnCreateActions>
+				<OnUpdateActions>
+					<Switch sequence="10">
+						<Case condition="alert.severity>5">
+							
+						</Case>
+					</Switch>
+				</OnUpdateActions>
+				<OnCommentActions />
+				<OnAcknowledgeActions />
+				<OnStatusChangeActions>
+					<Switch sequence="10">
+						<Case condition="alert.status == 1">
+							<Script sequence="10">System.out.println("Alert with uuid " + alert.uuid + " was inactivated");</Script>
+						</Case>
+						<Case condition="alert.status == 2">
+							<ClosedAlertLog sequence="05" defaultMode="test" testFileName="UseCase1-ClosedAlert">
+								<Channel id="47248808-81bd-4142-ac8e-96441cf66357" />
+							</ClosedAlertLog>
+							<Script sequence="10">System.out.println("Alert with uuid " + alert.uuid + " was closed");</Script>
+						</Case>
+					</Switch>
+				</OnStatusChangeActions>
+				<OnJournalEntryActions>
+					<Script sequence="30">
+						System.out.println("I was here on Case 0 on the Journal Entry Actions!!");
+						System.out.println("Type: " + journal.type);
+						System.out.println("Principal: " + journal.principal);
+					</Script>
+				</OnJournalEntryActions>
+			</Actions>
+		</AlertSettings>
+	</Rule>
+</Flows>

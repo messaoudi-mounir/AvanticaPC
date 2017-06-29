@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flows xmlns="http://www.petrolink.com/mbe/rules" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../../main/resources/xsd/flows.xsd">
+	<Rule uuid="e64eb1ae-bb74-4505-af25-b5e29e24db68" 
+                   wellId="81549d90-7a99-11e6-bdf4-0800200c9a66"
+		evaluationStrategy="IndexAlignment"
+		ruleId="e64eb1ae-bb74-4505-af25-b5e29e24db68" 
+	         ruleName="TestChild1Flow">
+		<Dependencies defaultType="buffered">
+			<Channel alias="rop" type="buffered" scope="condition" indexType="datetime"
+				valueUnit="ft/hr" indexUnit="" id="5037f119-2d45-4106-a3c7-2fed671c1dcc"
+				gap="750"></Channel>
+		</Dependencies>
+		<Variables/>
+		<FilteringCondition></FilteringCondition>
+		<Condition><![CDATA[(rop>50)]]></Condition>
+		<RuleActions>
+			<Script sequence="20">System.out.println("Evaluation result was " + result + " at index " + index + " with curve value " + $rop.value);
+			</Script>
+		</RuleActions>
+		<AlertSettings class="e64eb1ae-bb74-4505-af25-b5e29e24db68" className="e64eb1ae-bb74-4505-af25-b5e29e24db68TestChild1Flow">
+			<ProcessingLogic type="PetrolinkAutoClear" />
+			<Template>
+				<Domain>Testing</Domain>
+				<Classification>ClassMinor</Classification>
+				<Severity>1</Severity>
+				<Priority>3</Priority>
+				<Description source="templated">Child1 : ROP is too High with value ${value} at index ${index} </Description>
+				<Details contentType="json" source="context" />
+			</Template>
+			<Actions>
+				<!-- this action is delayed -->
+				<OnCreateActions delay="30000"> 
+					<Script sequence="30">System.out.println(alert.uuid +" is created on index " + details.get("index") + " value: " + details.get("value") );
+					</Script>
+				</OnCreateActions>
+				<OnUpdateActions>
+				</OnUpdateActions>
+				<OnCommentActions />
+				<OnAcknowledgeActions >
+					<Script sequence="10">System.out.println(alert.uuid +" is acknowledged");
+					</Script>
+				</OnAcknowledgeActions >
+				<OnStatusChangeActions>
+				</OnStatusChangeActions>
+				<OnJournalEntryActions>
+					<!-- tell parent alert that this alert is updated -->
+					<DispatchAlertCepEvent sequence="10">
+						<Source  source="context" sourceKey="journal"/>
+					</DispatchAlertCepEvent>
+				</OnJournalEntryActions>
+			</Actions>
+		</AlertSettings>
+	</Rule>
+</Flows>

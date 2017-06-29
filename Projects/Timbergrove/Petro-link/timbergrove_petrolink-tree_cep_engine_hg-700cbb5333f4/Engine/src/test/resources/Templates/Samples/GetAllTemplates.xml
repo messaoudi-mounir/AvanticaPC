@@ -1,0 +1,4 @@
+<TemplatesGetAll xmlns="http://www.petrolink.com/mbe/rules"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../xsd/templates.xsd">
+</TemplatesGetAll>

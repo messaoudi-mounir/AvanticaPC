@@ -1,0 +1,21 @@
+Label,# Samples,Average,Median,90% Line,95% Line,99% Line,Min,Max,Error %,Throughput,KB/sec
+01 - frmIngresoUsuarios.aspx,97,442,50,1444,2257,2940,23,3084,0.00%,.3,1.0
+02 - frmGeneral.aspx/ObtenerMensajes,97,367,31,1161,2011,2259,19,2452,0.00%,.3,8.5
+03 - frmIngresoUsuarios.aspx/ValidarUsuario,97,492,305,1025,1263,2743,156,3269,0.00%,.3,.1
+04-  frmIngresoUsuarios.aspx/ValidarContrasena,97,20120,1330,62420,62901,63209,772,64148,0.00%,.3,.2
+05 - frmIngresoUsuarios.aspx,97,9076,93,61252,62287,62691,39,63277,0.00%,.3,1.0
+06 - frmSeleccionNegocioCorresponsal.aspx,97,819,106,342,633,2136,49,60620,98.97%,.3,.1
+07 - frmInicio.aspx,97,139,71,358,530,667,39,1230,0.00%,.3,.9
+09 - frmGeneral.aspx/ObtenerMensajes,97,96,27,242,416,864,16,1270,0.00%,.3,8.6
+10 - frmGeneral.aspx/ObtenerMenu,97,151,88,257,498,875,46,922,0.00%,.3,.4
+11 - frmGeneral.aspx/ObtenerMenuPagoServicios,97,752,87,208,452,778,42,60595,0.00%,.3,.1
+12 - frmGeneral.aspx/RedireccionaMenu,97,711,37,204,336,632,20,61448,100.00%,.4,.1
+13 - frmInicio.aspx,97,130,67,265,508,770,42,777,0.00%,.5,1.3
+14 - frmPagoElectricidad.aspx,97,145,82,250,494,781,47,800,100.00%,.5,.2
+15 - frmGeneral.aspx/ObtenerMensajes,97,77,27,236,251,480,15,519,0.00%,.5,13.8
+16 - frmGeneral.aspx/ObtenerMenu,97,119,85,220,340,591,45,618,0.00%,.5,.2
+17 - frmPagoElectricidad.aspx/ObtenerFacturasPendientes,97,131,83,239,366,860,48,951,0.00%,.5,.2
+18 - frmGeneral.aspx/CerrarSesion,97,48,26,88,181,374,11,386,100.00%,.5,.2
+19 - frmIngresoUsuarios.aspx,97,42,29,60,112,232,17,312,0.00%,.5,1.7
+20 - frmGeneral.aspx/ObtenerMensajes,97,65,24,234,241,262,14,431,0.00%,.5,13.9
+TOTAL,1843,1785,73,772,1360,62287,11,64148,21.00%,6.2,39.7

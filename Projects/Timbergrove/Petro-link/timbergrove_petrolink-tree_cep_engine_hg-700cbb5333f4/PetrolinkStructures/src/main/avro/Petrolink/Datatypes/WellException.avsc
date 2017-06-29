@@ -1,0 +1,19 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.Datatypes",	
+	"name": "WellException",
+	"fields":
+	[
+		{ "name": "uri", "type": "string" },
+		{ "name": "well", "type": "string" },
+		{ "name": "classification", "type": "string" },
+		{ "name": "severity", "type": "Petrolink.Datatypes.WellExceptionSeverity" },
+		{ "name": "message", "type": "string" },
+		{ "name": "timeStamp", "type": "Petrolink.Datatypes.DateTime" },
+		{ "name": "observedMnemonic", "type": "string"},
+		{ "name": "activity", "type": "int"},
+		{ "name": "deadband", "type": "double"},
+		{ "name": "threshold", "type": "string"},
+		{ "name": "rule", "type": "string"}
+	]
+}

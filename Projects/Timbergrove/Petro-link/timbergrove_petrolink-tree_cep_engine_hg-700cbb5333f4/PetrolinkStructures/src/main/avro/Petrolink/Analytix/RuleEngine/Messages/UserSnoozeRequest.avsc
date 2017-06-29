@@ -1,0 +1,13 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.Analytix.RuleEngine.Messages",
+	"name": "UserSnoozeRequest",
+	"fields":
+	[
+		{ "name": "id", "type": "Petrolink.Datatypes.UUID" },
+		{ "name": "username", "type": "string" },
+		{ "name": "ruleid", "type": "Petrolink.Datatypes.UUID" },
+		{ "name": "message", "type": "string" },
+		{ "name": "wakeindex", "type": "Petrolink.Analytix.RuleEngine.Datatypes.IndexMeasurement" }
+	]
+}

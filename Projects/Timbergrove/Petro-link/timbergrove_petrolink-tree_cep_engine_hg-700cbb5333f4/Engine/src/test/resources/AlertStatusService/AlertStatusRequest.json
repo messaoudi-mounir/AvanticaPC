@@ -1,0 +1,12 @@
+{
+	"action":"QUERY",
+	"uuid":"5037f119-2d45-4106-a3c7-2fed671c1dcc",
+	"where":"tally > 5",
+	"newStatus":"ACTIVE",
+	"acknowledgeBy":"John Doe",
+	"timestamp":1476138782161,
+	"comment":"Hello World",
+	"commentedBy":"John Doe",
+	"snoozedBy":"John Doe",
+	"snoozedAt":1476138782161
+}

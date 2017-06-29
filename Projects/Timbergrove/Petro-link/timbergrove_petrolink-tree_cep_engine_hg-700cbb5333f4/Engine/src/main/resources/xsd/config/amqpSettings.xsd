@@ -1,0 +1,86 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="unqualified" elementFormDefault="qualified">
+	<xs:simpleType name="type_AmqpExchangeTypes">
+       <xs:restriction base="xs:string">
+	      <xs:enumeration value="direct">
+	      	<xs:annotation>
+	      		<xs:documentation>A direct exchange delivers messages to queues based on the message routing key. 
+A direct exchange is ideal for the unicast routing of messages (although they can be used for multicast routing as well).</xs:documentation>
+	      	</xs:annotation></xs:enumeration>
+	      <xs:enumeration value="fanout">
+	      	<xs:annotation>
+	      		<xs:documentation>A fanout exchange routes messages to all of the queues that are bound to it and the routing key is ignored</xs:documentation></xs:annotation>
+	      </xs:enumeration>
+		  <xs:enumeration value="topic">
+		  	<xs:annotation>
+		  		<xs:documentation>Topic exchanges route messages to one or many queues based on matching between a message routing key and the pattern that was used to bind a queue to an exchange.</xs:documentation></xs:annotation>
+		  </xs:enumeration>
+		  <xs:enumeration value="header">
+		  	<xs:annotation>
+		  		<xs:documentation>A headers exchange is designed for routing on multiple attributes that are more easily expressed as message headers than a routing key. 
+Headers exchanges ignore the routing key attribute. Instead, the attributes used for routing are taken from the headers attribute. 
+A message is considered matching if the value of the header equals the value specified upon binding. </xs:documentation>
+		  	</xs:annotation>
+		  </xs:enumeration>
+	   </xs:restriction>
+    </xs:simpleType>
+    
+    <xs:simpleType name="type_AmqpResourceTypes">
+       <xs:restriction base="xs:string">
+	       <xs:enumeration value="Exchange"/>
+	       <xs:enumeration value="Queue"/>
+	   </xs:restriction>
+    </xs:simpleType>
+       
+	
+	<xs:complexType name="type_AmqpExchange">
+        <xs:annotation>
+        	<xs:documentation>Amqp Exchange Configuration</xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:string" name="exchange" use="required"/>
+		<xs:attribute type="type_AmqpExchangeTypes" name="type" use="required"/>
+        <xs:attribute type="xs:boolean" name="durable" use="optional">
+        	<xs:annotation>
+        		<xs:documentation>Whether the exchange will survive a server restart</xs:documentation>
+        	</xs:annotation>
+        </xs:attribute>
+		<xs:attribute type="xs:boolean" name="autoDelete" use="optional">
+			<xs:annotation>
+				<xs:documentation>Indicates whether the server should delete the exchange when it is no longer in use</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute type="xs:boolean" name="internal" use="optional">
+			<xs:annotation>
+				<xs:documentation>Whether the exchange is internal, i.e. can't be directly published to by a client.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<xs:complexType name="type_AmqpQueue">
+        <xs:annotation>
+        	<xs:documentation>Amqp Queue Configuration</xs:documentation>
+        </xs:annotation>
+        <xs:attribute type="xs:string" name="queue" use="optional"/>
+        <xs:attribute type="xs:boolean" name="durable" use="optional">
+        	<xs:annotation>
+        		<xs:documentation>Whether the queue will survive a server restart</xs:documentation>
+        	</xs:annotation>
+        </xs:attribute>
+		<xs:attribute type="xs:boolean" name="autoDelete" use="optional">
+			<xs:annotation>
+				<xs:documentation>Indicates whether the server should delete the queue when it is no longer in use</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+		<xs:attribute type="xs:boolean" name="exclusive" use="optional">
+			<xs:annotation>
+				<xs:documentation>Whether the exchange is exclusive, i.e. restricted to connection.</xs:documentation>
+			</xs:annotation>
+		</xs:attribute>
+	</xs:complexType>
+	
+	<xs:complexType name="type_AmqpChannelRef">
+		<xs:attribute type="xs:string" name="name" use="required"/>
+		<xs:attribute type="type_AmqpResourceTypes" name="type" use="required"/>
+	</xs:complexType>
+</xs:schema>	

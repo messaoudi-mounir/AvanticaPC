@@ -1,0 +1,41 @@
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" 
+attributeFormDefault="unqualified" elementFormDefault="qualified" 
+targetNamespace="http://www.petrolink.com/mbe/rules" 
+xmlns:rul="http://www.petrolink.com/mbe/rules">
+<xs:complexType name="CredentialsType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="user"/>
+        <xs:attribute type="xs:string" name="password"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="FieldType">
+    <xs:simpleContent>
+      <xs:extension base="xs:string">
+        <xs:attribute type="xs:string" name="name"/>
+        <xs:attribute type="xs:string" name="type"/>
+      </xs:extension>
+    </xs:simpleContent>
+  </xs:complexType>
+  <xs:complexType name="VariablesType">
+    <xs:sequence>
+      <xs:element type="rul:FieldType" name="Field"/>
+    </xs:sequence>
+  </xs:complexType>
+  <xs:complexType name="action_ActivitiInvoke">
+    <xs:sequence>
+      <xs:element type="xs:string" name="Params"/>
+      <xs:element type="rul:CredentialsType" name="Credentials"/>
+      <xs:element type="xs:string" name="Host"/>
+      <xs:element type="xs:short" name="Port"/>
+      <xs:element type="xs:string" name="Path"/>
+      <xs:element type="xs:string" name="Method"/>
+      <xs:element type="xs:string" name="ProcessDefinitionKey"/>
+      <xs:element type="rul:VariablesType" name="Variables"/>
+      <xs:element type="xs:string" name="ResponseScript"/>
+    </xs:sequence>
+    <xs:attribute type="xs:string" name="name"/>
+    <xs:attribute type="xs:byte" name="sequence"/>
+  </xs:complexType>
+  </xs:schema>

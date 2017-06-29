@@ -1,0 +1,11 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.WITSML.Events",	
+	"name": "ChannelDeleted",
+	
+	"fields":
+	[
+		{ "name": "channelId", "type": "Petrolink.Datatypes.UUID" },
+		{ "name": "deleteReason", "type": ["null", "string"] }
+	]
+}

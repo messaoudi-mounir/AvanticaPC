@@ -1,0 +1,17 @@
+<?xml version="1.0"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" attributeFormDefault="unqualified" elementFormDefault="qualified" targetNamespace="http://www.petrolink.com/mbe/rules" xmlns:rul="http://www.petrolink.com/mbe/rules">
+    <xs:include schemaLocation="definitions.xsd"/>
+    
+    
+    <xs:complexType name="type_templateUiNotification">
+        <xs:complexContent>
+            <xs:extension base="rul:type_uiNotification">
+                <xs:attribute name="uuid" type="rul:type_UUID" use="optional"/>
+            </xs:extension>
+        </xs:complexContent>
+    </xs:complexType>
+        
+    
+    <xs:element name="UINotificationTemplate" type="rul:type_templateUiNotification"/>
+
+</xs:schema>

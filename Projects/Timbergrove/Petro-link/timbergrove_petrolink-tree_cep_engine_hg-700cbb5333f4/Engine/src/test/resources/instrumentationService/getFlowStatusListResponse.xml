@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+Explanation of RabbitMQ message properties for responses:
+
+  appId: An ID to identify the application that sent the message. Will be like CEP@nodename
+  contentEncoding: Will be "utf-8"
+  contentType: Will be "text/xml"
+  correlationId: A correlation ID provided by the client that will be included in the response
+
+ -->
+<Response xmlns="http://www.petrolink.com/mbe/query"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.petrolink.com/mbe/query ../../../main/resources/xsd/service.xsd">
+	<FlowStatusList>
+		<FlowStatus uuid="11112222-3333-4444-5555-666677778888" type="RuleFlow" status="Started" lastEvaluationIndex="4003.4" lastRunning="2017-01-11T20:12:55Z">
+			<EvaluationCounter>
+				<Period start="2017-01-11T20:11:55Z" end="2017-01-11T20:12:55Z" count="3"/>
+				<Period start="2017-01-11T20:12:55Z" end="2017-01-11T20:13:55Z" count="5"/>
+			</EvaluationCounter>
+		</FlowStatus>
+		<FlowStatus uuid="11112222-3333-4444-5555-666677778889" type="RuleFlow" status="Started" lastEvaluationIndex="4004.4" lastRunning="2017-01-11T20:13:55Z">
+			<EvaluationCounter>
+				<Period start="2017-01-11T20:13:55Z" end="2017-01-11T20:14:55Z" count="1"/>
+			</EvaluationCounter>
+		</FlowStatus>
+		<FlowStatus uuid="11112222-3333-4444-5555-666677778880" type="RuleFlow" status="Started">
+			<EvaluationCounter/>
+		</FlowStatus>
+	</FlowStatusList>
+</Response>
+

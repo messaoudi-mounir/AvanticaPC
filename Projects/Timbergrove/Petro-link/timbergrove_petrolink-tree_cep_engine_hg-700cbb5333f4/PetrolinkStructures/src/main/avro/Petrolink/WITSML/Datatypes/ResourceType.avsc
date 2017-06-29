@@ -1,0 +1,14 @@
+{
+	"type": "enum",
+	"namespace": "Petrolink.WITSML.Datatypes",
+	"name": "ResourceType",
+	"symbols":
+	[
+		"Generic",
+		"Linear",
+		"Time",
+		"LinearRange",
+		"TimeRange",
+		"Attachment"
+	]
+}

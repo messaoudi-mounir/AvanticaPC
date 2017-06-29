@@ -1,0 +1,35 @@
+ESCENARIO II - Resultados linea base web
+
+Iniciar y cerrar sesion mas lentos
+Cargar archivo comportamiento irregular
+Ir a Pagina solicitudes min 140 de la prueba pico 14s
+
+el resto de las acciones se mantienen por debajo de 2s
+
+ESCENARIO I -Resultados linea base gen reportes
+todos los reportes se procesan en menos de 26min
+Los que mas tiempo toma son activos y activos y pasivos
+los reportes relacionados a backtesting y efectivo se procesan en segundos
+
+ESCENARIO III - Resultados Cola 
+Iniciar y cerrar sesion en la prueba de rendimiento practicamente duplico el tiempo de ejecucion con respecto a la linea base
+cargar archivo tambien incremento su tiempo en comparacion con la linea base pasando de un pico de 11.9s a uno de 45s
+Ir a pagina plantillas paso de un pico maximo de 2.5s a 16s
+
+El comportamiento del resto de las acciones es muy semejante al observado en la linea base con picos que no superan los ##
+
+A nivel de tiempo de procesamiento de reportes no se observan alteraciones importantes con respecto a la linea base.
+-A nivel de infraestructura se observa un pico generalizado en los servidores de app y db cuando esta ejecutando el reporte de Avantest 3- activos y pasivos 3
+-tambien se observa un pico generalizado a nivel de servidores de presentacion cuando se esta ejecutando el pasivos 3
+-En ambos casos la configuracion 3 que es la que tiene mayores niveles de confianza y valor horizonte
+
+mencionar niveles maximos de uso?
+
+
+Conclusiones
+
+-Los tiempos de procesamiento de reportes no se ven afectados significativamente en el escenario de carga
+-Los escenarios de Activos y pasivos y pasivos con niveles altos de confianza y horizonte son los que generan mayor carga de trabajo en el sistema, Sin embargo aun en estos casos la carga de trabajo no llega a niveles que comprometan los tiempos de procesamiento en el sistema
+-Si se puede determinar un impacto en la experiencia de usuario sobre todo en las acciones de iniciar y cerrar sesion, cargar archivo e ir a pagina de plantillas
+
+En general podemos concluir que el sistema responde bien ante la carga de trabajo proporcionada, sin embargo se recomienda una revision de los procesos de iniciar y cerrar sesion asi como del proceso de ir a pagina plantillas que fueron los mas afectados durante la prueba.

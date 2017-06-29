@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<RigstateDefinitionDictionary xmlns:i="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://schemas.datacontract.org/2004/07/Petrolink.Analytix.Mbe.Messages">
+    <Description>Default Rigstate Dictionary</Description>
+     <!-- Taken from server like  https://{servername/petrovaultinstancename}/mbe/rigstatedictionary/29526fa8-99b8-40b3-95ad-ca749cb28568 -->
+    <Id>29526fa8-99b8-40b3-95ad-ca749cb28568</Id>
+    <Name>Default Rigstate Dictionary</Name>
+    <RigStates xmlns:d2p1="http://schemas.datacontract.org/2004/07/Petrolink.Analytix.Mbe.Datatypes">
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Unknown</d2p1:Name>
+            <d2p1:Value>0</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Rig Up and Tear Down</d2p1:Name>
+            <d2p1:Value>1</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Drilling</d2p1:Name>
+            <d2p1:Value>2</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Connection (Drilling)</d2p1:Name>
+            <d2p1:Value>3</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Reaming</d2p1:Name>
+            <d2p1:Value>4</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Hole Opening</d2p1:Name>
+            <d2p1:Value>5</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Coring</d2p1:Name>
+            <d2p1:Value>6</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Condition and/or Circulate Mud</d2p1:Name>
+            <d2p1:Value>7</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Tripping In</d2p1:Name>
+            <d2p1:Value>8</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Tripping Out</d2p1:Name>
+            <d2p1:Value>9</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Lubricate Rig</d2p1:Name>
+            <d2p1:Value>10</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Rig repair</d2p1:Name>
+            <d2p1:Value>11</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Cut/Slip Drilling Line</d2p1:Name>
+            <d2p1:Value>12</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Deviation Survey</d2p1:Name>
+            <d2p1:Value>13</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Wireline Logs</d2p1:Name>
+            <d2p1:Value>14</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Run Casing</d2p1:Name>
+            <d2p1:Value>15</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Cementing</d2p1:Name>
+            <d2p1:Value>16</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Plug Back</d2p1:Name>
+            <d2p1:Value>17</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Squeeze Cementing</d2p1:Name>
+            <d2p1:Value>18</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Wait on Cement</d2p1:Name>
+            <d2p1:Value>19</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Drill Cement and/or Float Equipment</d2p1:Name>
+            <d2p1:Value>20</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Nipple Up/Nipple Down BOP Stack</d2p1:Name>
+            <d2p1:Value>21</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Test BOP</d2p1:Name>
+            <d2p1:Value>22</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Drill Stem Test</d2p1:Name>
+            <d2p1:Value>23</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Fishing</d2p1:Name>
+            <d2p1:Value>24</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Direction Work</d2p1:Name>
+            <d2p1:Value>25</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Well Control</d2p1:Name>
+            <d2p1:Value>26</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Stuck Pipe</d2p1:Name>
+            <d2p1:Value>27</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Wait on Weather</d2p1:Name>
+            <d2p1:Value>28</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Subsea</d2p1:Name>
+            <d2p1:Value>30</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Flow check</d2p1:Name>
+            <d2p1:Value>31</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Pressure Integrity Check</d2p1:Name>
+            <d2p1:Value>32</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Lost Circulation</d2p1:Name>
+            <d2p1:Value>33</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Short Trip In</d2p1:Name>
+            <d2p1:Value>34</d2p1:Value>
+        </d2p1:RigstateDefinition>
+        <d2p1:RigstateDefinition>
+            <d2p1:Name>Short Trip Out</d2p1:Name>
+            <d2p1:Value>35</d2p1:Value>
+        </d2p1:RigstateDefinition>
+    </RigStates>
+</RigstateDefinitionDictionary>

@@ -1,0 +1,11 @@
+RMQTester/target/
+
+Engine/logs/
+Engine/src/main/resources/activemq/amqdb/db.data
+Engine/src/main/resources/activemq/amqdb/db.redo
+Engine/src/main/resources/activemq/amqdb/db-1.log
+Engine/src/main/resources/activemq/amqdb/lock
+Other/
+Engine/src/main/resources/TestLogs/
+*.orig
+Engine/runtime/log/

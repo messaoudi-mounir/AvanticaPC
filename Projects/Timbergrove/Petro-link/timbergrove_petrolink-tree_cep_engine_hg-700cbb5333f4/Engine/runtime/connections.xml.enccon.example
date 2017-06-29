@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<Connections encrypted="false">
+  <Connection id="rmqLocal">
+    <User encrypt="true">RabbitMQUsername</User>
+    <Lock encrypt="true">RabbitMQPassword</Lock>
+    <Host>RabbitMQServer</Host>
+  </Connection>
+  <Connection id="petrovault">
+    <URL>https://subdomain.petrolink.net/PetroVaultApplication/</URL>
+    <User encrypt="true">PetrovaultUsername</User>
+    <Lock encrypt="true">PetrovaultPassword</Lock>
+  </Connection>
+  <Connection id="petrolinksmtp">
+	<Host>mail3.petrolink.net</Host>
+	<Port>25</Port>
+	<!--
+	<User>testUser</User>
+	<Password>testPassword</Password>
+	<sslEnabled>true</sslEnabled>
+	<sslCheckServerIdentity>true</sslCheckServerIdentity>
+	<startTlsEnabled>true</startTlsEnabled>
+	-->
+  </Connection>
+</Connections>

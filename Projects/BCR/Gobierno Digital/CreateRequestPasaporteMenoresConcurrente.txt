@@ -1,0 +1,12 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/" xmlns:tem="http://tempuri.org/" xmlns:arr="http://schemas.microsoft.com/2003/10/Serialization/Arrays">
+   <soapenv:Header/>
+   <soapenv:Body>
+      <tem:CreateRequestPasaporteMenoresConcurrente>
+         <!--Optional:-->
+         <tem:cedula>
+            <!--Zero or more repetitions:-->
+            <arr:string>?</arr:string>
+         </tem:cedula>
+      </tem:CreateRequestPasaporteMenoresConcurrente>
+   </soapenv:Body>
+</soapenv:Envelope>

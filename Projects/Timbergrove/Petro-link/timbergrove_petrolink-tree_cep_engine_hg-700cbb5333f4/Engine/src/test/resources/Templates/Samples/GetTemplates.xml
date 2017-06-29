@@ -1,0 +1,5 @@
+<TemplatesGet xmlns="http://www.petrolink.com/mbe/rules"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.petrolink.com/mbe/rules ../../xsd/templates.xsd">
+	<UUID>bb93d6b1-b40e-44be-a54c-467edb82614c</UUID>
+</TemplatesGet>

@@ -1,0 +1,11 @@
+{
+	"type": "record",
+	"namespace": "Petrolink.WITSML.Datatypes",	
+	"name": "ChannelDataItem",
+	
+	"fields":
+	[
+		{ "name": "id", "type": "Petrolink.Datatypes.UUID" },
+		{ "name": "item", "type": "Petrolink.WITSML.Datatypes.DataItem" }
+	]
+}

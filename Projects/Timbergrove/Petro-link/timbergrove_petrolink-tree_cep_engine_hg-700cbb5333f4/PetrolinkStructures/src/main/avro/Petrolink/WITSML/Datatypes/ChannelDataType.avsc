@@ -1,0 +1,13 @@
+{
+	"type": "enum",
+	"namespace": "Petrolink.WITSML.Datatypes",
+	"name": "ChannelDataType",
+	"symbols":
+	[
+		"Double",
+		"Long",
+		"String",
+		"DateTimeOffset",
+		"Custom"
+	]
+}

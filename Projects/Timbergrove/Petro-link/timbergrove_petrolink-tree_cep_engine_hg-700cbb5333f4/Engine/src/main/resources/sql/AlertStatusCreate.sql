@@ -1,0 +1,10 @@
+create table alertStatusVersion (component varchar(10), version double);
+create table alerts (uuid VARCHAR(64) primary key, status int, lastStatusChange TIMESTAMP, created TIMESTAMP, lastOccurrence TIMESTAMP, acknowledgeBy VARCHAR(64), acknowledgeAt TIMESTAMP, comment VARCHAR(500), commentBy VARCHAR(64), commentedAt TIMESTAMP, commentedCount int, tally int, name VARCHAR(255), classId VARCHAR(128), description VARCHAR(8192), domain VARCHAR(255), classification VARCHAR(255), severity int, priority int, detailsContentType VARCHAR(255), details VARCHAR(8192), metadata VARCHAR(4096), createdIndex VARCHAR(64), lastIndex VARCHAR(64), wellId VARCHAR(64), holeDepth double, finalHoleDepth double, bitDepth double, finalBitDepth double, rigState int, finalRigState int, notificationsSent BOOLEAN, snoozed BOOLEAN, unSnoozedAt TIMESTAMP, unSnoozedBy VARCHAR(64), lastSnoozedBy VARCHAR(64), lastSnoozedAt TIMESTAMP,  investigateBy VARCHAR(64), investigateAt TIMESTAMP, parentClassId VARCHAR(128), parentUuid VARCHAR(128));
+create index alertStatusIdx on alerts (status);
+create index nameIdx on alerts (name);
+create index classWellIdx on alerts (classId, wellId);
+create index closedIdx on alerts (status, lastStatusChange);
+create table snoozedAlerts (alertClassId VARCHAR(255), well VARCHAR(255), snoozedBy VARCHAR(255), snoozedAt TIMESTAMP, unSnoozeAt TIMESTAMP, PRIMARY KEY(alertClassId, well));
+create index snoozedAlertsIdx on snoozedAlerts (alertClassId, well);
+create index unSnoozedAlertsIdx on snoozedAlerts (unSnoozeAt);
+CREATE TABLE propertyEntry (grp VARCHAR NOT NULL, key VARCHAR NOT NULL, type TINYINT NOT NULL, dv DOUBLE, sv VARCHAR, PRIMARY KEY(grp, key));
